@@ -1,0 +1,36 @@
+// @import 'bootstrap/scss/functions';
+// @import '/variables';
+
+// @import 'bootstrap/scss/bootstrap';
+
+//Bootstrap 的 functions
+@import '../../node_modules/bootstrap/scss/functions';
+
+//字型定義
+@font-face {
+  font-family: 'FakePearl-Medium';
+  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff2) format("woff2"),
+       url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff) format("woff");
+}
+
+// 變數
+@import "./scss/utils/variables";
+
+// Bootstrap 主體
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+
+// 自訂元件
+@import './scss/utils/utilities';
+@import './scss/utils/components/btn.scss';
+@import './scss/utils/components/card.scss';
+
+// 頁面與 layout
+@import './scss/base/base.scss';
+
+@import './scss/layout/header.scss';
+@import './scss/layout/footer.scss';
+
+@import './scss/pages/index.scss';
+
+
