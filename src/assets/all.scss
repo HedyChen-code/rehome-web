@@ -6,11 +6,21 @@
 //Bootstrap 的 functions
 @import '../../node_modules/bootstrap/scss/functions';
 
-//字型定義
+//字型載入 
+// 本地字體檔案
+// @font-face {
+//   font-family: 'FakePearl-Medium';
+//   src: url('./fonts/FakePearl-Medium.ttf') format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// CDN
 @font-face {
   font-family: 'FakePearl-Medium';
-  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff2) format("woff2"),
-       url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff) format("woff");
+  src: url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff') format('woff');
 }
 
 // 變數

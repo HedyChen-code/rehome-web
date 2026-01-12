@@ -24,6 +24,9 @@ function App() {
         </a>
       </div>
       <h1>Rehome</h1>
+      <div style={{ fontFamily: 'FakePearl-Medium', fontSize: '24px', marginBottom: '20px', border: '2px solid red' }}>
+        測試 FakePearl 字體 - 這段文字應該使用 FakePearl 字體
+      </div>
       <div className="card">
         <button className = 'btn btn-primary' onClick={() => setCount((count) => count + 1)}>
           count is {count}
