@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import axios from 'axios'
+import Footer from './layout/Footer';
 // import { Modal } from 'bootstrap' 使用JS控制Bootstrap元件再打開
 
 function App() {
@@ -50,7 +51,9 @@ function App() {
       <p className="h6">
         字體測試 H6 Heading   
       </p>
+      <Footer />
     </>
+    
   )
 }
 

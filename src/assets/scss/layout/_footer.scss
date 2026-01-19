@@ -1,0 +1,74 @@
+.footer-wrapper {
+  background-color: transparent; /* 容器透明，背景在盒子內 */
+  overflow: hidden;
+}
+.footer-nav-wrapper {
+  max-width: 648px; /* 你想要的視覺寬度 */
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-link {
+  color: $white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-box-dark {
+  background-color: $primary-90;
+  border-top-right-radius: 2.5rem;
+  z-index: 2;
+}
+
+/* 4. 右側淺色位移 */
+.footer-box-light {
+  background-color: $primary-10;
+  border-top-left-radius: 2.5rem;
+}
+.overlap-col {
+  /* Bootstrap 的一格寬度是 100% / 12 = 8.333% */
+  margin-left: -8.333333%;
+  z-index: 10; // 確保它疊在左側「上面」
+  position: relative;
+}
+
+.footer-logo {
+  max-width: 100px;
+} /*這邊還要加上縮小...*/
+
+.newsletter-form {
+  display: flex;
+  gap: 16px;
+  .form-control {
+    flex: 1;
+    border-radius: 24px;
+    padding: 12px 20px;
+    background-color: $white;
+    font-size: 16px;
+    border: 2px solid $white; // default 邊框
+
+    &::placeholder {
+      color: $gray-30;
+    }
+
+    &:hover {
+      border-color: $primary-30; // hover 邊框變色
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $primary-30; // focus 主色
+    }
+
+    &:not(:placeholder-shown) {
+      color: $gray-90; // 輸入後文字變深
+    }
+
+    &.is-invalid {
+      border-color: #ee8b8b; // 錯誤邊框
+    }
+  }
+
+  .btn-pr {
+    flex-shrink: 0;
+  }
+}
