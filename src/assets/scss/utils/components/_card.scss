@@ -1,0 +1,41 @@
+.about .card {
+  border-width: 4px;
+  border-style: solid;
+  border-color: $secondary-20;
+  padding: 0;
+}
+/* 卡片基礎 */
+.card-shape {
+  position: relative;        /* overlay 生效 */
+  overflow: hidden;          /* 圖片不外溢 */
+}
+
+/* 桌機圖片方形 */
+.card-shape img.card-img {
+  width: 100%;
+  height: auto;
+  border-radius: 0;          /* 方形 */
+  object-fit: cover;         /* 保持比例裁切 */
+  transition: border-radius 0.3s;
+  display: block;
+}
+
+/* 手機圖片圓形 */
+@media (max-width: 991px) {
+  .card-shape img.card-img {
+    border-radius: 50%;      /* 圓形 */
+  }
+}
+/* 20% 暗度遮罩 */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.2);
+  border-radius: inherit;
+}
+
+/* 文字層 */
+.card-title {
+  position: relative;
+  z-index: 1;
+}
