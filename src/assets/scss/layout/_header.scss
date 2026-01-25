@@ -2,7 +2,7 @@
   display: block;
   width: 24px;
   height: 24px;
-   font-size: 24px;
+  font-size: 24px;
   line-height: 24px;
 }
 
@@ -29,6 +29,45 @@
 
 /* 中間那一條顏色不同 */
 .line.middle {
-  background-color: #FFCC00;
+  background-color: #ffcc00;
   margin: 3px 0;
+}
+
+.logo-img {
+  /* 原本大小 */
+  transition: all 0.5s ease;
+}
+
+.logo-img.logo-small {
+  height: 56px; /* 滾動後大小 */
+}
+
+/* 輸入框樣式 */
+.search-input {
+  flex: 1 1 auto; /* 允許縮小 */
+  min-width: 0; /* 避免被 flex 容器限制 */
+  background: transparent; /* 去除預設背景 */
+  border: none; /* 去除預設邊框 */
+  outline: none; /* 去除點擊時的外框 */
+  color: $white; /* 字體顏色 */
+  font-size: 18px;
+  padding-left: 5px;
+  border-bottom: 1px solid white;
+}
+
+/* 讓 Placeholder (提示字) 也呈現白色半透明 */
+.search-input::placeholder {
+  color: $gray-30;
+}
+
+.icon-wrapper {
+  flex: 0 0 auto; /* 固定大小，不讓它擠壓 input */
+}
+.py-25 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.rounded-start-bottom {
+  border-bottom-left-radius: 40px;
 }

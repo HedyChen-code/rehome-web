@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import axios from 'axios'
+import { useEffect } from 'react';
+import './App.css';
+import axios from 'axios';
 import Footer from './layout/Footer';
-import Navbar from './layout/Navbar'
+import Navbar from './layout/Navbar';
 // import { Modal } from 'bootstrap' 使用JS控制Bootstrap元件再打開
 
 function App() {
-  const [count, setCount] = useState(0)
   useEffect(() => {
     (async () => {
-      const res = await axios.get('https://randomuser.me/api/')
-      console.log(res)
-    })()
-  }, [])
+      const res = await axios.get('https://randomuser.me/api/');
+      console.log(res);
+    })();
+  }, []);
   return (
     <>
       <Navbar />
@@ -48,7 +45,9 @@ function App() {
                 為您不再需要的家具找到永續的第二人生。
               </p>
 
-              <a href="#" className="btn btn-outline-primary"> 我想找收購 </a>
+              <a href="#" className="btn btn-outline-primary">
+                我想找收購
+              </a>
             </div>
             {/* 插畫下右 */}
             <div className="col-12 col-md-6 text-center mb-4 mb-md-0 order-md-2">
@@ -66,9 +65,7 @@ function App() {
             </div>
 
             {/* 文字(下左)) */}
-            <div
-              className="col-12 col-md-6 text-center text-md-start order-md-1 position-relative"
-            >
+            <div className="col-12 col-md-6 text-center text-md-start order-md-1 position-relative">
               {/* 裝飾小圖 */}
               <img
                 src="/src/assets/images/icon/graphic 03.svg"
@@ -83,15 +80,16 @@ function App() {
                 我們對每一件收購家具進行嚴格的清潔、檢測與整理， 讓您安心選購。
               </p>
 
-              <a href="#" className="btn btn-outline-primary"> 我想買家具 </a>
+              <a href="#" className="btn btn-outline-primary">
+                我想買家具
+              </a>
             </div>
           </div>
         </div>
       </section>
       <Footer />
     </>
-
-  )
+  );
 }
 
-export default App
+export default App;
