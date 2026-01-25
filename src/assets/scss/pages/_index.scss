@@ -1,0 +1,101 @@
+.ellipse-bg {
+  width: 312px; /* 橢圓寬度 */
+  height: 1.5rem; /* 橢圓高度 */
+  background-color: $secondary-40; /* 你想要的顏色 */
+  border-radius: 1.5rem; /* 讓它變成橢圓 */
+  margin-top: -1.5rem; /* 距離標題 */
+}
+.about-content {
+  width: 40%;
+  margin-left: auto; /* 靠右 */
+}
+
+/* 手機版 */
+@media (max-width: 768px) {
+  .about-content {
+    width: 100%;
+    margin: 0 auto; /* 置中 */
+  }
+}
+/* 所有裝飾圖的共通設定 */
+.deco {
+  position: absolute;
+  z-index: 0;
+}
+
+/* 各自的位置 */
+.deco-book {
+  width: 180px;
+  right: 0%;
+}
+.deco-lamp {
+  width: 200px;
+  right: 50%;
+}
+
+.deco-chair {
+  width: 200px;
+  bottom: -150%;
+  left: 40%;
+}
+
+@media (max-width: 767px) {
+  .deco-book {
+    width: 80px;
+    top: -28px;
+    left: auto;
+    right: 0;
+  }
+  .deco-lamp {
+    width: 100px;
+    top: 0%;
+    left: 0%;
+    right: auto;
+  }
+  .deco-chair {
+    width: 120px;
+    bottom: 0%;
+    left: auto;
+    right: 0;
+  }
+}
+
+/* ===== 整體區塊 ===== */
+.theme-section {
+  padding: 48px 16px;
+  background: #fafafa;
+}
+
+/* ===== 主題卡片 ===== */
+.theme-img {
+  position: relative; /* 必須 */
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50%; /* 手機預設：圓形 */
+  transition: 0.3s;
+}
+
+.theme-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(50%); /* 圖片暗50% */
+}
+
+/* 文字疊加 */
+.theme-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $white; /* 白色文字 */
+  text-align: center;
+}
+
+/* 桌機：變成方形 */
+@media (min-width: 992px) {
+  .theme-img {
+    border-radius: 8px;
+  }
+}
