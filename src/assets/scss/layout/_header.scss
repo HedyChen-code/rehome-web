@@ -1,0 +1,34 @@
+.nav-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+   font-size: 24px;
+  line-height: 24px;
+}
+
+/* 漢堡選單容器 */
+.hamburger-icon {
+  padding: 6px 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 每一條槓的通用樣式 */
+.line {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: #333366;
+  /* 上下兩條的深藍色 */
+  border-radius: 10px;
+  /* 讓邊緣圓圓的 */
+  transition: all 0.3s ease;
+}
+
+/* 中間那一條顏色不同 */
+.line.middle {
+  background-color: #FFCC00;
+  margin: 3px 0;
+}
