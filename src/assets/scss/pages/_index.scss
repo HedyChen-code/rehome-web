@@ -1,3 +1,7 @@
+.about-section {
+  background: url(/src/assets/images/background/bg02.png);
+    background-position: center;
+}
 .ellipse-bg {
   width: 312px; /* 橢圓寬度 */
   height: 1.5rem; /* 橢圓高度 */
@@ -5,16 +9,13 @@
   border-radius: 1.5rem; /* 讓它變成橢圓 */
   margin-top: -1.5rem; /* 距離標題 */
 }
-.about-content {
-  width: 40%;
-  margin-left: auto; /* 靠右 */
-}
 
-/* 手機版 */
-@media (max-width: 768px) {
+
+/* 桌機：變化 */
+@media (min-width: 992px) {
   .about-content {
-    width: 100%;
-    margin: 0 auto; /* 置中 */
+    width: 40%;
+    margin-left: auto; /* 靠右 */
   }
 }
 /* 所有裝飾圖的共通設定 */
@@ -62,8 +63,9 @@
 
 /* ===== 整體區塊 ===== */
 .theme-section {
-  padding: 48px 16px;
-  background: #fafafa;
+  background: url(/src/assets/images/background/bg01.png);
+  background-size: cover;
+  background-position: center;
 }
 
 /* ===== 主題卡片 ===== */
@@ -95,7 +97,26 @@
 
 /* 桌機：變成方形 */
 @media (min-width: 992px) {
+  .theme-section {
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
   .theme-img {
     border-radius: 8px;
+  }
+  .corner-br {
+    border-bottom-right-radius: 80px;
+  }
+
+  .corner-bl {
+    border-bottom-left-radius: 80px;
+  }
+
+  .corner-tr {
+    border-top-right-radius: 80px;
+  }
+
+  .corner-tl {
+    border-top-left-radius: 80px;
   }
 }
