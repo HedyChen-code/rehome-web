@@ -184,75 +184,81 @@ function Navbar() {
       </nav>
 
       {/* 電腦版導覽列 */}
-      <div className="d-none d-lg-flex fixed-top">
-        <div className="">
-          <a className="" href="#">
-            <img
-              src="./src/assets/images/logo/logo v2_white.svg"
-              alt="logo"
-              className={`logo-img ${isScrolled ? 'logo-small' : ''}`}
-            />
-          </a>
-        </div>
-
-        <div className="bg-primary-90 h-100 px-12 py-25 rounded-start-bottom">
-          <div className="d-flex">
-            <ul className="d-flex me-auto mb-2 mb-lg-0">
-              <li className="p-5 me-3">
-                <a className="text-white fs-6 lh-sm fw-medium" href="#">
-                  商品系列
-                </a>
-              </li>
-              <li className="p-5 me-3">
-                <a className="text-white fs-6 lh-sm fw-medium" href="#">
-                  風格嚴選
-                </a>
-              </li>
-              <li className="p-5 me-3">
-                <a className="text-white fs-6 lh-sm fw-medium" href="#">
-                  關於收購
-                </a>
-              </li>
-              <li className="p-5 me-3">
-                <a className="text-white fs-6 lh-sm fw-medium" href="#">
-                  品牌故事
-                </a>
-              </li>
-              <li className="p-5">
-                <a className="text-white fs-6 lh-sm fw-medium" href="#">
-                  聯絡我們
-                </a>
-              </li>
-            </ul>
-            <div className="d-flex">
-              <div className="icon-wrapper p-5">
-                <div
-                  className="bg-transparent border-0 shadow-none p-0"
-                  role="button"
-                >
-                  <i className="bi bi-search text-white nav-icon"></i>
-                </div>
-              </div>
-              <div className="icon-wrapper p-5">
-                <div
-                  className="bg-transparent border-0 shadow-none p-0"
-                  role="button"
-                >
-                  <i className="bi bi-person text-white nav-icon"></i>
-                </div>
-              </div>
-              <div className="icon-wrapper p-5">
-                <div
-                  className="bg-transparent border-0 shadow-none p-0"
-                  role="button"
-                >
-                  <i className="bi bi-cart text-white nav-icon"></i>
-                  <span
-                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                    style={{ fontSize: '0.7rem' }}
+      <div className="fixed-top">
+        <div className="p-0 d-none d-lg-flex container justify-content-between">
+          {/* LOGO */}
+          <div>
+            <a
+              href="#"
+              className={`logo-box ${isScrolled ? 'logo-box-bg' : ''}`}
+            >
+              <img
+                src={
+                  isScrolled
+                    ? './src/assets/images/logo/logo v2.svg'
+                    : './src/assets/images/logo/logo v2_white.svg'
+                }
+                alt="logo"
+                className={`logo-lg-img ${isScrolled ? 'logo-small' : ''}`}
+              />
+            </a>
+          </div>
+          {/* 導覽列 */}
+          <div className="flex-shrink-0 bg-primary-90 h-100 ps-12 py-25 rounded-start-bottom right-box">
+            <div className="d-flex justify-content-between">
+              {/* 選項 */}
+              <ul className="d-flex mb-2 mb-lg-0">
+                <li className="p-5 me-3">
+                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                    商品系列
+                  </a>
+                </li>
+                <li className="p-5 me-3">
+                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                    風格嚴選
+                  </a>
+                </li>
+                <li className="p-5 me-3">
+                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                    關於收購
+                  </a>
+                </li>
+                <li className="p-5 me-3">
+                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                    品牌故事
+                  </a>
+                </li>
+                <li className="p-5">
+                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                    聯絡我們
+                  </a>
+                </li>
+              </ul>
+              {/* icon */}
+              <div className="d-flex">
+                <div className="icon-wrapper p-5">
+                  <div
+                    className="bg-transparent border-0 shadow-none p-0"
+                    role="button"
                   >
-                    1
-                  </span>
+                    <i className="bi bi-search text-white nav-icon"></i>
+                  </div>
+                </div>
+                <div className="icon-wrapper p-5">
+                  <div
+                    className="bg-transparent border-0 shadow-none p-0"
+                    role="button"
+                  >
+                    <i className="bi bi-person text-white nav-icon"></i>
+                  </div>
+                </div>
+                <div className="icon-wrapper p-5">
+                  <div
+                    className="bg-transparent border-0 shadow-none p-0"
+                    role="button"
+                  >
+                    <i className="bi bi-cart text-white nav-icon"></i>
+                  </div>
                 </div>
               </div>
             </div>
