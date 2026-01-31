@@ -25,21 +25,51 @@
   border-radius: 10px;
   /* 讓邊緣圓圓的 */
   transition: all 0.3s ease;
+  &.middle {
+    /* 中間那一條顏色不同 */
+    background-color: #ffcc00;
+    margin: 3px 0;
+  }
 }
 
-/* 中間那一條顏色不同 */
-.line.middle {
-  background-color: #ffcc00;
-  margin: 3px 0;
-}
-
+// 手機板logo圖片
 .logo-img {
-  /* 原本大小 */
-  transition: all 0.5s ease;
+  transition: max-height 0.5s ease;
+  &.logo-small {
+    max-height: 56px; /* 縮小 */
+  }
 }
 
-.logo-img.logo-small {
-  height: 56px; /* 滾動後大小 */
+.logo-box {
+  display: block;
+  padding: 4px 8px 12px 8px;
+  background-color: transparent;
+  border-radius: 40px;
+  transition:
+    transform 0.5s ease,
+    background-color 0.3s ease 0s;
+  &.logo-box-bg {
+    background-color: white;
+    margin: 12px 0;
+    transition:
+      transform 0.5s ease,
+      background-color 0.3s ease 0.5s;
+  }
+}
+
+// 電腦版logo圖片
+.logo-lg-img {
+  margin: 16px 18px 24px 18px;
+  transform: scale(2);
+  transform-origin: top left;
+  transition: transform 0.5s ease;
+  &.logo-small {
+    width: 80px;
+    height: 112px;
+    transform: scale(1);
+    margin: 0px;
+    transition: transform 0.5s ease;
+  }
 }
 
 /* 輸入框樣式 */
@@ -70,4 +100,17 @@
 
 .rounded-start-bottom {
   border-bottom-left-radius: 40px;
+}
+.right-box {
+  position: relative;
+  width: 80%;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(-1 * (100vw - 100%));
+    width: calc(100vw - 100%);
+    height: 100%;
+    background-color: inherit;
+  }
 }
