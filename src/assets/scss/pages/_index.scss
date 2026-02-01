@@ -1,6 +1,6 @@
 .about-section {
   background: url(/src/assets/images/background/bg02.png);
-    background-position: center;
+  background-position: center;
 }
 .ellipse-bg {
   width: 312px; /* 橢圓寬度 */
@@ -9,7 +9,6 @@
   border-radius: 1.5rem; /* 讓它變成橢圓 */
   margin-top: -1.5rem; /* 距離標題 */
 }
-
 
 /* 桌機：變化 */
 @media (min-width: 992px) {
@@ -119,4 +118,80 @@
   .corner-tl {
     border-top-left-radius: 80px;
   }
+}
+
+.renewal {
+  max-width: 100%;
+}
+
+.renewal img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+.renewal p {
+  border-radius: 24px;
+  background: $secondary-10;
+  font-size: 20px;
+  display: inline-block;
+  padding: 12px 24px;
+}
+
+.renewal-section {
+  background: url(/src/assets/images/decorate/Vector3.svg);
+  background-size: contain;
+  background-position: center;
+
+  @media (min-width: 992px) {
+    background: url(/src/assets/images/decorate/Vector2.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.step-label {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.product-carousel {
+  display: flex;
+  gap: 16px; /* 卡片間距 */
+  overflow-x: auto; /* 手機橫向滑動 */
+  padding-bottom: 10px; /* 避免滾動條遮住卡片 */
+  scroll-snap-type: x mandatory; /* 可選：滾動對齊 */
+}
+
+.product-carousel::-webkit-scrollbar {
+  display: none; /* 隱藏滾動條（手機更乾淨） */
+}
+
+.product-card {
+  flex: 0 0 auto; /* 防止卡片縮放 */
+  width: 240px; /* 卡片固定寬度，可依需求調整 */
+  scroll-snap-align: start; /* 可選：滾動對齊 */
+  border-radius: 8px;
+  padding: 12px;
+  overflow: hidden; /* 超出範圍的內容裁切 */
+}
+.product-card img {
+  width: 100%;      /* 讓圖片填滿卡片寬度 */
+  height: 160px;    /* 固定高度，可依需求調整 */
+  object-fit: cover; /* 超出部分裁切並保持比例 */
+  border-radius: 8px; /* 圖片圓角跟卡片一致 */
+}
+.product-card h6:hover {
+  color: $primary-70;
+}
+
+.product-card .pill {
+  border-radius: 24px;
+  background: $secondary-10;
+  display: inline-block;
+  padding: 4px 12px;
 }
