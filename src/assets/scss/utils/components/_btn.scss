@@ -19,6 +19,69 @@
   }
 }
 
+.tab {
+  display: inline-flex; // 讓內容水平 & 垂直置中
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px 40px;
+  border-radius: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.tab[data-state="unselected"] {
+  background-color: transparent;
+  border: 1px solid $primary-70;
+  color: $primary-70;
+}
+.tab[data-state="unselected"]:hover {
+  border: 1px solid $primary-70;
+  color: $white;
+  background-color: rgba($primary-90, 0.5);
+}
+.tab-selected {
+  background-color: $primary-70;
+  border: none;
+  color: $white;
+}
+
+.categories-menu {
+  display: flex;
+  justify-content: space-between; /* 撐滿整行 */
+  text-align: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.categories-menu li {
+  flex: 1; /* 每一個平均分 */
+  padding: 12px 0;
+  cursor: pointer;
+  position: relative;
+
+  color: $gray-30;
+  &:hover {
+    border-bottom: 1px solid $gray-30; /* 底線 */
+    color: $gray-50;
+  }
+  &:active {
+    border-bottom: 1px solid $primary-70; /* active 底線顏色 */
+    color: $primary-70;
+  }
+}
+
+.categories-menu li .arrow {
+  opacity: 0;
+  margin-left: 5px;
+}
+/* 滑過時顯示箭頭 */
+.categories-menu li:hover .arrow {
+  opacity: 1;
+}
+
+
 .icon-pr {
   display: inline-flex;
   align-items: center;
@@ -40,4 +103,3 @@
     background-color: $secondary-10;
   }
 }
-
