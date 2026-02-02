@@ -137,7 +137,7 @@ function Navbar() {
         <div className="container-fluid align-items-start p-0">
           <a className="" href="#">
             <img
-              src="./src/assets/images/logo/logo v2_white.svg"
+              src="/src/assets/images/logo/logo v2_white.svg"
               alt="logo"
               className={`logo-img ${isScrolled ? 'logo-small' : ''}`}
             />
@@ -195,8 +195,8 @@ function Navbar() {
               <img
                 src={
                   isScrolled
-                    ? './src/assets/images/logo/logo v2.svg'
-                    : './src/assets/images/logo/logo v2_white.svg'
+                    ? '/src/assets/images/logo/logo v2.svg'
+                    : '/src/assets/images/logo/logo v2_white.svg'
                 }
                 alt="logo"
                 className={`logo-lg-img ${isScrolled ? 'logo-small' : ''}`}
