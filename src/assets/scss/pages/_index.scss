@@ -1,5 +1,5 @@
 .about-section {
-  background: url(/src/assets/images/background/bg02.png);
+  background: url(../../../../public/images/background/bg02.png);
   background-position: center;
 }
 .ellipse-bg {
@@ -62,7 +62,7 @@
 
 /* ===== 整體區塊 ===== */
 .theme-section {
-  background: url(/src/assets/images/background/bg01.png);
+  background: url(../../../../public/images/background/bg01.png);
   background-size: cover;
   background-position: center;
 }
@@ -139,12 +139,12 @@
 }
 
 .renewal-section {
-  background: url(/src/assets/images/decorate/Vector3.svg);
+  background: url(../../../../public/images/decorate/Vector3.svg);
   background-size: contain;
   background-position: center;
 
   @media (min-width: 992px) {
-    background: url(/src/assets/images/decorate/Vector2.svg);
+    background: url(../../../../public/images/decorate/Vector2.svg);
     background-repeat: no-repeat;
     background-position: center;
   }
@@ -180,8 +180,8 @@
   overflow: hidden; /* 超出範圍的內容裁切 */
 }
 .product-card img {
-  width: 100%;      /* 讓圖片填滿卡片寬度 */
-  height: 160px;    /* 固定高度，可依需求調整 */
+  width: 100%; /* 讓圖片填滿卡片寬度 */
+  height: 160px; /* 固定高度，可依需求調整 */
   object-fit: cover; /* 超出部分裁切並保持比例 */
   border-radius: 8px; /* 圖片圓角跟卡片一致 */
 }

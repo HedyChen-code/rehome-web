@@ -1,65 +1,65 @@
-import { useEffect } from "react";
-import "./App.css";
-import axios from "axios";
-import Footer from "./layout/Footer";
-import Navbar from "./layout/Navbar";
+import { useEffect } from 'react';
+import './App.css';
+import axios from 'axios';
+import Footer from './layout/Footer';
+import Navbar from './layout/Navbar';
 // import { Modal } from 'bootstrap' 使用JS控制Bootstrap元件再打開
 
 function App() {
   useEffect(() => {
     (async () => {
-      const res = await axios.get("https://randomuser.me/api/");
+      const res = await axios.get('https://randomuser.me/api/');
       console.log(res);
     })();
   }, []);
   const themes = [
     {
-      img: "/src/assets/images/theme/theme01.jpg",
-      title: "工業",
-      className: "corner-tl",
-      alt: "theme01",
+      img: 'images/theme/theme01.jpg',
+      title: '工業',
+      className: 'corner-tl',
+      alt: 'theme01',
     },
     {
-      img: "/src/assets/images/theme/theme02.jpg",
-      title: "義大利現代",
-      className: "",
-      alt: "theme02",
+      img: 'images/theme/theme02.jpg',
+      title: '義大利現代',
+      className: '',
+      alt: 'theme02',
     },
     {
-      img: "/src/assets/images/theme/theme03.jpg",
-      title: "現代北歐",
-      className: "",
-      alt: "theme03",
+      img: 'images/theme/theme03.jpg',
+      title: '現代北歐',
+      className: '',
+      alt: 'theme03',
     },
     {
-      img: "/src/assets/images/theme/theme04.jpg",
-      title: "日式無印",
-      className: "corner-tr",
-      alt: "theme04",
+      img: 'images/theme/theme04.jpg',
+      title: '日式無印',
+      className: 'corner-tr',
+      alt: 'theme04',
     },
     {
-      img: "/src/assets/images/theme/theme05.jpg",
-      title: "現代簡約風",
-      className: "corner-bl",
-      alt: "theme05",
+      img: 'images/theme/theme05.jpg',
+      title: '現代簡約風',
+      className: 'corner-bl',
+      alt: 'theme05',
     },
     {
-      img: "/src/assets/images/theme/theme06.jpg",
-      title: "世紀中期",
-      className: "",
-      alt: "theme06",
+      img: 'images/theme/theme06.jpg',
+      title: '世紀中期',
+      className: '',
+      alt: 'theme06',
     },
     {
-      img: "/src/assets/images/theme/theme07.jpg",
-      title: "療癒奶油",
-      className: "",
-      alt: "theme07",
+      img: 'images/theme/theme07.jpg',
+      title: '療癒奶油',
+      className: '',
+      alt: 'theme07',
     },
     {
-      img: "/src/assets/images/theme/theme08.jpg",
-      title: "宅寂",
-      className: "corner-br",
-      alt: "theme08",
+      img: 'images/theme/theme08.jpg',
+      title: '宅寂',
+      className: 'corner-br',
+      alt: 'theme08',
     },
   ];
 
@@ -100,7 +100,7 @@ function App() {
             {/* 輪播項目 1 */}
             <div className="carousel-item active">
               <img
-                src="/src/assets/images/banner/banner01.png"
+                src="images/banner/banner01.png"
                 className="d-block w-100"
                 alt="banner01"
               />
@@ -109,12 +109,12 @@ function App() {
                 style={{
                   top: 0,
                   bottom: 0,
-                  background: "rgba(0, 0, 0, 0.2)",
+                  background: 'rgba(0, 0, 0, 0.2)',
                 }}
               >
                 <div
                   className="text-center"
-                  style={{ maxWidth: "760px", animation: "fadeIn 1s" }}
+                  style={{ maxWidth: '760px', animation: 'fadeIn 1s' }}
                 >
                   <p className="h1 text-white">質感生活，不必高價擁有</p>
                   <p className="h6 text-white">
@@ -127,7 +127,7 @@ function App() {
             {/* 輪播項目 2 */}
             <div className="carousel-item">
               <img
-                src="/src/assets/images/banner/banner02.png"
+                src="images/banner/banner02.png"
                 className="d-block w-100"
                 alt="banner02"
               />
@@ -136,12 +136,12 @@ function App() {
                 style={{
                   top: 0,
                   bottom: 0,
-                  background: "rgba(0, 0, 0, 0.2)",
+                  background: 'rgba(0, 0, 0, 0.2)',
                 }}
               >
                 <div
                   className="text-center"
-                  style={{ maxWidth: "760px", animation: "fadeIn 1s" }}
+                  style={{ maxWidth: '760px', animation: 'fadeIn 1s' }}
                 >
                   <p className="h1 text-white">空間換新，輕鬆啟動</p>
                   <p className="h6 text-white">
@@ -154,7 +154,7 @@ function App() {
             {/* 輪播項目 3 */}
             <div className="carousel-item">
               <img
-                src="/src/assets/images/banner/banner03.png"
+                src="images/banner/banner03.png"
                 className="d-block w-100"
                 alt="banner03"
               />
@@ -163,12 +163,12 @@ function App() {
                 style={{
                   top: 0,
                   bottom: 0,
-                  background: "rgba(0, 0, 0, 0.2)",
+                  background: 'rgba(0, 0, 0, 0.2)',
                 }}
               >
                 <div
                   className="text-center"
-                  style={{ maxWidth: "760px", animation: "fadeIn 1s" }}
+                  style={{ maxWidth: '760px', animation: 'fadeIn 1s' }}
                 >
                   <p className="h1 text-white">尋找有故事的獨特設計</p>
                   <p className="fs-8 fs-lg-3 my-3 mx-5 text-white">
@@ -229,7 +229,7 @@ function App() {
         <div className="container position-relative">
           {/* 裝飾小圖 */}
           <img
-            src="/src/assets/images/icon/graphic 01.svg"
+            src="images/icon/graphic 01.svg"
             className="deco deco-book"
             alt=""
           />
@@ -237,9 +237,9 @@ function App() {
             {/* 插畫(上左) */}
             <div className="col-12 col-md-6 text-center mb-4 mb-md-0">
               <img
-                src="/src/assets/images/service-img/service.png"
+                src="images/service-img/service.png"
                 className="img-fluid"
-                style={{ width: "526px" }}
+                style={{ width: '526px' }}
                 alt="延續美好生活"
               />
             </div>
@@ -262,12 +262,12 @@ function App() {
             <div className="col-12 col-md-6 text-center mb-4 mb-md-0 order-md-2">
               {/* 裝飾小圖 */}
               <img
-                src="/src/assets/images/icon/graphic 02.svg"
+                src="images/icon/graphic 02.svg"
                 className="deco deco-lamp"
                 alt="deco-lamp"
               />
               <img
-                src="/src/assets/images/service-img/service02.png"
+                src="images/service-img/service02.png"
                 className="img-fluid"
                 alt="購買的安心值"
               />
@@ -277,7 +277,7 @@ function App() {
             <div className="col-12 col-md-6 text-center text-md-start order-md-1 position-relative">
               {/* 裝飾小圖 */}
               <img
-                src="/src/assets/images/icon/graphic 03.svg"
+                src="images/icon/graphic 03.svg"
                 className="deco deco-chair"
                 alt="deco-chair"
               />
@@ -303,7 +303,7 @@ function App() {
       >
         <div className="categoriesBanner">
           <img
-            src="/src/assets/images/background/bg03.png"
+            src="images/background/bg03.png"
             alt="categories Banner"
             className="img-fluid w-100"
           />
@@ -312,7 +312,7 @@ function App() {
         <div className="container">
           <div className="text-center mt-12 mt-lg-16">
             <img
-              src="/src/assets/images/icon/graphic 04.svg"
+              src="images/icon/graphic 04.svg"
               alt="categories-section"
               className="mb-5"
             />
@@ -359,7 +359,7 @@ function App() {
           <div className="product-carousel">
             <div className="product-card">
               <img
-                src="/src/assets/images/product/product01.jpg"
+                src="images/product/product01.jpg"
                 className="img-fluid rounded mb-4"
                 alt="product01"
               />
@@ -372,7 +372,7 @@ function App() {
 
             <div className="product-card">
               <img
-                src="/src/assets/images/product/product04.jpg"
+                src="images/product/product04.jpg"
                 className="img-fluid rounded mb-4"
                 alt="product04"
               />
@@ -385,7 +385,7 @@ function App() {
 
             <div className="product-card">
               <img
-                src="/src/assets/images/product/product02.jpg"
+                src="images/product/product02.jpg"
                 className="img-fluid rounded mb-4"
                 alt="product02"
               />
@@ -398,7 +398,7 @@ function App() {
 
             <div className="product-card">
               <img
-                src="/src/assets/images/product/product05.jpg"
+                src="images/product/product05.jpg"
                 className="img-fluid rounded mb-4"
                 alt="product05"
               />
@@ -411,7 +411,7 @@ function App() {
 
             <div className="product-card">
               <img
-                src="/src/assets/images/product/product03.jpg"
+                src="images/product/product03.jpg"
                 className="img-fluid rounded mb-4"
                 alt="product03"
               />
@@ -434,7 +434,7 @@ function App() {
         <div className="container py-12 py-lg-15">
           {/* 標題 */}
           <div className="text-center mb-9">
-            <img src="/src/assets/images/icon/graphic 05.svg" alt="" />
+            <img src="images/icon/graphic 05.svg" alt="" />
             <h2 className="h2">主題風格</h2>
           </div>
 
@@ -466,10 +466,7 @@ function App() {
               <div className="col-12 col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
-                    <img
-                      src="/src/assets/images/icon/furniture.svg"
-                      alt="furniture"
-                    />
+                    <img src="images/icon/furniture.svg" alt="furniture" />
                     <h5 className="h6">二手家具收購</h5>
                   </div>
                   <p className="body-text-t-s mb-3">
@@ -482,10 +479,7 @@ function App() {
               <div className="col-12 col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
-                    <img
-                      src="/src/assets/images/icon/scanning.svg"
-                      alt="scanning"
-                    />
+                    <img src="images/icon/scanning.svg" alt="scanning" />
                     <h5 className="h6">專業品檢與翻新</h5>
                   </div>
                   <p className="body-text-t-s mb-3">
@@ -499,7 +493,7 @@ function App() {
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
                     <img
-                      src="/src/assets/images/icon/online-shopping.svg"
+                      src="images/icon/online-shopping.svg"
                       alt="online-shopping"
                     />
                     <h5 className="h6">線上購物</h5>
@@ -515,10 +509,7 @@ function App() {
               <div className="col-12 col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
-                    <img
-                      src="/src/assets/images/icon/delivery.svg"
-                      alt="delivery"
-                    />
+                    <img src="images/icon/delivery.svg" alt="delivery" />
                     <h5 className="h6">安心配送與售後服務</h5>
                   </div>
                   <p className="body-text-t-s mb-3">
@@ -558,10 +549,7 @@ function App() {
             <div className="col-12 col-md-3 d-flex justify-content-start mb-12">
               <div className="renewal position-relative mb-12">
                 <p className="Body T-L step-label">Step 1</p>
-                <img
-                  src="/src/assets/images/item-img/item01.png"
-                  alt="item01"
-                />
+                <img src="images/item-img/item01.png" alt="item01" />
                 <h4 className="h4 text-center">專業估價與收件</h4>
               </div>
             </div>
@@ -569,10 +557,7 @@ function App() {
             <div className="col-12 col-md-3 d-flex justify-content-start mb-12">
               <div className="renewal position-relative mb-12">
                 <p className="Body T-L step-label">Step 2</p>
-                <img
-                  src="/src/assets/images/item-img/item02.png"
-                  alt="item02"
-                />
+                <img src="images/item-img/item02.png" alt="item02" />
                 <h4 className="h4 text-center">深度清潔與消毒</h4>
               </div>
             </div>
@@ -588,10 +573,7 @@ function App() {
             <div className="col-12 col-md-3 d-flex justify-content-end mb-12">
               <div className="renewal position-relative mb-4">
                 <p className="Body T-L step-label">Step 3</p>
-                <img
-                  src="/src/assets/images/item-img/item03.png"
-                  alt="item03"
-                />
+                <img src="images/item-img/item03.png" alt="item03" />
                 <h4 className="h4 text-center">檢測與整新修復</h4>
               </div>
             </div>
@@ -599,10 +581,7 @@ function App() {
             <div className="col-12 col-md-3 d-flex justify-content-end">
               <div className="renewal position-relative mb-4">
                 <p className="Body T-L step-label">Step 4</p>
-                <img
-                  src="/src/assets/images/item-img/item04.png"
-                  alt="item04"
-                />
+                <img src="images/item-img/item04.png" alt="item04" />
                 <h4 className="h4 text-center">品質認證與上架</h4>
               </div>
             </div>
