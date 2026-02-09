@@ -1,5 +1,5 @@
 .about-section {
-  background: url(../../../../public/images/background/bg02.png);
+  background: url(images/background/bg02.png);
   background-position: center;
 }
 .ellipse-bg {
@@ -62,7 +62,7 @@
 
 /* ===== 整體區塊 ===== */
 .theme-section {
-  background: url(../../../../public/images/background/bg01.png);
+  background: url(images/background/bg01.png);
   background-size: cover;
   background-position: center;
 }
@@ -139,12 +139,12 @@
 }
 
 .renewal-section {
-  background: url(../../../../public/images/decorate/Vector3.svg);
+  background: url(images/decorate/Vector3.svg);
   background-size: contain;
   background-position: center;
 
   @media (min-width: 992px) {
-    background: url(../../../../public/images/decorate/Vector2.svg);
+    background: url(images/decorate/Vector2.svg);
     background-repeat: no-repeat;
     background-position: center;
   }
