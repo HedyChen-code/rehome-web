@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 function Footer() {
   return (
     <footer className="footer-wrapper">
@@ -12,11 +13,13 @@ function Footer() {
                 <div className="d-flex flex-column flex-md-row align-items-center mb-3">
                   {/* 左邊：LOGO */}
                   <div className="me-10 mb-10 mb-md-0">
-                    <img
-                      src="images/logo/logo v2_white.svg"
-                      alt="Re:home"
-                      className="footer-logo"
-                    />
+                    <Link to="/">
+                      <img
+                        src="images/logo/logo v2_white.svg"
+                        alt="Re:home"
+                        className="footer-logo"
+                      />
+                    </Link>
                   </div>
 
                   {/* 右邊整個區塊（333 + 444） */}

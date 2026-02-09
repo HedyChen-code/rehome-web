@@ -310,7 +310,7 @@ $primary-10: #e6ebf9;
 $secondary-40: #f8d809;
 $secondary-20: #f7e281;
 $secondary-10: #fcf3c9;
-$grey: #636363; //custom
+$gray: #636363; //custom
 
 $gray-10: #eeeef0;
 $gray-20: #d9d9de;
@@ -343,7 +343,7 @@ $theme-colors: (
   'dark': $dark,
 
   //custom
-  'grey': $grey,
+  'gray': $gray,
   'gray-10': $gray-10,
   'gray-20': $gray-20,
   'gray-30': $gray-30,
@@ -508,7 +508,7 @@ $body-text-align: null !default;
 $body-color: $black !default; //$gray-900 !default;//custom
 $body-bg: $white !default;
 
-$body-secondary-color: $grey !default; //rgba($body-color, .75) !default;
+$body-secondary-color: $gray !default; //rgba($body-color, .75) !default;
 $body-secondary-bg: $gray-200 !default;
 
 $body-tertiary-color: rgba($body-color, 0.5) !default;
