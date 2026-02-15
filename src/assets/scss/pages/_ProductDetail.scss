@@ -1,0 +1,48 @@
+.bg-light-grey {
+  background-color: #f7f7f7;
+}
+.accordion-item {
+  margin-bottom: 15px; /* 每個項目間距 15px */
+}
+
+/* 進度條本體 */
+.swiper-pagination-progressbar {
+  position: static;
+  width: 120px !important;
+  height: 3px;
+  margin: 24px auto 0; /* 置中 */
+  background-color: #e5e5e5;
+}
+
+/* 進度條填滿動畫 */
+.swiper-pagination-progressbar-fill {
+  background-color: $primary-50;
+}
+
+/* 讓按鈕跑到 container 外面 */
+.custom-prev,
+.custom-next {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 48px !important;
+  height: 48px !important;
+  z-index: 10 !important;
+  margin-top: 0 !important;
+  background-color: $gray-20;
+  color: $gray-70;
+  font-size: 8px;
+}
+.swiper-navigation-icon {
+  width: 6px !important;
+}
+
+/* 左按鈕 */
+.custom-prev {
+  left: -72px !important;
+}
+
+/* 右按鈕 */
+.custom-next {
+  right: -72px !important;
+}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 
-function Offcanvas({ isOpen, close, type }) {
+function Offcanvas({ isOpen, close, type, setPage }) {
   return (
     <div
       className={`offcanvas offcanvas-top h-100 ${
@@ -20,21 +21,25 @@ function Offcanvas({ isOpen, close, type }) {
           <i className="bi bi-x nav-icon"></i>
         </button>
       </div>
-      {type === 'menu' && <MenuContent />}
+      {type === 'menu' && <MenuContent setPage={setPage} close={close} />}
       {type === 'search' && <SearchContent close={close} />}
     </div>
   );
 }
 // 選單
-function MenuContent() {
+function MenuContent({ close }) {
   return (
     <>
       <div className="offcanvas-body py-5 px-4">
         <ul className="navbar-nav justify-content-center align-items-center flex-grow-1 mb-8 border-bottom border-primary-30">
           <li className="nav-item pb-2">
-            <a className="nav-link fs-6 text-black px-5 py-4" href="#">
+            <Link
+              className="nav-link fs-6 text-black px-5 py-4"
+              to="/product"
+              onClick={close}
+            >
               商品系列
-            </a>
+            </Link>
           </li>
           <li className="nav-item pb-2">
             <a className="nav-link fs-6 text-black px-5 py-4" href="#">
@@ -75,7 +80,7 @@ function MenuContent() {
         </div>
       </div>
       <div className="offcanvas-footer text-center mb-5">
-        <img src="./src/assets/images/logo/logo v2.svg" alt="logo" />
+        <img src="images/logo/logo v2.svg" alt="logo" />
       </div>
     </>
   );
@@ -110,7 +115,7 @@ function SearchContent({ close }) {
   );
 }
 
-function Navbar() {
+const Navbar = ({ setPage }) => {
   // 手機板-漢堡選單、搜尋選單
   const [isOpen, setIsOpen] = useState(false);
   const [navType, setNavType] = useState('');
@@ -128,20 +133,20 @@ function Navbar() {
   }, []);
 
   return (
-    <>
+    <header>
       {/* 手機版導覽列 */}
       <nav
         className={`navbar navbar-light fixed-top d-lg-none p-4
     ${isScrolled ? 'bg-primary-90 bg-opacity-75' : ''}  `}
       >
         <div className="container-fluid align-items-start p-0">
-          <a className="" href="#">
+          <Link className="" to="/">
             <img
-              src="../assets/images/logo/logo v2_white.svg"
+              src="images/logo/logo v2_white.svg"
               alt="logo"
               className={`logo-img ${isScrolled ? 'logo-small' : ''}`}
             />
-          </a>
+          </Link>
 
           <div className="d-flex">
             <div className="me-3 p-5">
@@ -179,13 +184,17 @@ function Navbar() {
             isOpen={isOpen}
             close={() => setIsOpen(false)}
             type={navType}
+            setPage={setPage}
           />
         </div>
       </nav>
 
       {/* 電腦版導覽列 */}
-      <div className="fixed-top">
-        <div className="p-0 d-none d-lg-flex container justify-content-between">
+      <div className="fixed-top ">
+        <div
+          className="p-0 d-none d-lg-flex container justify-content-between"
+          style={{ pointerEvents: 'auto' }} // 讓選單內的按鈕可以被點擊
+        >
           {/* LOGO */}
           <div>
             <a
@@ -209,9 +218,12 @@ function Navbar() {
               {/* 選項 */}
               <ul className="d-flex mb-2 mb-lg-0">
                 <li className="p-5 me-3">
-                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                  <Link
+                    className="text-white fs-6 lh-sm fw-medium"
+                    to="/product"
+                  >
                     商品系列
-                  </a>
+                  </Link>
                 </li>
                 <li className="p-5 me-3">
                   <a className="text-white fs-6 lh-sm fw-medium" href="#">
@@ -265,8 +277,8 @@ function Navbar() {
           </div>
         </div>
       </div>
-    </>
+    </header>
   );
-}
+};
 
 export default Navbar;
