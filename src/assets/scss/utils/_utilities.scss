@@ -32,6 +32,48 @@ $utilities: map-merge(
   )
 );
 
+// font families
+// 可使用 class：font-fp(預設), font-noto
+$utilities: map-merge(
+  $utilities,
+  (
+    "font-family": (
+      property: font-family,
+      class: font,
+      values: (
+        fp: ('FakePearl', 'Noto Sans TC', 'Noto Sans', sans-serif),
+        noto: ('Noto Sans TC', 'Noto Sans', sans-serif)
+      )
+    )
+  )
+);
+
+// FakePearl font-weight 擴充 class (default weight 400)
+.font-fp-300 {
+  font-family: 'FakePearl', 'Noto Sans TC', 'Noto Sans', sans-serif;
+  font-weight: 300;
+}
+
+.font-fp-500 {
+  font-family: 'FakePearl', 'Noto Sans TC', 'Noto Sans', sans-serif;
+  font-weight: 500;
+}
+
+
+// text shadow (design spec)
+$utilities: map-merge(
+  $utilities,
+  (
+    "text-shadow": (
+      property: text-shadow,
+      class: shadow-text,
+      values: (
+        default: 0 4px 12px #ffffff 
+      )
+    )
+  )
+);
+
 // 取消 border 的 !important
 $utilities: map-merge(
   $utilities,

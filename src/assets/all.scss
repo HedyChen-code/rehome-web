@@ -18,12 +18,39 @@
 
 // CDN
 @font-face {
-  font-family: 'FakePearl-Medium';
+  font-family: 'FakePearl';
+  src:
+    url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Light.woff2')
+      format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Light.woff')
+      format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FakePearl';
+  src:
+    url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff2')
+      format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff')
+      format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FakePearl';
   src:
     url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff2')
       format('woff2'),
     url('https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Medium.woff')
       format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 // Bootstrap 主體
@@ -88,3 +115,4 @@
 @import './scss/pages/index.scss';
 
 @import './scss/pages/ProductDetail';
+@import './scss/pages/CheckoutDetail';
