@@ -200,11 +200,9 @@ const CheckoutDetail = () => {
                         <input type="radio" className="btn-check" name="creditCard" id="credit" autoComplete="off" defaultChecked />
                         <label 
                           className="btn border label-btn" htmlFor="credit">
-                          <div className="text-start">
-                            <p className="text-gray-90 mb-2">
-                              imgVISA
-                              <span className="text-gray-50">卡號12345678</span>
-                            </p>
+                          <div className="d-flex justify-content-start align-items-center">
+                            <img src="images/icon/visa-brandmark.svg" style={{width: "40"}} alt="visa-icon" />
+                            <p className="text-gray-90 ms-4">****1356</p>
                           </div>
                         </label>
                       </div>
