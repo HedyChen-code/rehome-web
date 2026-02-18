@@ -34,7 +34,7 @@ const CheckoutDetail = () => {
                     <div className="position-relative">
                       <input type="radio" className="btn-check" name="normalAddr" id="normal1" autoComplete="off" defaultChecked />
                       <label 
-                        className="btn border font-noto address-card" htmlFor="normal1">
+                        className="btn border font-noto label-btn" htmlFor="normal1">
                         <div className="text-start">
                           <p className="text-gray-90 mb-2">
                             陳小明<span className="text-gray-50">+886 444556789</span>
@@ -54,7 +54,7 @@ const CheckoutDetail = () => {
                     <div className="position-relative">
                       <input type="radio" className="btn-check" name="normalAddr" id="normal2" autoComplete="off" />
                       <label 
-                        className="btn border font-noto address-card" htmlFor="normal2">
+                        className="btn border font-noto label-btn" htmlFor="normal2">
                         <div className="text-start">
                           <p className="text-gray-90 mb-2">
                             王省省<span className="text-gray-50">+886 912342234</span>
@@ -94,7 +94,7 @@ const CheckoutDetail = () => {
                     <div className="position-relative">
                       <input type="radio" className="btn-check" name="homeAddr" id="home1" autoComplete="off" />
                       <label 
-                        className="btn border address-card" htmlFor="home1">
+                        className="btn border label-btn" htmlFor="home1">
                         <div className="text-start">
                           <p className="text-gray-90 mb-2">
                             王省省<span className="text-gray-50">+886 912342234</span>
@@ -199,7 +199,7 @@ const CheckoutDetail = () => {
                       <div className="position-relative">
                         <input type="radio" className="btn-check" name="creditCard" id="credit" autoComplete="off" defaultChecked />
                         <label 
-                          className="btn border address-card" htmlFor="credit">
+                          className="btn border label-btn" htmlFor="credit">
                           <div className="text-start">
                             <p className="text-gray-90 mb-2">
                               imgVISA

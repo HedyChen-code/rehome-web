@@ -4,7 +4,7 @@
   padding: 48px 48px;
 }
 
-.address-card {
+.label-btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,8 +15,8 @@
   transition: background-color 0.2s ease;
 }
 
-.address-card.btn:hover,
-.address-card.btn:active {
+.label-btn.btn:hover,
+.label-btn.btn:active {
   border: 1px solid rgba(183, 193, 234, 0.75)  !important; // primary-30 75% 以接近設計稿實際樣式
   background-color: rgba(183, 193, 234, 0.15);
 }
@@ -55,7 +55,17 @@
 }
 
 .order-data-block {
-  border-bottom: 1px dashed $gray-20;
+  // border-bottom: 1px dashed $gray-20;
+  border: none;
+  background-image: repeating-linear-gradient(
+    to right,
+    $gray-20 0 4px,
+    transparent 4px 8px
+  );
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+
   margin-top: 40px;
   padding-bottom: 24px;
 }
