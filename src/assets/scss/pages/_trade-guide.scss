@@ -20,6 +20,27 @@
 }
 
 
+@media (min-width: 992px) {
+.process-bg {
+  background: url(../../../../public/images/decorate/line-03.png);
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+  top:-240px;
+}
+}
+@media (max-width: 992px) {
+  .process-bg {
+  background: url(../../../../public/images/decorate/line-04.png);  
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+  top:-160px;
+  }
+
+}
+
+
 .bg-sell-img{
   background: url(../../../../public/images/background/bg07.png);
   background-position: center;
@@ -28,37 +49,55 @@
 
 
 .text-deco-1{
+    font-size: 120px;
+    position: absolute;
+    z-index: -1;
+    right:0px;
+    top:0px;
+    line-height: 120%;
+    font-weight: 500;
+}
+
+@media (min-width: 992px) {
+.text-deco-1{
     font-size: 240px;
     position: absolute;
     z-index: -1;
-    left:0px;
-    top:-211px;
+    line-height: 120%;
+    font-weight: 500;
+    left:420px;
+    top:-134px;
+}
 
 }
+
+
+
+.text-deco-2{
+    font-size: 120px;
+    position: absolute;
+    z-index: -1;
+    right:0px;
+    top:0px;
+    line-height: 120%;
+    font-weight: 500;
+}
+
+@media (min-width: 992px) {
 .text-deco-2{
     font-size: 240px;
     position: absolute;
     z-index: -1;
+    line-height: 120%;
+    font-weight: 500;
     left:0px;
-    top:-111px;
+    top:-149px;
+}
 
 }
-.text-deco-3{
-    font-size: 240px;
-    position: absolute;
-    z-index: -1;
-    left:0px;
-    top:-111px;
 
-}
-.text-deco-4{
-    font-size: 240px;
-    position: absolute;
-    z-index: -1;
-    left:0px;
-    top:-111px;
 
-}
+
 
 .guide_img_deco{
     width: 526px;
@@ -94,18 +133,36 @@
 }
 
 
+
+
+
 .guide-logo{
-    font-size: 80px;
-    z-index: -1;
+    width: 280px;
+    height: 40px; 
+    z-index: -1;;
+    top:11px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
 }
 
-/* 移除 Bootstrap 預設的藍色陰影與外框 */
-// .accordion-button:focus {
-//     box-shadow: none;
-//     border-color: rgba(0,0,0,.125);
-// }
 
-/* 處理展開後，按鈕不需要底部圓角的問題（如果你希望按鈕永遠是膠囊狀） */
+@media (min-width: 992px) {
+.guide-logo{
+    width: 560px;
+    height: 80px; 
+    z-index: -1;;
+    top:11px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+}
+
+
+
+
+
 .accordion-button {
     border-radius: 50rem !important; /* 強制膠囊型 */
 }
@@ -129,7 +186,7 @@
     color: #ffffff !important; /* 保持文字白色 */
 }
 
-/* 移除 Bootstrap 預設的藍色陰影 (自選) */
+/* 移除 Bootstrap 預設的藍色陰影*/
 .accordion-button:focus {
     box-shadow: none;
     border-color: rgba(0,0,0,.125);
@@ -152,9 +209,8 @@
 .table-separate {
     border-collapse: separate !important;
     border-spacing: 24px 24px !important;
-    /* 關鍵：強制表格使用固定佈局，這樣寬度才會平均分配 */
-    
-    table-layout: fixed; 
+    table-layout: fixed;
+    min-width: 900px; 
     width: 100%;
 }
 
@@ -168,6 +224,7 @@
     justify-content: center;
     /* 避免文字太長時換行撐開高度，維持整齊度 */
     white-space: nowrap; 
+    flex-shrink: 0;
 }
 
 .size-label {
@@ -191,9 +248,10 @@
     border: 1px solid var(--bs-gray-20) !important;
     padding-right: 12px;
   }
+
 .upload-box {
         width: 240px;
-        max-width: 400px; /* 您可以根據需求調整寬度 */
+        max-width: 400px; 
         height: 105px;
         background-color: var(--bs-gray-10); /* 淺灰色背景 */
         border: 2px dashed var(--bs-gray-30); /* 虛線外框 */
