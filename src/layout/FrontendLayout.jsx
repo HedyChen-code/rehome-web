@@ -5,11 +5,11 @@ import Footer from './Footer';
 const FrontendLayout = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <main>
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

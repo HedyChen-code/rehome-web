@@ -35,7 +35,7 @@ function MenuContent({ close }) {
           <li className="nav-item pb-2">
             <Link
               className="nav-link fs-6 text-black px-5 py-4"
-              to="/product"
+              to="/products"
               onClick={close}
             >
               商品系列

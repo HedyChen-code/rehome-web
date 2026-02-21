@@ -19,7 +19,7 @@ export const router = createHashRouter([
         element: <Home />, //首頁
       },
       {
-        path: 'product',
+        path: 'products',
         element: <Products />,
       },
       {
