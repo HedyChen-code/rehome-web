@@ -22,30 +22,33 @@
 
 @media (min-width: 992px) {
 .process-bg {
-  background: url(../../../../public/images/decorate/line-03.png);
-  background-position: center;
-  background-size: cover;
-  z-index: -2;
-  top:-240px;
-}
+    background-image: url(../../../../public/images/decorate/line-03.png);
+    background-repeat: no-repeat;
+    background-size: 800px 1400px;
+    background-position: center 240px;
+    position: relative; 
+    z-index: -1;
+  }
 }
 @media (max-width: 992px) {
-  .process-bg {
-  background: url(../../../../public/images/decorate/line-04.png);  
-  background-position: center;
-  background-size: cover;
-  z-index: -2;
-  top:-160px;
+.process-sm-bg {
+    background-image: url(../../../../public/images/decorate/line-04.png);
+    background-repeat: no-repeat;
+    background-size: 640px 2000px;
+    background-position: -80px 300px;
+    position: relative;
+    z-index: -1; 
+    top: 0;
   }
-
 }
 
 
 .bg-sell-img{
-  background: url(../../../../public/images/background/bg07.png);
+  background:linear-gradient(to bottom,rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 1) 100%), url(../../../../public/images/background/bg07.png);
   background-position: center;
   background-size: cover;
 }
+
 
 
 .text-deco-1{
@@ -99,67 +102,80 @@
 
 
 
+
+.guide_img_deco{
+    width: 100%;
+    max-width: 526px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+@media (max-width: 992px) {
+    .guide_img_deco {
+        max-width: 351px; 
+    }
+}
+@media (min-width: 992px) {
 .guide_img_deco{
     width: 526px;
-    height: 526px; 
-    object-fit: cover;
 }
 
 
-@media (max-width: 992px) {
-.guide_img_deco{
-    width: 351px;
-    height: 351px; 
-    object-fit: cover;
 }
-
-}
-
 
 .QA_deco{
-    width: 416px;
-    height: 360px; 
+    width: 100%;
+    max-width: 319px; 
+    height: auto;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-
-@media (max-width: 992px) {
-.QA_deco{
-    width: 351px;
-    height: 351px; 
-    object-fit: cover;
-}
-
-}
-
-
-
-
-
-.guide-logo{
-    width: 280px;
-    height: 40px; 
-    z-index: -1;;
-    top:11px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-}
-
 
 @media (min-width: 992px) {
-.guide-logo{
-    width: 560px;
-    height: 80px; 
-    z-index: -1;;
-    top:11px;
+    .QA_deco {
+        width: 319px;
+        
+    }
+}
+
+@media (min-width: 992px) {
+    .QA_deco {
+        width: 352px;
+        max-width: none;
+        margin-left: 32px;
+        margin-right: 32px;
+        display: inline-block;
+    }
+}
+
+
+
+.guide-logo {
+    width: 75%; 
+    max-width: 560px;
+    height: auto; 
+    position: absolute; 
+    top: 10px;           
     left: 50%;
-    transform: translate(-50%, -50%);
-
-}
+    transform: translate(-50%, -50%); 
 }
 
+@media (max-width: 992px) {
+    .guide-logo {
+        max-width: 280px;
+    }
+}
 
+@media (min-width: 992px) {
+    .guide-logo {
+        width: 560px;
+        height: 80px; 
+    }
+}
 
 
 
@@ -250,11 +266,58 @@
   }
 
 .upload-box {
-        width: 240px;
+        width: 100%;
         max-width: 400px; 
         height: 105px;
         background-color: var(--bs-gray-10); /* 淺灰色背景 */
         border: 2px dashed var(--bs-gray-30); /* 虛線外框 */
         border-radius: 8px; /* 圓角 */
         color:  var(--bs-gray-50);
+}
+@media (min-width: 375px) {
+    .upload-box {
+        width: 240px;
     }
+}
+
+
+.sell-form-card {
+  background-color: #F7F7F7 !important; 
+  border-radius: 24px;                
+  box-shadow: 0px 4px 16px rgba(76, 76, 88, 0.25);
+
+    .sell-form-col {
+        height: 48px !important;            
+        border-radius: 8px !important;      
+        border: 1px solid var(--bs-gray-20) !important;
+        padding: 12px 16px !important;
+        color: var(--bs-gray-90) !important; 
+        font-size: 16px;
+
+        &::placeholder {
+            color: var(--bs-gray-30) !important;
+            opacity: 1; 
+        }
+
+        &:hover {
+            border-color: var(--bs-primary-50) !important;
+        }
+
+        &:focus {
+            border-color: var(--bs-primary-50) !important;
+            box-shadow: 0 0 0 4px rgba(133, 133, 194, 0.1) !important; 
+            outline: 0;
+        }
+    }
+
+    select.sell-form-col {
+            color: var(--bs-gray-30) !important; 
+            cursor: pointer;
+
+            &:not(:invalid), &:focus {
+                color: var(--bs-gray-90) !important;
+            }
+            
+    }
+}
+
