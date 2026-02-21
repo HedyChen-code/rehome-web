@@ -27,11 +27,11 @@
         </div>
     </section>
     <!-- 二手家具媒合流程 -->
-    <section class="container my-lg-16 my-12 position-relative">
-        <img src="./public/images/logo/graphic-07_light.png" class="align-items-center position-absolute guide-logo">
+    <section class="container my-lg-16 my-12 position-relative process-sm-bg">
+        <img src="./public/images/logo/graphic-07_light.png" class="align-items-center position-absolute guide-logo z-n1">
         <p class="fs-lg-2 fs-4 text-center mb-lg-4 mb-0">二手家具媒合流程</p>
         <p class="fs-lg-5 text-center text-gray-50 mb-12">讓物回家，讓生活更溫柔。</p>
-        <div class="process-bg">
+        <div class="process-bg d-block">
             <div class="d-lg-flex d-block align-items-center justify-content-between mb-9 mb-lg-0">
                 <div class="position-relative mb-3 mb-lg-0">
                     <span class="fs-lg-6 fs-7 text-white bg-primary-70 px-5 py-2 rounded-pill">事前準備</span>
@@ -77,9 +77,12 @@
                        
     </section >
     <!-- 收購 / 媒合常見 FAQ -->
-    <section class="bg-primary-90 rounded-3">
-        <div class="container py-16">
-            <p class="fs-lg-2  fs-4 text-center mb-10 text-white">收購 / 媒合常見 FAQ</p>
+    <section class="bg-primary-90 rounded-3 ">
+        <div class="container py-16" >
+            <div class="position-relative d-flex justify-content-center align-items-center mb-10">            
+                <p class="fs-lg-2  fs-4 text-center mb-10 text-white  z-1">收購 / 媒合常見 FAQ</p>
+                <img src="./public/images/logo/graphic-07_dark.png" class="guide-logo opacity-50">
+            </div>
             <div class="d-lg-flex d-block  align-items-center justify-content-center justify-content-lg-between">
                 <div class="accordion w-100 me-8" id="accordionExample">
                     <div class="accordion-item mb-8 border-0 bg-transparent">
@@ -213,25 +216,25 @@
     <!-- 售物意向表單 -->
     <section class="bg-sell-img">
         <div class="container">
-            <div class="row d-lg-flex d-block align-items-center justify-content-between py-16">
-                <div class="col-12 col-lg-7 bg-gray-10 rounded-4 px-9 py-10">
-                    <p class="fs-lg-3  fs-4 pb-10 text-center text-lg-start">售物意向表單</p>
-                    <form class="row g-3">
+            <div class="row d-lg-flex d-block align-items-center justify-content-between py-lg-16 py-12 px-4 px-lg-0">
+                <div class="col-12 col-lg-7 sell-form-card px-lg-9 px-8 py-lg-10 py-9">
+                    <p class="fs-lg-3  fs-4 pb-lg-9 pb-8 text-center text-lg-start">售物意向表單</p>
+                    <form class="row">
                     <div class="col-lg-6 col-12 mb-8">
                         <label for="inputName" class="form-label fs-6 mb-3">姓名</label>
-                        <input type="text" class="form-control" id="inputName" placeholder="請輸入你的姓名">
+                        <input type="text" class="form-control sell-form-col" id="inputName" placeholder="請輸入你的姓名">
                     </div>
                     <div class="col-lg-6 col-12 mb-8">
                         <label for="inputPhone" class="form-label fs-6 mb-3">聯絡電話</label>
-                        <input type="text" class="form-control" id="inputPhone" placeholder="請輸入聯絡電話">
+                        <input type="text" class="form-control sell-form-col" id="inputPhone" placeholder="請輸入聯絡電話">
                     </div>
                     <div class="col-12 mb-8">
                         <label for="inputAddress" class="form-label fs-6 mb-3">取件地址</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="請選擇取件地址">
+                        <input type="text" class="form-control sell-form-col" id="inputAddress" placeholder="請選擇取件地址">
                     </div>
                     <div class="col-lg-6 col-12 mb-8">
                         <label for="inputCity" class="form-label fs-6 mb-3">家具類別</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select  sell-form-col" required aria-label="Default select example">
                         <option selected>請選擇家具類型</option>
                         <option value="1">沙發 / 座椅類</option>
                         <option value="2">儲物 / 櫃體類</option>
@@ -242,7 +245,7 @@
                     </div>
                     <div class="col-lg-6 mb-8">
                         <label for="inputCity" class="form-label fs-lg-6 mb-3">狀況自評</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select  sell-form-col" required aria-label="Default select example">
                         <option selected>請選擇物件狀況</option>
                         <option value="1">全新</option>
                         <option value="2">良好</option>
@@ -253,18 +256,24 @@
                     </div>
                     <div class="mb-8">
                         <p class="mb-3">尺寸</p>
-                        <div class="d-lg-flex d-block align-items-center">
-                            <label for="inputWidth" class="size-label fs-lg-6">寬</label>
-                            <input type="text" class="size-input" id="inputWidth" placeholder="ex:100">
-                            <span class="ms-3">cm</span>
-                            <div class="col-auto px-5">x</div>
-                            <label for="inputDepth" class="size-label fs-lg-6">深</label>
-                            <input type="text" class="size-input" id="inputDepth" placeholder="ex:100">
-                            <span class="ms-3">cm</span>
-                            <div class="col-auto px-5">x</div>
-                            <label for="inputHeight" class="size-label fs-lg-6">高</label>
-                            <input type="text" class="size-input" id="inputHeight" placeholder="ex:100">
-                            <span class="ms-3">cm</span>
+                        <div class="d-lg-flex d-block align-items-center flex-wrap">
+                            <div class="d-flex align-items-center">
+                                <label for="inputWidth" class="size-label fs-lg-6">寬</label>
+                                <input type="number" class="size-input ps-4  sell-form-col" id="inputWidth" placeholder="ex:100">
+                                <span class="ms-3">cm</span>
+                            </div>
+                            <div class="col-auto px-lg-5 px-0 ">x</div>
+                            <div class="d-flex align-items-center">
+                                <label for="inputDepth" class="size-label fs-lg-6">深</label>
+                                <input type="number" class="size-input ps-4  sell-form-col" id="inputDepth" placeholder="ex:100">
+                                <span class="ms-3">cm</span>
+                            </div >
+                            <div class="col-auto px-lg-5 px-0">x</div>
+                            <div class="d-flex align-items-center">
+                                <label for="inputHeight" class="size-label fs-lg-6">高</label>
+                                <input type="number" class="size-input ps-4  sell-form-col" id="inputHeight" placeholder="ex:100">
+                                <span class="ms-3">cm</span>
+                            </div>
                         </div>                    
                     </div>
                     <div class="mb-9 mt-8">
