@@ -32,6 +32,25 @@ $utilities: map-merge(
   )
 );
 
+// opacity 擴充 .opacity-15
+$utilities: map-merge(
+  $utilities,
+  (
+    'opacity':
+      map-merge(
+        map-get($utilities, 'opacity'),
+        (
+          values: map-merge(
+            map-get(map-get($utilities, 'opacity'), 'values'),
+            (
+              15: 0.15
+            )
+          )
+        )
+      )
+  )
+);
+
 // font families
 // 可使用 class：font-fp(預設), font-noto
 $utilities: map-merge(
