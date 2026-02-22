@@ -1,3 +1,9 @@
+@media (min-width: 1024px) {
+  main {
+    margin-top: 136px;
+  }
+}
+
 .custom-input-text::placeholder {
   color: #B8B8C1;
 }
@@ -14,7 +20,7 @@
     font-family: 'Noto Sans TC';
 }
 
-.custom-badge {
+.custom-btn {
     padding: 4px 16px;
     border-radius: 24px;
     width: 112px;

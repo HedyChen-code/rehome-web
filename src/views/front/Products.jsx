@@ -11,44 +11,115 @@ function Products() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  // 篩選器：文字顏色動態變化
-  const [category, setCategory] = useState("");
-  const [style, setStyle] = useState("");
-  const [oldDegree, setOldDegree] = useState("");
+  // 分頁狀態 <<<<<<<<<<<「尚未完成」
+  const [pagination, setPagination] = useState({});
 
-  // 價格篩選器
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(10000);
+  // 所有的篩選狀態
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("all");
+  const [style, setStyle] = useState("all");
+  const [condition, setCondition] = useState("all");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  // 排序狀態
+  const [sortType, setSortType] = useState("latest");
+
+  // 篩選器
+  const filteredProducts = products.filter((item) => {
+    const matchSearch =
+      searchTerm === "" ||
+      item.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchCategory = category === "all" || item.category === category;
+    const matchStyle = style === "all" || item.style === style;
+    const matchCondition =
+      condition === "all" || item.condition_level === condition;
+    const matchMinPrice = minPrice === "" || item.price >= Number(minPrice);
+    const matchMaxPrice = maxPrice === "" || item.price <= Number(maxPrice);
+
+    return (
+      matchSearch &&
+      matchCategory &&
+      matchStyle &&
+      matchCondition &&
+      matchMinPrice &&
+      matchMaxPrice
+    );
+  });
+
+  // 價格滑桿 (slider) <<<<<<<<<<<「尚未完成」
+
   const minLimit = 0;
   const maxLimit = 10000;
   const handleMinChange = (e) => {
     const value = parseInt(e.target.value);
-    // 邏輯判斷：最低價不能高於目前的最大價
     if (value <= maxPrice) {
       setMinPrice(value);
     }
   };
   const handleMaxChange = (e) => {
     const value = parseInt(e.target.value);
-    // 邏輯判斷：最高價不能低於目前的最小價
     if (value >= minPrice) {
       setMaxPrice(value);
     }
   };
 
+  // 清除所有條件
+  const clearFilters = () => {
+    setCategory("all");
+    setStyle("all");
+    setCondition("all");
+    setMinPrice("");
+    setMaxPrice("");
+    setSearchTerm("");
+  };
+
+  // 最新上架/價格排序
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortType === "latest") {
+      // 假設你的 API 有 id 或創造日期，這裡用 id 做簡易排序
+      return b.id.localeCompare(a.id);
+    }
+    if (sortType === "priceHighToLow") {
+      return b.price - a.price; // 價格高到低
+    }
+    if (sortType === "priceLowToHigh") {
+      return a.price - b.price; // 價格低到高
+    }
+
+    return 0;
+  });
+
   // 取得所有商品資料
+  // const getProducts = async (page = 1) => {
+  //   try {
+  //     const res = await axios.get(
+  //       `${API_BASE}/api/${API_PATH}/products?page=${page}`,
+  //     );
+  //     setProducts(res.data.products);
+  //     console.log(res.data.products);
+  //     setPagination(res.data.pagination);
+  //   } catch (error) {
+  //     toast.error(
+  //       `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+  //     );
+  //   }
+  // };
+
+  const getProducts = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
+      setProducts(res.data.products);
+      console.log(res.data.products);
+    } catch (error) {
+      toast.error(
+        `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
+    }
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
-        setProducts(res.data.products);
-      } catch (error) {
-        toast.error(
-          `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
-        );
-      }
-    };
-    getData();
+    getProducts();
   }, []);
 
   const handleView = (id) => {
@@ -63,7 +134,7 @@ function Products() {
           <div className="container px-0">
             <picture>
               <source
-                srcset="./images/banner/banner05.png"
+                srcSet="./images/banner/banner05.png"
                 media="(min-width: 768px)"
               />
               <img
@@ -72,11 +143,6 @@ function Products() {
                 className="w-100"
               />
             </picture>
-            {/* <img
-              className="img-fluid"
-              src="./images/banner/banner05.png"
-              alt="..."
-            /> */}
           </div>
         </section>
         <section className="py-12">
@@ -90,7 +156,7 @@ function Products() {
               </li>
               <li className="mx-8">
                 <small>
-                  <i class="bi bi-chevron-right"></i>
+                  <i className="bi bi-chevron-right"></i>
                 </small>
               </li>
               <li className="text-primary-70">所有商品</li>
@@ -106,7 +172,7 @@ function Products() {
                     <h5>篩選器</h5>
                     <button className="d-block d-lg-none btn p-0 font-family-noto-sans text-primary-50 d-flex justify-content-center align-items-center">
                       <span className="me-3 fs-9">備註</span>
-                      <i class="bi bi-exclamation-circle"></i>
+                      <i className="bi bi-exclamation-circle"></i>
                     </button>
                   </div>
                   {/* 關鍵字搜尋篩選 */}
@@ -115,13 +181,15 @@ function Products() {
                       type="text"
                       className="form-control custom-input-text"
                       placeholder="請輸入關鍵字"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <button
                       className="btn btn-primary"
                       type="button"
                       id="button-addon"
                     >
-                      <i class="bi bi-search"></i>
+                      <i className="bi bi-search"></i>
                     </button>
                   </div>
                   {/* 類別/風格/中古程度篩選 */}
@@ -129,54 +197,48 @@ function Products() {
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className={`form-select mb-5 me-5 ${category === "" ? "text-gray-30" : "text-gray-90"}`}
+                      className={`form-select mb-5 me-5 ${category === "all" ? "text-gray-30" : "text-gray-90"}`}
                     >
-                      <option value="" disabled selected>
-                        請選擇類別
-                      </option>
-                      <option value="1">沙發 / 座椅類</option>
-                      <option value="2">儲物 / 櫃體類</option>
-                      <option value="3">床具 / 寢臥類</option>
-                      <option value="4">桌類 / 檯面類</option>
-                      <option value="5">擺飾 / 家飾類</option>
+                      <option value="all">請選擇類別</option>
+                      <option value="沙發 / 座椅類">沙發 / 座椅類</option>
+                      <option value="儲物 / 櫃體類">儲物 / 櫃體類</option>
+                      <option value="床具 / 寢臥類">床具 / 寢臥類</option>
+                      <option value="桌類 / 檯面類">桌類 / 檯面類</option>
+                      <option value="擺飾 / 家飾類">擺飾 / 家飾類</option>
                     </select>
                     <select
                       value={style}
                       onChange={(e) => setStyle(e.target.value)}
-                      className={`form-select mb-5 ${style === "" ? "text-gray-30" : "text-gray-90"}`}
+                      className={`form-select mb-5 ${style === "all" ? "text-gray-30" : "text-gray-90"}`}
                     >
-                      <option value="" disabled selected>
-                        請選擇風格
-                      </option>
-                      <option value="1">工業</option>
-                      <option value="2">義大利現代</option>
-                      <option value="3">現代北歐</option>
-                      <option value="4">日式無印</option>
-                      <option value="5">現代簡約風</option>
-                      <option value="6">世紀中期</option>
-                      <option value="7">療癒奶油</option>
-                      <option value="8">侘寂</option>
+                      <option value="all">請選擇風格</option>
+                      <option value="工業">工業</option>
+                      <option value="義大利現代">義大利現代</option>
+                      <option value="現代北歐">現代北歐</option>
+                      <option value="日式無印">日式無印</option>
+                      <option value="現代簡約風">現代簡約風</option>
+                      <option value="世紀中期">世紀中期</option>
+                      <option value="療癒奶油">療癒奶油</option>
+                      <option value="侘寂">侘寂</option>
                     </select>
                   </div>
                   <select
-                    value={oldDegree}
-                    onChange={(e) => setOldDegree(e.target.value)}
-                    className={`form-select mb-5 ${oldDegree === "" ? "text-gray-30" : "text-gray-90"}`}
+                    value={condition}
+                    onChange={(e) => setCondition(e.target.value)}
+                    className={`form-select mb-5 ${condition === "all" ? "text-gray-30" : "text-gray-90"}`}
                   >
-                    <option value="" disabled selected>
-                      請選擇中古程度
-                    </option>
-                    <option value="1">中古程度 A</option>
-                    <option value="2">中古程度 B</option>
-                    <option value="3">中古程度 C</option>
-                    <option value="4">中古程度 D</option>
+                    <option value="all">請選擇中古程度</option>
+                    <option value="中古Ａ">中古程度 A</option>
+                    <option value="中古Ｂ">中古程度 B</option>
+                    <option value="中古Ｃ">中古程度 C</option>
+                    <option value="中古Ｄ">中古程度 D</option>
                   </select>
                   {/* 價格篩選 */}
                   <h6 className="fs-8 text-gray-90 mb-3">價格範圍</h6>
                   <div className="d-flex justify-content-between">
                     <div className="d-flex flex-column mb-3 me-5">
                       <label
-                        for="minPrice"
+                        htmlFor="minPrice"
                         className="form-label fs-9 text-gray-50"
                       >
                         min.
@@ -186,11 +248,12 @@ function Products() {
                         className="form-control"
                         id="minPrice"
                         value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
                       />
                     </div>
                     <div className="d-flex flex-column mb-3">
                       <label
-                        for="manPrice"
+                        htmlFor="manPrice"
                         className="form-label fs-9 text-gray-50"
                       >
                         max.
@@ -200,6 +263,7 @@ function Products() {
                         className="form-control"
                         id="maxPrice"
                         value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
                       />
                     </div>
                   </div>
@@ -266,26 +330,33 @@ function Products() {
                 <section className="d-flex justify-content-between border-bottom py-3 mb-8">
                   <p className="font-family-noto-sans">
                     篩選結果共
-                    <span className="text-primary-70 fs-5"> 10,357 </span>筆
+                    <span className="text-primary-70 fs-5">
+                      {" "}
+                      {filteredProducts.length}{" "}
+                    </span>
+                    筆
                   </p>
-                  <div className="custom-badge font-family-noto-sans bg-gray-20 fs-8">
+                  <button
+                    type="button"
+                    className="btn btn-gray-20 btn-sm p-0 ms-2 custom-btn font-family-noto-sans fs-8"
+                    onClick={clearFilters}
+                  >
                     清除篩選
-                    <button
-                      type="button"
-                      className="btn btn-gray-20 btn-sm p-0 ms-2"
-                    >
-                      <i className="bi bi-x text-gray-70"></i>
-                    </button>
-                  </div>
+                    <i className="bi bi-x text-gray-70"></i>
+                  </button>
                 </section>
-                <select className="form-select mb-5 text-gray-95 w-25 ms-auto">
-                  <option value="1">最新上架</option>
-                  <option value="2">價格由高到低</option>
-                  <option value="3">價格由低到高</option>
+                <select
+                  className="form-select mb-5 text-gray-95 w-25 ms-auto"
+                  value={sortType}
+                  onChange={(e) => setSortType(e.target.value)}
+                >
+                  <option value="latest">最新上架</option>
+                  <option value="priceHighToLow">價格由高到低</option>
+                  <option value="priceLowToHigh">價格由低到高</option>
                 </select>
 
                 <div className="row">
-                  {products.map((item) => (
+                  {sortedProducts.map((item) => (
                     <div className="col-6 col-md-4 mb-4" key={item.id}>
                       <div className="card h-100 border-0 px-3">
                         {/* h-100 讓同列卡片等高 */}
@@ -297,15 +368,15 @@ function Products() {
                             alt={item.title}
                           />
                           <button type="button" className="favorite-btn">
-                            <i class="bi bi-heart text-white"></i>
+                            <i className="bi bi-heart text-white"></i>
                           </button>
                         </section>
                         <section className="mb-3">
                           <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 me-3">
-                            中古程度 B
+                            {item.condition_level}
                           </span>
                           <span className="badge rounded-pill text-bg-secondary-10 text-gray-70">
-                            使用 3 年
+                            {item.color}
                           </span>
                         </section>
                         <div className="card-body d-flex flex-column p-0">
@@ -337,7 +408,7 @@ function Products() {
                               onClick={() => handleView(item.id)}
                             >
                               加入購物車
-                              <i class="bi bi-cart3 ms-3"></i>
+                              <i className="bi bi-cart3 ms-3"></i>
                             </button>
                           </div>
                         </div>
@@ -345,6 +416,58 @@ function Products() {
                     </div>
                   ))}
                 </div>
+                {/* 分頁區塊********(尚未完成 JS 的部分) */}
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-center">
+                    <li
+                      className={`page-item ${!pagination.has_pre && "disabled"}`}
+                    >
+                      <a
+                        className="page-link border-0"
+                        href="#"
+                        aria-label="Previous"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          getProducts(pagination.current_page - 1);
+                        }}
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    {Array.from(
+                      { length: pagination.total_pages },
+                      (_, index) => (
+                        <li className="page-item" key={index}>
+                          <a
+                            className="page-link border-0"
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              getProducts(pagination.current_page + 1);
+                            }}
+                          >
+                            {index + 1}
+                          </a>
+                        </li>
+                      ),
+                    )}
+                    <li
+                      className={`page-item ${!pagination.has_next && "disabled"}`}
+                    >
+                      <a
+                        className="page-link border-0"
+                        href="#"
+                        aria-label="Next"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          getProducts(pagination.current_page + 1);
+                        }}
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </div>
           </div>

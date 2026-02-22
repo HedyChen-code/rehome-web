@@ -220,7 +220,7 @@ const Navbar = ({ setPage }) => {
                 <li className="p-5 me-3">
                   <Link
                     className="text-white fs-6 lh-sm fw-medium"
-                    to="/product"
+                    to="/products"
                   >
                     商品系列
                   </Link>
