@@ -1,0 +1,260 @@
+
+@media (min-width: 992px) {
+.guide_bg {
+  background: url(../../../../public/images/background/bg06.png);
+  background-position: center;
+  background-size: cover;
+  border-radius: 999px;
+  padding: 108px 120px;
+}
+}
+@media (max-width: 992px) {
+  .guide_sm_bg {
+  background: url(../../../../public/images/background/bg06-sm.png);  
+  background-position: center;
+  background-size: cover;
+  padding-top: 72px;
+  padding-bottom:184px;
+  }
+
+}
+
+
+@media (min-width: 992px) {
+.process-bg {
+  background: url(../../../../public/images/decorate/line-03.png);
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+  top:-240px;
+}
+}
+@media (max-width: 992px) {
+  .process-bg {
+  background: url(../../../../public/images/decorate/line-04.png);  
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+  top:-160px;
+  }
+
+}
+
+
+.bg-sell-img{
+  background: url(../../../../public/images/background/bg07.png);
+  background-position: center;
+  background-size: cover;
+}
+
+
+.text-deco-1{
+    font-size: 120px;
+    position: absolute;
+    z-index: -1;
+    right:0px;
+    top:0px;
+    line-height: 120%;
+    font-weight: 500;
+}
+
+@media (min-width: 992px) {
+.text-deco-1{
+    font-size: 240px;
+    position: absolute;
+    z-index: -1;
+    line-height: 120%;
+    font-weight: 500;
+    left:420px;
+    top:-134px;
+}
+
+}
+
+
+
+.text-deco-2{
+    font-size: 120px;
+    position: absolute;
+    z-index: -1;
+    right:0px;
+    top:0px;
+    line-height: 120%;
+    font-weight: 500;
+}
+
+@media (min-width: 992px) {
+.text-deco-2{
+    font-size: 240px;
+    position: absolute;
+    z-index: -1;
+    line-height: 120%;
+    font-weight: 500;
+    left:0px;
+    top:-149px;
+}
+
+}
+
+
+
+
+.guide_img_deco{
+    width: 526px;
+    height: 526px; 
+    object-fit: cover;
+}
+
+
+@media (max-width: 992px) {
+.guide_img_deco{
+    width: 351px;
+    height: 351px; 
+    object-fit: cover;
+}
+
+}
+
+
+.QA_deco{
+    width: 416px;
+    height: 360px; 
+    object-fit: cover;
+}
+
+
+@media (max-width: 992px) {
+.QA_deco{
+    width: 351px;
+    height: 351px; 
+    object-fit: cover;
+}
+
+}
+
+
+
+
+
+.guide-logo{
+    width: 280px;
+    height: 40px; 
+    z-index: -1;;
+    top:11px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+
+@media (min-width: 992px) {
+.guide-logo{
+    width: 560px;
+    height: 80px; 
+    z-index: -1;;
+    top:11px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+}
+
+
+
+
+
+.accordion-button {
+    border-radius: 50rem !important; /* 強制膠囊型 */
+}
+
+
+/* 移除預設 item 的邊框線 */
+.accordion-item {
+    border: none;
+}
+
+/* 調整展開文字與按鈕的間距 */
+.accordion-collapse {
+    border: none;
+    margin-top: 8px; /* 這裡可以調整按鈕與下方白色區塊的距離 */
+}
+
+
+/* 展開狀態 (按下後)：背景變為 bg-primary-50 */
+.accordion-button:not(.collapsed) {
+    background-color: var(--bs-primary-50 ) !important; 
+    color: #ffffff !important; /* 保持文字白色 */
+}
+
+/* 移除 Bootstrap 預設的藍色陰影*/
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+
+.bg-catgory {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #FCF3C9 100%);
+}
+
+.table-separate, 
+.table-separate th, 
+.table-separate td {
+    border: none !important;
+    box-shadow: none !important; /* 這是去除白色外框關鍵 */
+    background-color: transparent !important; /* 確保底層透明 */
+}
+
+
+.table-separate {
+    border-collapse: separate !important;
+    border-spacing: 24px 24px !important;
+    table-layout: fixed;
+    min-width: 900px; 
+    width: 100%;
+}
+
+/* 確保標頭與內容的 div 都能撐滿欄位，並保持高度一致 */
+.table-separate th div, 
+.table-separate td div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 避免文字太長時換行撐開高度，維持整齊度 */
+    white-space: nowrap; 
+    flex-shrink: 0;
+}
+
+.size-label {
+    background-color:var(--bs-primary-70 ) ; /* 圖片中的紫色 */
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-bottom: 0 !important; /* 覆蓋 bootstrap 預設 margin */
+    flex-shrink: 0;
+  }
+
+  .size-input {
+    width: 100px !important;
+    height: 48px !important;
+    border-radius: 8px;
+    border: 1px solid var(--bs-gray-20) !important;
+    padding-right: 12px;
+  }
+
+.upload-box {
+        width: 240px;
+        max-width: 400px; 
+        height: 105px;
+        background-color: var(--bs-gray-10); /* 淺灰色背景 */
+        border: 2px dashed var(--bs-gray-30); /* 虛線外框 */
+        border-radius: 8px; /* 圓角 */
+        color:  var(--bs-gray-50);
+    }

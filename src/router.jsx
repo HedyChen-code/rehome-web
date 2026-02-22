@@ -7,6 +7,7 @@ import NotFound from './views/front/NotFound';
 import Cart from './views/front/Cart';
 import CheckoutDetail from './views/front/CheckoutDetail';
 import CheckoutComplete from './views/front/CheckoutComplete';
+import TradeGuide from './views/front/TradeGuide';
 
 export const router = createHashRouter([
   // --- 前台 ---
@@ -29,6 +30,10 @@ export const router = createHashRouter([
       {
         path: 'cart',
         element: <Cart />,
+      },
+      {
+        path: 'TradeGuide',
+        element: <TradeGuide />,
       },
       {
         path: 'checkout',
