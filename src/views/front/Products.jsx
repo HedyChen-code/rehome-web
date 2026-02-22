@@ -134,7 +134,7 @@ function Products() {
           <div className="container px-0">
             <picture>
               <source
-                srcSet="./images/banner/banner05.png"
+                srcset="./images/banner/banner05.png"
                 media="(min-width: 768px)"
               />
               <img
