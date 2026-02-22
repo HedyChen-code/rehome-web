@@ -29,13 +29,12 @@ const TradeGuide = () => {
     }));
   };
 
-  // 3. 處理圖片上傳 (轉為 base64 模擬上傳)
+  // 3. 處理圖片上傳 (轉為 base64 上傳)
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     try {
-      // 呼叫我們剛剛建立的轉換工具
       const base64Image = await tradeApi.uploadImage(file);
       
       setFormData(prev => ({ 

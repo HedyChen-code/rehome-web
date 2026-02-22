@@ -8,25 +8,21 @@ const client = axios.create({
 export const tradeApi = {
   // 1. 取得列表 
     getTrades: async (keyword = "") => {
-        // 建立一個參數物件
         const queryParams = {};
         
-        // 只有當 keyword 有值時，才加入 q 參數
         if (keyword.trim() !== "") {
         queryParams.q = keyword;
         }
 
         const response = await client.get('/data', {
-        params: queryParams // 這樣如果是空字串，發出的請求就是乾淨的 /data
+        params: queryParams 
         });
 
         const result = response.data;
-        // 確保回傳陣列
         return Array.isArray(result) ? result : (result.data || []);
     },
 
   // 2. 取得詳細資料 (使用 expand 關聯)
-  // 用法: getTradeById(1)
   getTradeById: async (id) => {
     const response = await client.get(`/data/${id}`);
     return response.data;
