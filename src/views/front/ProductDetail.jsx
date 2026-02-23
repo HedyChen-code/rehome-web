@@ -133,10 +133,10 @@ function ProductDetail() {
                 <section className="mb-9" key={product.id}>
                   {/* 標籤 */}
                   <div className="mb-4">
-                    <p class="d-inline rounded bg-secondary-10 text-gray-70 py-2 px-4 me-5">
+                    <p className="d-inline rounded bg-secondary-10 text-gray-70 py-2 px-4 me-5">
                       {product.category}
                     </p>
-                    <p class="d-inline rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                    <p className="d-inline rounded bg-secondary-10 text-gray-70 py-2 px-4">
                       {product.condition_level}
                     </p>
                   </div>
@@ -345,12 +345,10 @@ function ProductDetail() {
                         />
                       </div>
                       <div className="px-3 py-0">
-                        <span class="rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                        <span className="rounded bg-secondary-10 text-gray-70 py-2 px-4">
                           中古程度B
                         </span>
-                        <h7 className="d-block mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </h7>
+                        <p className="d-block mt-3 mb-4">北歐實木三人座沙發</p>
                         <p className="">$18,500</p>
                       </div>
                     </SwiperSlide>
@@ -363,12 +361,10 @@ function ProductDetail() {
                         />
                       </div>
                       <div className="px-3 py-0">
-                        <span class="rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                        <span className="rounded bg-secondary-10 text-gray-70 py-2 px-4">
                           中古程度B
                         </span>
-                        <h7 className="d-block mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </h7>
+                        <p className="d-block mt-3 mb-4">北歐實木三人座沙發</p>
                         <p className="">$18,500</p>
                       </div>
                     </SwiperSlide>
@@ -381,12 +377,10 @@ function ProductDetail() {
                         />
                       </div>
                       <div className="px-3 py-0">
-                        <span class="rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                        <span className="rounded bg-secondary-10 text-gray-70 py-2 px-4">
                           中古程度B
                         </span>
-                        <h7 className="d-block mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </h7>
+                        <p className="d-block mt-3 mb-4">北歐實木三人座沙發</p>
                         <p className="">$18,500</p>
                       </div>
                     </SwiperSlide>
@@ -399,12 +393,10 @@ function ProductDetail() {
                         />
                       </div>
                       <div className="px-3 py-0">
-                        <span class="rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                        <span className="rounded bg-secondary-10 text-gray-70 py-2 px-4">
                           中古程度B
                         </span>
-                        <h7 className="d-block mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </h7>
+                        <p className="d-block mt-3 mb-4">北歐實木三人座沙發</p>
                         <p className="">$18,500</p>
                       </div>
                     </SwiperSlide>
@@ -417,12 +409,10 @@ function ProductDetail() {
                         />
                       </div>
                       <div className="px-3 py-0">
-                        <span class="rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                        <span className="rounded bg-secondary-10 text-gray-70 py-2 px-4">
                           中古程度B
                         </span>
-                        <h7 className="d-block mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </h7>
+                        <p className="d-block mt-3 mb-4">北歐實木三人座沙發</p>
                         <p className="">$18,500</p>
                       </div>
                     </SwiperSlide>
@@ -435,12 +425,10 @@ function ProductDetail() {
                         />
                       </div>
                       <div className="px-3 py-0">
-                        <span class="rounded bg-secondary-10 text-gray-70 py-2 px-4">
+                        <span className="rounded bg-secondary-10 text-gray-70 py-2 px-4">
                           中古程度B
                         </span>
-                        <h7 className="d-block mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </h7>
+                        <p className="d-block mt-3 mb-4">北歐實木三人座沙發</p>
                         <p className="">$18,500</p>
                       </div>
                     </SwiperSlide>

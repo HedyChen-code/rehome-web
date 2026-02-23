@@ -47,9 +47,10 @@ function MenuContent({ close }) {
             </a>
           </li>
           <li className="nav-item pb-2">
-            <Link className="nav-link fs-6 text-black px-5 py-4" 
-             to="/TradeGuide" 
-             onClick={close}
+            <Link
+              className="nav-link fs-6 text-black px-5 py-4"
+              to="/TradeGuide"
+              onClick={close}
             >
               關於收購
             </Link>
@@ -234,9 +235,10 @@ const Navbar = ({ setPage }) => {
                   </a>
                 </li>
                 <li className="p-5 me-3">
-                  <Link className="text-white fs-6 lh-sm fw-medium" 
-                   to="/TradeGuide"
-                   >
+                  <Link
+                    className="text-white fs-6 lh-sm fw-medium"
+                    to="/TradeGuide"
+                  >
                     關於收購
                   </Link>
                 </li>
