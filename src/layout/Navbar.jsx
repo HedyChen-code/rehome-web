@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
 
 function Offcanvas({ isOpen, close, type, setPage }) {
   return (
@@ -33,13 +33,13 @@ function MenuContent({ close }) {
       <div className="offcanvas-body py-5 px-4">
         <ul className="navbar-nav justify-content-center align-items-center flex-grow-1 mb-8 border-bottom border-primary-30">
           <li className="nav-item pb-2">
-            <Link
+            <NavLink
               className="nav-link fs-6 text-black px-5 py-4"
               to="/products"
               onClick={close}
             >
               商品系列
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item pb-2">
             <a className="nav-link fs-6 text-black px-5 py-4" href="#">
@@ -47,12 +47,13 @@ function MenuContent({ close }) {
             </a>
           </li>
           <li className="nav-item pb-2">
-            <Link className="nav-link fs-6 text-black px-5 py-4" 
-             to="/TradeGuide" 
-             onClick={close}
+            <NavLink
+              className="nav-link fs-6 text-black px-5 py-4"
+              to="/TradeGuide"
+              onClick={close}
             >
               關於收購
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item pb-2">
             <a className="nav-link fs-6 text-black px-5 py-4" href="#">
@@ -143,13 +144,13 @@ const Navbar = ({ setPage }) => {
     ${isScrolled ? 'bg-primary-90 bg-opacity-75' : ''}  `}
       >
         <div className="container-fluid align-items-start p-0">
-          <Link className="" to="/">
+          <NavLink className="" to="/">
             <img
               src="images/logo/logo v2_white.svg"
               alt="logo"
               className={`logo-img ${isScrolled ? 'logo-small' : ''}`}
             />
-          </Link>
+          </NavLink>
 
           <div className="d-flex">
             <div className="me-3 p-5">
@@ -221,12 +222,12 @@ const Navbar = ({ setPage }) => {
               {/* 選項 */}
               <ul className="d-flex mb-2 mb-lg-0">
                 <li className="p-5 me-3">
-                  <Link
+                  <NavLink
                     className="text-white fs-6 lh-sm fw-medium"
                     to="/products"
                   >
                     商品系列
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="p-5 me-3">
                   <a className="text-white fs-6 lh-sm fw-medium" href="#">
@@ -234,11 +235,12 @@ const Navbar = ({ setPage }) => {
                   </a>
                 </li>
                 <li className="p-5 me-3">
-                  <Link className="text-white fs-6 lh-sm fw-medium" 
-                   to="/TradeGuide"
-                   >
+                  <NavLink
+                    className="text-white fs-6 lh-sm fw-medium"
+                    to="/TradeGuide"
+                  >
                     關於收購
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="p-5 me-3">
                   <a className="text-white fs-6 lh-sm fw-medium" href="#">

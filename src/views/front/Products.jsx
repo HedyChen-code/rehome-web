@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -15,27 +15,27 @@ function Products() {
   const [pagination, setPagination] = useState({});
 
   // 所有的篩選狀態
-  const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("all");
-  const [style, setStyle] = useState("all");
-  const [condition, setCondition] = useState("all");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('all');
+  const [style, setStyle] = useState('all');
+  const [condition, setCondition] = useState('all');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   // 排序狀態
-  const [sortType, setSortType] = useState("latest");
+  const [sortType, setSortType] = useState('latest');
 
   // 篩選器
   const filteredProducts = products.filter((item) => {
     const matchSearch =
-      searchTerm === "" ||
+      searchTerm === '' ||
       item.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchCategory = category === "all" || item.category === category;
-    const matchStyle = style === "all" || item.style === style;
+    const matchCategory = category === 'all' || item.category === category;
+    const matchStyle = style === 'all' || item.style === style;
     const matchCondition =
-      condition === "all" || item.condition_level === condition;
-    const matchMinPrice = minPrice === "" || item.price >= Number(minPrice);
-    const matchMaxPrice = maxPrice === "" || item.price <= Number(maxPrice);
+      condition === 'all' || item.condition_level === condition;
+    const matchMinPrice = minPrice === '' || item.price >= Number(minPrice);
+    const matchMaxPrice = maxPrice === '' || item.price <= Number(maxPrice);
 
     return (
       matchSearch &&
@@ -66,24 +66,24 @@ function Products() {
 
   // 清除所有條件
   const clearFilters = () => {
-    setCategory("all");
-    setStyle("all");
-    setCondition("all");
-    setMinPrice("");
-    setMaxPrice("");
-    setSearchTerm("");
+    setCategory('all');
+    setStyle('all');
+    setCondition('all');
+    setMinPrice('');
+    setMaxPrice('');
+    setSearchTerm('');
   };
 
   // 最新上架/價格排序
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortType === "latest") {
+    if (sortType === 'latest') {
       // 假設你的 API 有 id 或創造日期，這裡用 id 做簡易排序
       return b.id.localeCompare(a.id);
     }
-    if (sortType === "priceHighToLow") {
+    if (sortType === 'priceHighToLow') {
       return b.price - a.price; // 價格高到低
     }
-    if (sortType === "priceLowToHigh") {
+    if (sortType === 'priceLowToHigh') {
       return a.price - b.price; // 價格低到高
     }
 
@@ -134,7 +134,7 @@ function Products() {
           <div className="container px-0">
             <picture>
               <source
-                srcset="./images/banner/banner05.png"
+                srcSet="./images/banner/banner05.png"
                 media="(min-width: 768px)"
               />
               <img
@@ -197,7 +197,7 @@ function Products() {
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className={`form-select mb-5 me-5 ${category === "all" ? "text-gray-30" : "text-gray-90"}`}
+                      className={`form-select mb-5 me-5 ${category === 'all' ? 'text-gray-30' : 'text-gray-90'}`}
                     >
                       <option value="all">請選擇類別</option>
                       <option value="沙發 / 座椅類">沙發 / 座椅類</option>
@@ -209,7 +209,7 @@ function Products() {
                     <select
                       value={style}
                       onChange={(e) => setStyle(e.target.value)}
-                      className={`form-select mb-5 ${style === "all" ? "text-gray-30" : "text-gray-90"}`}
+                      className={`form-select mb-5 ${style === 'all' ? 'text-gray-30' : 'text-gray-90'}`}
                     >
                       <option value="all">請選擇風格</option>
                       <option value="工業">工業</option>
@@ -225,7 +225,7 @@ function Products() {
                   <select
                     value={condition}
                     onChange={(e) => setCondition(e.target.value)}
-                    className={`form-select mb-5 ${condition === "all" ? "text-gray-30" : "text-gray-90"}`}
+                    className={`form-select mb-5 ${condition === 'all' ? 'text-gray-30' : 'text-gray-90'}`}
                   >
                     <option value="all">請選擇中古程度</option>
                     <option value="中古Ａ">中古程度 A</option>
@@ -331,8 +331,8 @@ function Products() {
                   <p className="font-family-noto-sans">
                     篩選結果共
                     <span className="text-primary-70 fs-5">
-                      {" "}
-                      {filteredProducts.length}{" "}
+                      {' '}
+                      {filteredProducts.length}{' '}
                     </span>
                     筆
                   </p>
@@ -364,7 +364,7 @@ function Products() {
                           <img
                             src={item.imageUrl}
                             className="card-img-top object-fit-cover"
-                            style={{ height: "200px" }} // 固定高度
+                            style={{ height: '200px' }} // 固定高度
                             alt={item.title}
                           />
                           <button type="button" className="favorite-btn">
@@ -386,7 +386,7 @@ function Products() {
                           {/* text-truncate 防止標題過長 */}
                           <p
                             className="card-text text-secondary"
-                            style={{ fontSize: "0.9rem" }}
+                            style={{ fontSize: '0.9rem' }}
                           >
                             {/* 限制描述文字行數 */}
                             {item.story?.length > 50
@@ -420,7 +420,7 @@ function Products() {
                 <nav aria-label="Page navigation example">
                   <ul className="pagination justify-content-center">
                     <li
-                      className={`page-item ${!pagination.has_pre && "disabled"}`}
+                      className={`page-item ${!pagination.has_pre && 'disabled'}`}
                     >
                       <a
                         className="page-link border-0"
@@ -452,7 +452,7 @@ function Products() {
                       ),
                     )}
                     <li
-                      className={`page-item ${!pagination.has_next && "disabled"}`}
+                      className={`page-item ${!pagination.has_next && 'disabled'}`}
                     >
                       <a
                         className="page-link border-0"

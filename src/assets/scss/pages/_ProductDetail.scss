@@ -1,8 +1,71 @@
-.bg-light-grey {
-  background-color: #f7f7f7;
+// 麵包屑的>設定
+.breadcrumb-item + .breadcrumb-item::before {
+  content: '';
+  display: inline-block;
+  width: 16px; /* 控制大小 */
+  height: 16px; /* 控制大小 */
+  margin: 4px 16px 4px 0; /* 控制間距 */
+  background-color: $gray-50; /* 跟文字同色 */
+  mask: url('/images/icon/chevron-right.svg') no-repeat center;
+  mask-size: contain;
+  @media (min-width: 992px) {
+    margin: 4px 24px 4px 0; /* 控制間距 */
+  }
 }
+
+//圓角24px
+.rounded-24 {
+  border-radius: 24px;
+}
+
+//標題黃底設定
+.product-title {
+  position: relative; /* 必備：作為底色的定位基準 */
+  display: inline-block;
+  z-index: 1; /* 確保文字在最上層 */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0; /* 從左側開始 */
+    bottom: 0; /* 距離底部的高度，可微調 */
+    width: 80px;
+    height: 12px;
+    background-color: $secondary-10;
+    z-index: -1; /* 移到文字後方 */
+    border-radius: 8px;
+  }
+}
+
+// 手風琴
 .accordion-item {
   margin-bottom: 15px; /* 每個項目間距 15px */
+}
+.accordion-button::after {
+  /* 取消預設背景圖 */
+  background-image: none !important;
+
+  /* 使用 Mask 帶入圖片 */
+  mask-image: $accordion-button-icon;
+  -webkit-mask-image: $accordion-button-icon;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+
+  /* 設定預設顏色 */
+  background-color: $accordion-icon-color;
+}
+/* 當展開時（Active）改變背景色，即改變 Icon 顏色 */
+.accordion-button:not(.collapsed)::after {
+  background-color: $accordion-icon-active-color;
+  background-image: none !important;
+}
+// 針對最後一個項目的特別處理（避免 Bootstrap 預設樣式切掉底部）
+.accordion-item:last-child {
+  .accordion-collapse {
+    border-bottom-left-radius: 24px !important;
+    border-bottom-right-radius: 24px !important;
+  }
 }
 
 /* 進度條本體 */
@@ -12,11 +75,9 @@
   height: 3px;
   margin: 24px auto 0; /* 置中 */
   background-color: #e5e5e5;
-}
-
-/* 進度條填滿動畫 */
-.swiper-pagination-progressbar-fill {
-  background-color: $primary-50;
+  &-fill {
+    background-color: $primary-50 !important;
+  }
 }
 
 /* 讓按鈕跑到 container 外面 */
@@ -36,13 +97,18 @@
 .swiper-navigation-icon {
   width: 6px !important;
 }
-
-/* 左按鈕 */
-.custom-prev {
-  left: -72px !important;
+/* 左右按鈕 */
+.custom {
+  &-prev {
+    left: -72px !important;
+  }
+  &-next {
+    right: -72px !important;
+  }
 }
 
-/* 右按鈕 */
-.custom-next {
-  right: -72px !important;
+@media (min-width: 992px) {
+  .text-lg-center {
+    text-align: center;
+  }
 }
