@@ -1,0 +1,50 @@
+@media (min-width: 1024px) {
+  main {
+    margin-top: 136px;
+  }
+}
+
+.custom-input-text::placeholder {
+  color: #B8B8C1;
+}
+
+.form-select option {
+    background-color: red;
+}
+
+.price-input-width {
+    width: 80%;
+}
+
+.font-family-noto-sans {
+    font-family: 'Noto Sans TC';
+}
+
+.custom-btn {
+    padding: 4px 16px;
+    border-radius: 24px;
+    width: 112px;
+    height: 29px;
+}
+
+.card-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 8px;         
+  right: 8px;     
+  background: rgba(64, 63, 111, 0.5); 
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -35,7 +35,7 @@ function MenuContent({ close }) {
           <li className="nav-item pb-2">
             <Link
               className="nav-link fs-6 text-black px-5 py-4"
-              to="/product"
+              to="/products"
               onClick={close}
             >
               商品系列
@@ -223,7 +223,7 @@ const Navbar = ({ setPage }) => {
                 <li className="p-5 me-3">
                   <Link
                     className="text-white fs-6 lh-sm fw-medium"
-                    to="/product"
+                    to="/products"
                   >
                     商品系列
                   </Link>
