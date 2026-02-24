@@ -312,7 +312,7 @@ $secondary-20: #f7e281;
 $secondary-10: #fcf3c9;
 $gray: #636363; //custom
 
-$light-grey: #f7f7f7; // custom
+$light-gray: #f7f7f7; // custom
 
 $gray-10: #eeeef0;
 $gray-20: #d9d9de;
@@ -320,6 +320,7 @@ $gray-30: #b8b8c1;
 $gray-50: #737484;
 $gray-70: #4c4c58;
 $gray-90: #303036;
+$gray-95: #212121;
 
 // alert colors (design spec)
 $success: #8bcb8c; // custom
@@ -358,6 +359,7 @@ $theme-colors: (
   'gray-50': $gray-50,
   'gray-70': $gray-70,
   'gray-90': $gray-90,
+  'gray-95': $gray-95,
   'primary-90': $primary-90,
   'primary-70': $primary-70,
   'primary-50': $primary-50,
@@ -365,8 +367,9 @@ $theme-colors: (
   'primary-10': $primary-10,
   'secondary-40': $secondary-40,
   'secondary-20': $secondary-20,
-  'secondary-10': $secondary-10, //custom
-  'light-grey': $light-grey, // custom
+  'secondary-10': $secondary-10,
+  //custom
+  'light-gray': $light-gray, // custom
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -1554,13 +1557,13 @@ $accordion-inner-border-radius: subtract(
   $accordion-border-width
 ) !default;
 
-$accordion-body-padding-y: $accordion-padding-y !default;
-$accordion-body-padding-x: $accordion-padding-x !default;
+$accordion-body-padding-y: 12px !default; //$accordion-padding-y !default;
+$accordion-body-padding-x: 24px !default; //$accordion-padding-x !default;
 
 $accordion-button-padding-y: $accordion-padding-y !default;
 $accordion-button-padding-x: $accordion-padding-x !default;
 $accordion-button-color: var(--#{$prefix}body-color) !default;
-$accordion-button-bg: var(--#{$prefix}accordion-bg) !default;
+$accordion-button-bg: $gray-10 !default; //var(--#{$prefix}accordion-bg) !default;
 $accordion-transition:
   $btn-transition,
   border-radius 0.15s ease !default;
@@ -1572,14 +1575,14 @@ $accordion-button-focus-border-color: $input-focus-border-color !default; // Dep
 // fusv-enable
 $accordion-button-focus-box-shadow: $btn-focus-box-shadow !default;
 
-$accordion-icon-width: 1.25rem !default;
-$accordion-icon-color: $body-color !default;
-$accordion-icon-active-color: $primary-text-emphasis !default;
+$accordion-icon-width: 1rem !default; //1.25rem !default;
+$accordion-icon-color: $gray-95 !default; //$body-color !default;
+$accordion-icon-active-color: $white !default; //$primary-text-emphasis !default;
 $accordion-icon-transition: transform 0.2s ease-in-out !default;
 $accordion-icon-transform: rotate(-180deg) !default;
 
-$accordion-button-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='#{$accordion-icon-color}' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>") !default;
-$accordion-button-active-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='#{$accordion-icon-active-color}' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>") !default;
+$accordion-button-icon: url('/images/icon/chevron-down.svg') !default; //url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='#{$accordion-icon-color}' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>") !default;
+$accordion-button-active-icon: $accordion-button-icon !default; //url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='#{$accordion-icon-active-color}' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>") !default;
 // scss-docs-end accordion-variables
 
 // Tooltips
@@ -1814,14 +1817,18 @@ $figure-caption-color: var(--#{$prefix}secondary-color) !default;
 // Breadcrumbs
 
 // scss-docs-start breadcrumb-variables
-$breadcrumb-font-size: null !default;
+$breadcrumb-font-size: 1rem !default; //null !default;
 $breadcrumb-padding-y: 0 !default;
 $breadcrumb-padding-x: 0 !default;
-$breadcrumb-item-padding-x: 0.5rem !default;
+$breadcrumb-item-padding-x: 1rem !default; //0.5rem !default;
 $breadcrumb-margin-bottom: 1rem !default;
 $breadcrumb-bg: null !default;
-$breadcrumb-divider-color: var(--#{$prefix}secondary-color) !default;
-$breadcrumb-active-color: var(--#{$prefix}secondary-color) !default;
+$breadcrumb-divider-color: var(
+  --#{$prefix}$gray-50
+) !default; //var(--#{$prefix}secondary-color) !default;
+$breadcrumb-active-color: var(
+  --#{$prefix}$primary-70
+) !default; //var(--#{$prefix}secondary-color) !default;
 $breadcrumb-divider: quote('/') !default;
 $breadcrumb-divider-flipped: $breadcrumb-divider !default;
 $breadcrumb-border-radius: null !default;
