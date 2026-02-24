@@ -13,41 +13,46 @@ export const router = createHashRouter([
   // --- 前台 ---
   {
     path: '/',
-    element: <FrontendLayout />,
+    element: <FrontendLayout navbarVariant="home" />,
     children: [
       {
         index: true,
         element: <Home />, //首頁
       },
+    ],
+  },
+  {
+    element: <FrontendLayout navbarVariant="default" />,
+    children: [
       {
         path: 'products',
-        element: <Products />,
+        element: <Products />, //商品頁
       },
       {
         path: 'product/:id',
-        element: <ProductDetail />,
+        element: <ProductDetail />, //商品詳細頁
       },
       {
         path: 'cart',
-        element: <Cart />,
+        element: <Cart />, //購物車頁
       },
       {
         path: 'TradeGuide',
-        element: <TradeGuide />,
+        element: <TradeGuide />, //收購說明頁
       },
       {
-        path: 'checkout',
+        path: 'checkout', //購物流程
         children: [
           {
             path: 'detail',
-            element: <CheckoutDetail />
+            element: <CheckoutDetail />, //填寫資料
           },
           {
             path: 'complete',
-            element: <CheckoutComplete />
-          }
-        ]
-      }
+            element: <CheckoutComplete />, //結帳完成
+          },
+        ],
+      },
     ],
   },
   {

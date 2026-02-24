@@ -5,13 +5,12 @@
 $utilities: map-merge(
   $utilities,
   (
-    'font-size':
-      map-merge(
+    'font-size': map-merge(
         map-get($utilities, 'font-size'),
         (
-          responsive: true
+          responsive: true, // 開啟響應式開關
         )
-      )
+      ),
   )
 );
 // 行高(可使用響應式用法)
@@ -26,9 +25,9 @@ $utilities: map-merge(
         1: 1,
         sm: 1.2,
         base: 1.5,
-        lg: 2
-      )
-    )
+        lg: 2,
+      ),
+    ),
   )
 );
 
@@ -36,18 +35,17 @@ $utilities: map-merge(
 $utilities: map-merge(
   $utilities,
   (
-    'opacity':
-      map-merge(
+    'opacity': map-merge(
         map-get($utilities, 'opacity'),
         (
           values: map-merge(
-            map-get(map-get($utilities, 'opacity'), 'values'),
-            (
-              15: 0.15
-            )
-          )
+              map-get(map-get($utilities, 'opacity'), 'values'),
+              (
+                15: 0.15,
+              )
+            ),
         )
-      )
+      ),
   )
 );
 
@@ -56,14 +54,23 @@ $utilities: map-merge(
 $utilities: map-merge(
   $utilities,
   (
-    "font-family": (
+    'font-family': (
       property: font-family,
       class: font,
       values: (
-        fp: ('FakePearl', 'Noto Sans TC', 'Noto Sans', sans-serif),
-        noto: ('Noto Sans TC', 'Noto Sans', sans-serif)
-      )
-    )
+        fp: (
+          'FakePearl',
+          'Noto Sans TC',
+          'Noto Sans',
+          sans-serif,
+        ),
+        noto: (
+          'Noto Sans TC',
+          'Noto Sans',
+          sans-serif,
+        ),
+      ),
+    ),
   )
 );
 
@@ -78,18 +85,17 @@ $utilities: map-merge(
   font-weight: 500;
 }
 
-
 // text shadow (design spec)
 $utilities: map-merge(
   $utilities,
   (
-    "text-shadow": (
+    'text-shadow': (
       property: text-shadow,
       class: shadow-text,
       values: (
-        default: 0 4px 12px #ffffff 
-      )
-    )
+        default: 0 4px 12px #ffffff,
+      ),
+    ),
   )
 );
 
@@ -97,16 +103,59 @@ $utilities: map-merge(
 $utilities: map-merge(
   $utilities,
   (
-    "border": (class: border, property: border, values: (null: 1px solid var(--bs-border-color), 0: 0), responsive: true, important: false),
-    "border-top": (class: border-top, property: border-top, values: (null: 1px solid var(--bs-border-color), 0: 0), responsive: true, important: false),
-    "border-end": (class: border-end, property: border-inline-end, values: (null: 1px solid var(--bs-border-color), 0: 0), responsive: true, important: false),
-    "border-bottom": (class: border-bottom, property: border-bottom, values: (null: 1px solid var(--bs-border-color), 0: 0), responsive: true, important: false),
-    "border-start": (class: border-start, property: border-inline-start, values: (null: 1px solid var(--bs-border-color), 0: 0), responsive: true, important: false),
+    'border': (
+      class: border,
+      property: border,
+      values: (
+        null: 1px solid var(--bs-border-color),
+        0: 0,
+      ),
+      responsive: true,
+      important: false,
+    ),
+    'border-top': (
+      class: border-top,
+      property: border-top,
+      values: (
+        null: 1px solid var(--bs-border-color),
+        0: 0,
+      ),
+      responsive: true,
+      important: false,
+    ),
+    'border-end': (
+      class: border-end,
+      property: border-inline-end,
+      values: (
+        null: 1px solid var(--bs-border-color),
+        0: 0,
+      ),
+      responsive: true,
+      important: false,
+    ),
+    'border-bottom': (
+      class: border-bottom,
+      property: border-bottom,
+      values: (
+        null: 1px solid var(--bs-border-color),
+        0: 0,
+      ),
+      responsive: true,
+      important: false,
+    ),
+    'border-start': (
+      class: border-start,
+      property: border-inline-start,
+      values: (
+        null: 1px solid var(--bs-border-color),
+        0: 0,
+      ),
+      responsive: true,
+      important: false,
+    ),
   )
 );
 
-
-
 // 重新 build utilities
 
-@import "bootstrap/scss/utilities/api";
+@import 'bootstrap/scss/utilities/api';

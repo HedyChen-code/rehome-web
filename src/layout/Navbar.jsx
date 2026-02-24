@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
 
 function Offcanvas({ isOpen, close, type, setPage }) {
   return (
@@ -33,54 +33,54 @@ function MenuContent({ close }) {
       <div className="offcanvas-body py-5 px-4">
         <ul className="navbar-nav justify-content-center align-items-center flex-grow-1 mb-8 border-bottom border-primary-30">
           <li className="nav-item pb-2">
-            <Link
+            <NavLink
               className="nav-link fs-6 text-black px-5 py-4"
               to="/products"
               onClick={close}
             >
               商品系列
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item pb-2">
-            <a className="nav-link fs-6 text-black px-5 py-4" href="#">
+            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
               風格嚴選
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item pb-2">
-            <Link
+            <NavLink
               className="nav-link fs-6 text-black px-5 py-4"
               to="/TradeGuide"
               onClick={close}
             >
               關於收購
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item pb-2">
-            <a className="nav-link fs-6 text-black px-5 py-4" href="#">
+            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
               品牌故事
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item pb-2">
-            <a className="nav-link fs-6 text-black px-5 py-4" href="#">
+            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
               連絡我們
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item pb-5">
-            <a className="nav-link fs-6 text-black px-5 py-4" href="#">
+            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
               查看購物車
-            </a>
+            </NavLink>
           </li>
         </ul>
         <div className="d-flex justify-content-center align-items-center">
-          <a
-            href="#"
+          <NavLink
+            to="/"
             className="btn btn-outline-primary py-4 px-8 me-4 rounded-5"
           >
             註冊
-          </a>
-          <a href="#" className="btn btn-primary py-4 px-8 me-4 rounded-5">
+          </NavLink>
+          <NavLink to="/" className="btn btn-primary py-4 px-8 me-4 rounded-5">
             登入
-          </a>
+          </NavLink>
         </div>
       </div>
       <div className="offcanvas-footer text-center mb-5">
@@ -119,12 +119,14 @@ function SearchContent({ close }) {
   );
 }
 
-const Navbar = ({ setPage }) => {
+const Navbar = ({ setPage, variant = 'default' }) => {
   // 手機板-漢堡選單、搜尋選單
   const [isOpen, setIsOpen] = useState(false);
   const [navType, setNavType] = useState('');
   // 監聽滾輪
   const [isScrolled, setIsScrolled] = useState(false);
+  // 首頁的話另外的效果
+  const isHome = variant === 'home';
 
   // 監聽滾輪
   useEffect(() => {
@@ -136,6 +138,31 @@ const Navbar = ({ setPage }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 如果不是首頁，強制視為滾動後的狀態
+  const shrink = isHome ? isScrolled : true;
+
+  // LOGO會用到的圖片
+  const logoSrcMap = {
+    home: 'images/logo/logo v2_white.svg',
+    homeSmall: 'images/logo/logo v2_white.svg',
+    default: 'images/logo/logo v2.svg',
+  };
+  // 判斷頁面來切換圖片
+  let logoSrc;
+  if (isHome) {
+    logoSrc = logoSrcMap.home;
+  } else {
+    logoSrc = isScrolled ? logoSrcMap.homeSmall : logoSrcMap.default;
+  }
+
+  // 搜尋放大鏡，首頁永遠白色
+  // 內頁沒滾動 → 黑色，滾動後 → 白色
+  const iconColorClass = isHome
+    ? 'text-white'
+    : isScrolled
+      ? 'text-white'
+      : 'text-gray-70';
+
   return (
     <header>
       {/* 手機版導覽列 */}
@@ -144,13 +171,13 @@ const Navbar = ({ setPage }) => {
     ${isScrolled ? 'bg-primary-90 bg-opacity-75' : ''}  `}
       >
         <div className="container-fluid align-items-start p-0">
-          <Link className="" to="/">
+          <NavLink className="" to="/">
             <img
-              src="images/logo/logo v2_white.svg"
+              src={logoSrc}
               alt="logo"
-              className={`logo-img ${isScrolled ? 'logo-small' : ''}`}
+              className={`logo-img ${shrink ? 'logo-small' : ''}`}
             />
-          </Link>
+          </NavLink>
 
           <div className="d-flex">
             <div className="me-3 p-5">
@@ -163,7 +190,7 @@ const Navbar = ({ setPage }) => {
                   setIsOpen(true);
                 }}
               >
-                <i className="bi bi-search text-white nav-icon"></i>
+                <i className={`bi bi-search nav-icon ${iconColorClass}`}></i>
               </div>
             </div>
 
@@ -201,20 +228,20 @@ const Navbar = ({ setPage }) => {
         >
           {/* LOGO */}
           <div>
-            <a
-              href="#"
-              className={`logo-box ${isScrolled ? 'logo-box-bg' : ''}`}
+            <NavLink
+              to="/"
+              className={`logo-box ${shrink ? 'logo-box-bg' : ''}`}
             >
               <img
                 src={
-                  isScrolled
+                  shrink
                     ? 'images/logo/logo v2.svg'
                     : 'images/logo/logo v2_white.svg'
                 }
                 alt="logo"
-                className={`logo-lg-img ${isScrolled ? 'logo-small' : ''}`}
+                className={`logo-lg-img ${shrink ? 'logo-small' : ''}`}
               />
-            </a>
+            </NavLink>
           </div>
           {/* 導覽列 */}
           <div className="flex-shrink-0 bg-primary-90 h-100 ps-12 py-25 rounded-start-bottom right-box">
@@ -222,35 +249,35 @@ const Navbar = ({ setPage }) => {
               {/* 選項 */}
               <ul className="d-flex mb-2 mb-lg-0">
                 <li className="p-5 me-3">
-                  <Link
+                  <NavLink
                     className="text-white fs-6 lh-sm fw-medium"
                     to="/products"
                   >
                     商品系列
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="p-5 me-3">
-                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                  <NavLink to="/" className="text-white fs-6 lh-sm fw-medium">
                     風格嚴選
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="p-5 me-3">
-                  <Link
+                  <NavLink
                     className="text-white fs-6 lh-sm fw-medium"
                     to="/TradeGuide"
                   >
                     關於收購
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="p-5 me-3">
-                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                  <NavLink to="/" className="text-white fs-6 lh-sm fw-medium">
                     品牌故事
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="p-5">
-                  <a className="text-white fs-6 lh-sm fw-medium" href="#">
+                  <NavLink to="/" className="text-white fs-6 lh-sm fw-medium">
                     聯絡我們
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
               {/* icon */}
