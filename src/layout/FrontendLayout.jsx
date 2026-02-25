@@ -2,10 +2,10 @@ import { Outlet } from 'react-router';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-const FrontendLayout = () => {
+const FrontendLayout = ({ navbarVariant }) => {
   return (
     <div>
-      <Navbar />
+      <Navbar variant={navbarVariant} />
       <main>
         <Outlet />
       </main>
