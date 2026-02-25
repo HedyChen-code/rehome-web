@@ -13,12 +13,17 @@ export const router = createHashRouter([
   // --- 前台 ---
   {
     path: '/',
-    element: <FrontendLayout />,
+    element: <FrontendLayout navbarVariant="home" />,
     children: [
       {
         index: true,
         element: <Home />, //首頁
       },
+    ],
+  },
+  {
+    element: <FrontendLayout navbarVariant="default" />,
+    children: [
       {
         path: 'products',
         element: <Products />, //商品頁

@@ -264,7 +264,7 @@ function ProductDetail() {
                     購買前注意事項
                   </h4>
                   <div className="accordion mb-lg-12">
-                    <div className="accordion-item mb-3 mb-lg-8">
+                    <div className="accordion-item mb-8">
                       <h6
                         className="accordion-header fw-medium"
                         id="headingOne"
@@ -313,7 +313,7 @@ function ProductDetail() {
                         </div>
                       </div>
                     </div>
-                    <div className="accordion-item mb-3 mb-lg-8">
+                    <div className="accordion-item mb-8">
                       <h6
                         className="accordion-header fw-medium"
                         id="headingTwo"
@@ -359,7 +359,7 @@ function ProductDetail() {
                         </div>
                       </div>
                     </div>
-                    <div className="accordion-item mb-3 mb-lg-0">
+                    <div className="accordion-item mb-4 mb-lg-0">
                       <h6
                         className="accordion-header fw-medium"
                         id="headingThree"
@@ -406,7 +406,7 @@ function ProductDetail() {
               </div>
 
               {/* 你可能會喜歡 */}
-              <section className="mb-12 ">
+              <section className="my-12">
                 <h6 className="text-gray-95 fw-medium mb-8 mb-lg-9 text-lg-center">
                   你可能也會喜歡⋯⋯
                 </h6>
