@@ -8,6 +8,11 @@ import Cart from './views/front/Cart';
 import CheckoutDetail from './views/front/CheckoutDetail';
 import CheckoutComplete from './views/front/CheckoutComplete';
 import TradeGuide from './views/front/TradeGuide';
+import AdminLayout from './layout/AdminLayout';
+import AdminHome from './views/admin/AdminHome';
+import AdminProducts from './views/admin/AdminProducts';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminLogin from './views/admin/AdminLogin';
 
 export const router = createHashRouter([
   // --- 前台 ---
@@ -52,6 +57,29 @@ export const router = createHashRouter([
             element: <CheckoutComplete />, //結帳完成
           },
         ],
+      },
+    ],
+  },
+  //後台
+  {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  {
+    path: '/admin',
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminHome />,
+      },
+      {
+        path: 'products',
+        element: <AdminProducts />,
       },
     ],
   },
