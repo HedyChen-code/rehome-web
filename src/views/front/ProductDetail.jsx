@@ -6,11 +6,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import { NavLink, useParams } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import ScrollToTop from '../../components/ScrollToTop';
 
 // Swiper 樣式
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { RotatingLines } from 'react-loader-spinner';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -73,8 +75,24 @@ function ProductDetail() {
   };
   return (
     <>
+      <ScrollToTop />
       {!product ? (
-        <div className="text-center mt-5">載入中...</div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh', // 滿螢幕高度
+          }}
+        >
+          <RotatingLines
+            strokeColor="#8183D3"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
       ) : (
         <>
           <div className="container" style={{ marginTop: '144px' }}>
@@ -280,7 +298,7 @@ function ProductDetail() {
                   <h4 className="product-title fw-medium text-gray-95 py-2 mb-8">
                     購買前注意事項
                   </h4>
-                  <div className="accordion mb-lg-12">
+                  <div className="accordion mb-lg-12" id="accordionExample">
                     <div className="accordion-item mb-8">
                       <h6
                         className="accordion-header fw-medium"
@@ -291,7 +309,7 @@ function ProductDetail() {
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target="#collapseOne"
-                          aria-expanded="true"
+                          aria-expanded="false"
                           aria-controls="collapseOne"
                         >
                           關於商品狀況與品質
