@@ -6,11 +6,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import { NavLink, useParams } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import ScrollToTop from '../../components/ScrollToTop';
 
 // Swiper 樣式
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { RotatingLines } from 'react-loader-spinner';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -20,6 +22,8 @@ function ProductDetail() {
   const [product, setProduct] = useState();
   // state 儲存目前顯示的主圖
   const [mainImage, setMainImage] = useState('');
+  // 儲存推薦商品的 state
+  const [recommendProducts, setRecommendProducts] = useState([]);
 
   useEffect(() => {
     const handleView = async (id) => {
@@ -35,7 +39,22 @@ function ProductDetail() {
         );
       }
     };
+    // 取得所有產品並篩選推薦商品
+    const getRecommendProducts = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
+        const allProducts = res.data.products;
+        // 篩選 is_recommend === 1 且排除掉目前正在看的這件商品
+        const filtered = allProducts.filter(
+          (item) => item.is_recommend === 1 && item.id !== id,
+        );
+        setRecommendProducts(filtered);
+      } catch (error) {
+        console.error('取得推薦商品失敗', error);
+      }
+    };
     handleView(id);
+    getRecommendProducts();
   }, [id]);
 
   const addCart = async (id, qty = 1) => {
@@ -56,8 +75,24 @@ function ProductDetail() {
   };
   return (
     <>
+      <ScrollToTop />
       {!product ? (
-        <div className="text-center mt-5">載入中...</div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh', // 滿螢幕高度
+          }}
+        >
+          <RotatingLines
+            strokeColor="#8183D3"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
       ) : (
         <>
           <div className="container" style={{ marginTop: '144px' }}>
@@ -263,7 +298,7 @@ function ProductDetail() {
                   <h4 className="product-title fw-medium text-gray-95 py-2 mb-8">
                     購買前注意事項
                   </h4>
-                  <div className="accordion mb-lg-12">
+                  <div className="accordion mb-lg-12" id="accordionExample">
                     <div className="accordion-item mb-8">
                       <h6
                         className="accordion-header fw-medium"
@@ -274,7 +309,7 @@ function ProductDetail() {
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target="#collapseOne"
-                          aria-expanded="true"
+                          aria-expanded="false"
                           aria-controls="collapseOne"
                         >
                           關於商品狀況與品質
@@ -444,214 +479,39 @@ function ProductDetail() {
                       },
                     }}
                   >
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="mb-4">
-                        <img
-                          src="images/product/product02.jpg"
-                          className="img-fluid rounded"
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 160,
-                            cursor: 'pointer',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <div className="px-3 py-0">
-                        <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
-                          中古程度B
-                        </span>
-                        <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
-                          北歐實木三人座沙發
-                        </p>
-                        <p className="font-noto fs-lg-7 text-gray-95 fs-8">
-                          $18,500
-                        </p>
-                      </div>
-                    </SwiperSlide>
+                    {recommendProducts.map((item) => (
+                      <SwiperSlide key={item.id}>
+                        <NavLink
+                          to={`/product/${item.id}`}
+                          className="text-decoration-none"
+                        >
+                          <div className="mb-4">
+                            <img
+                              src={item.imageUrl}
+                              className="img-fluid rounded"
+                              alt={item.title}
+                              style={{
+                                width: '100%',
+                                height: 160,
+                                cursor: 'pointer',
+                                objectFit: 'cover',
+                              }}
+                            />
+                          </div>
+                          <div className="px-3 py-0">
+                            <span className="font-noto rounded-pill fs-9 fs-lg-8 bg-secondary-10 text-gray-70 py-2 px-4 me-5">
+                              {item.condition_level}
+                            </span>
+                            <p className="fs-lg-6 d-block fw-medium lh-sm text-gray-95 mt-3 mb-4">
+                              {item.title}
+                            </p>
+                            <p className="font-noto fs-lg-7 text-gray-95 fs-8">
+                              NT$ {item.price?.toLocaleString()}
+                            </p>
+                          </div>
+                        </NavLink>
+                      </SwiperSlide>
+                    ))}
                   </Swiper>
 
                   <div className="custom-prev swiper-button-prev d-none d-xl-flex rounded-circle"></div>
