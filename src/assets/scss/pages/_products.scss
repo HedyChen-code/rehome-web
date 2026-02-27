@@ -5,26 +5,26 @@
 }
 
 .custom-input-text::placeholder {
-  color: #B8B8C1;
+  color: #b8b8c1;
 }
 
 .form-select option {
-    background-color: red;
+  background-color: $white;
 }
 
 .price-input-width {
-    width: 80%;
+  width: 80%;
 }
 
 .font-family-noto-sans {
-    font-family: 'Noto Sans TC';
+  font-family: 'Noto Sans TC';
 }
 
 .custom-btn {
-    padding: 4px 16px;
-    border-radius: 24px;
-    width: 112px;
-    height: 29px;
+  padding: 4px 16px;
+  border-radius: 24px;
+  width: 112px;
+  height: 29px;
 }
 
 .card-container {
@@ -35,9 +35,9 @@
 
 .favorite-btn {
   position: absolute;
-  top: 8px;         
-  right: 8px;     
-  background: rgba(64, 63, 111, 0.5); 
+  top: 8px;
+  right: 8px;
+  background: rgba(64, 63, 111, 0.5);
   backdrop-filter: blur(8px);
   border: none;
   border-radius: 50%;
