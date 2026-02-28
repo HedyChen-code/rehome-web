@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 // 引入 Swiper React 元件
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -123,6 +125,15 @@ function ProductCategorySection() {
       text: "曾經的使用痕跡是生活的溫度與意義，讓每次選購、都像收藏一段生活。",
     },
   ];
+  const navigate = useNavigate();
+  const handleView = (id) => {
+    navigate(`/product/${id}`);
+  };
+  const handleThemeClick = (style) => {
+    navigate("/products", {
+      state: { style },
+    });
+  };
   return (
     <>
       <div className="hero-section">
@@ -207,9 +218,12 @@ function ProductCategorySection() {
                 為您不再需要的家具找到永續的第二人生。
               </p>
 
-              <a href="#" className="btn btn-outline-primary-90 rounded-pill">
+              <Link
+                to="/TradeGuide"
+                className="btn btn-outline-primary-90 rounded-pill px-5"
+              >
                 我想找收購
-              </a>
+              </Link>
             </div>
             {/* 插畫下右 */}
             <div className="col-12 col-md-6 text-center mb-4 mb-md-0 order-md-2">
@@ -243,9 +257,12 @@ function ProductCategorySection() {
                 我們對每一件收購家具進行嚴格的清潔、檢測與整理， 讓您安心選購。
               </p>
 
-              <a href="#" className="btn btn-outline-primary-90 rounded-pill">
+              <Link
+                to="/products"
+                className="btn btn-outline-primary-90 rounded-pill px-5"
+              >
                 我想買家具
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -309,7 +326,10 @@ function ProductCategorySection() {
                 modules={[Navigation, Pagination]}
                 spaceBetween={24} // 卡片間距
                 slidesPerView={1.4} // 手機版預設看到 1.3 格
-                navigation={{}} // 顯示左右箭頭
+                navigation={{
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
+                }} // 顯示左右箭頭
                 pagination={{ clickable: true }} // 顯示下方分頁點可不可以跳頁的意思
                 className="pb-5"
                 breakpoints={{
@@ -320,7 +340,11 @@ function ProductCategorySection() {
               >
                 {filteredProducts.map((item) => (
                   <SwiperSlide key={item.id}>
-                    <div className="product-card h-100 p-0 m-0 ">
+                    <div
+                      className="product-card h-100 p-0 m-0 "
+                      onClick={() => handleView(item.id)}
+                      style={{ cursor: "pointer" }}
+                    >
                       <div className="img-container rounded mb-3">
                         <img
                           src={item.imageUrl}
@@ -347,11 +371,16 @@ function ProductCategorySection() {
                 </p>
               </div>
             )}
+            <div className="custom-prev swiper-button-prev d-none d-xl-flex rounded-circle"></div>
+            <div className="custom-next swiper-button-next d-none d-xl-flex rounded-circle"></div>
           </div>
           <div className="text-center mb-12 mb-lg-16 mt-5">
-            <button className="btn btn-outline-primary-90 rounded-pill px-5">
+            <Link
+              to="/products"
+              className="btn btn-outline-primary-90 rounded-pill px-5"
+            >
               瀏覽全部商品
-            </button>
+            </Link>
           </div>
         </div>
         <Toaster />
@@ -370,7 +399,11 @@ function ProductCategorySection() {
             {themes.map((theme) => (
               <div className="col-6 col-md-4 col-lg-3" key={theme.title}>
                 <div className="text-center mb-4 ">
-                  <div className={`theme-img ${theme.className}`}>
+                  <div
+                    className={`theme-img ${theme.className}`}
+                    onClick={() => handleThemeClick(theme.style)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <img src={theme.img} alt={theme.alt} />
                     <div className="overlay"></div>
                     <div className="theme-text h3 ">{theme.title}</div>
