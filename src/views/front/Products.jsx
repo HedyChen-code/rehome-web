@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { Modal } from "bootstrap";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -130,6 +131,22 @@ function Products() {
     setCurrentPage(1);
   }, [category, style, condition, minPrice, maxPrice, searchTerm]);
 
+  // 手機版備註欄：Modal 開啟/關閉
+  const modalRef = useRef(null);
+  const notesModal = useRef(null);
+
+  useEffect(() => {
+    if (modalRef.current) {
+      notesModal.current = new Modal(modalRef.current, {
+        backdrop: "static",
+        keyboard: true,
+      });
+    }
+  }, []);
+
+  const openModal = () => notesModal.current.show();
+  const closeModal = () => notesModal.current.hide();
+
   return (
     <>
       <main>
@@ -149,9 +166,10 @@ function Products() {
             </picture>
           </div>
         </section>
-        <section className="py-12">
+        {/* 商品頁橫幅圖下方區塊 */}
+        <section className="py-lg-12 mb-5 mb-lg-12">
           {/* 麵包屑區塊 */}
-          <nav className="container mb-9">
+          <nav className="container mb-9 d-none d-lg-block">
             <ol className="breadcrumb">
               <li className="...">
                 <a className="text-reset" href="#">
@@ -171,10 +189,14 @@ function Products() {
             <div className="row">
               <div className="col-lg-3">
                 {/* 篩選器區塊 */}
-                <section className="bg-light-grey px-5 py-9 mb-9">
+                <section className="bg-light-gray px-5 py-9 mb-5 mb-lg-9 mx-n4">
                   <div className="d-flex justify-content-between align-items-center mb-5">
                     <h5>篩選器</h5>
-                    <button className="d-block d-lg-none btn p-0 font-family-noto-sans text-primary-50 d-flex justify-content-center align-items-center">
+                    {/* 手機版備註欄：Modal 開啟與關閉按鈕*/}
+                    <button
+                      className="d-block d-lg-none btn p-0 font-family-noto-sans text-primary-50 d-flex justify-content-center align-items-center"
+                      onClick={openModal}
+                    >
                       <span className="me-3 fs-9">備註</span>
                       <i className="bi bi-exclamation-circle"></i>
                     </button>
@@ -494,6 +516,57 @@ function Products() {
           </div>
         </section>
       </main>
+      {/* Modal */}
+      <div className="modal" ref={modalRef} tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered p-8">
+          <div className="modal-content">
+            <div className="modal-header border-0">
+              <h5 className="modal-title">備註：</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModal}
+              ></button>
+            </div>
+            <div className="modal-body font-family-noto-sans">
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 A
+                </span>
+                <p className="fs-8">
+                  外觀完美如新，無明顯可見的磨損、刮痕或污漬，功能完好。
+                </p>
+              </div>
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 B
+                </span>
+                <p className="fs-8">
+                  有正常使用下極輕微的痕跡，不影響整體美觀與功能。
+                </p>
+              </div>
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 C
+                </span>
+                <p className="fs-8">
+                  有中度使用痕跡，如輕微刮傷或小掉漆，功能性完全正常。
+                </p>
+              </div>
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 D
+                </span>
+                <p className="fs-8">
+                  有明顯的磨損、污漬或老化痕跡。功能可能受輕微影響、或需部分維修，狀態可瀏覽各自商品描述中的說明。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <Toaster position="top-right" reverseOrder={false} />
     </>
   );

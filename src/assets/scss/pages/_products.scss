@@ -58,7 +58,11 @@
   }
 }
 
-.custom-btn-hover:hover {
-  background-color: $primary;
-  color: white;
-}
+// @media (max-width: 768px) {
+//   .full-width-mobile {
+//     margin-left: -12px;
+//     margin-right: -12px;
+//     // width: calc(100% + 24px); 
+//     // border-radius: 0;
+//   }
+// }
