@@ -1,5 +1,5 @@
 // import React, { useState } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm ,useWatch} from "react-hook-form";
 // import axios from 'axios';
 import { tradeApi } from '../../api/tradeApi';
 // const API_BASE = import.meta.env.VITE_API_BASE;
@@ -12,13 +12,16 @@ const TradeGuide = () => {
     handleSubmit,
     reset,
     setValue, // 用於手動更新隱藏欄位值（如圖片）
-    watch,
+    control,
     formState: { errors },
   } = useForm({
     mode: "onChange"
   });
   // 監看圖片值，用於 UI 顯示
-  const watchImage = watch("image");
+  const watchImage = useWatch({
+    control,
+    name: "image", 
+  });
 
   // // 1. 定義表單狀態
   // const [formData, setFormData] = useState({
@@ -61,7 +64,7 @@ const TradeGuide = () => {
       //   ...prev,
       //   image: base64Image, // 將轉換後的長字串存入表單
       // }));
-      setValue("image", base64Image);
+      setValue("image", base64Image, { shouldValidate: true });
     } catch (error) {
       console.error('圖片處理失敗:', error);
       alert('圖片讀取失敗，請重試');
@@ -651,7 +654,7 @@ const TradeGuide = () => {
 
                 {/* 照片上傳 */}
                 <div className="mb-9 mt-8">
-                  <label className="form-label fs-lg-6 mb-3">照片上傳<span className="text-danger">*</span></label>
+                  <label className="form-label fs-lg-6 mb-3">照片上傳 <span className="text-danger">*</span></label>
                   <label
                     htmlFor="formFile"
                     className={`upload-box d-flex flex-column align-items-center justify-content-center ${errors.image ? 'border-danger' : ''}`}
@@ -676,7 +679,7 @@ const TradeGuide = () => {
                     {/* 隱藏欄位用來承接 base64 字串並進行驗證 */}
                     <input type="hidden" {...register("image", { required: "請上傳物品照片" })} />
                   </label>
-                  {errors.image && <p className="text-danger fs-7 mt-2">{errors.image.message}</p>}
+                  {errors.image && <p className="text-danger fs-7 mt-2" style={{ display: 'block' }}>{errors.image.message}</p>}
                 </div>
 
                 {/* 送出按鈕 */}
