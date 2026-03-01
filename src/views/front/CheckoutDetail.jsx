@@ -76,8 +76,8 @@ const CheckoutDetail = () => {
   }, [])
 
   return (<>
-  <div className="bg-light-grey py-8 py-md-12">
-    <div className="container text-gray-95" style={{ marginTop: '144px' }}>
+  <div className="bg-light-gray py-8 py-md-12">
+    <div className="container text-gray-95" style={{ marginTop: '136px' }}>
       <div className="row justify-content-center">
         <div className="col">
           <form onSubmit={ handleSubmit(onSubmit) }>
