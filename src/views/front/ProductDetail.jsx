@@ -442,7 +442,7 @@ function ProductDetail() {
 
               {/* 你可能會喜歡 */}
               <section className="my-12">
-                <h6 className="text-gray-95 fw-medium mb-8 mb-lg-9 text-lg-center">
+                <h6 className="text-gray-90 mb-8 text-lg-center">
                   你可能也會喜歡⋯⋯
                 </h6>
                 <div className="position-relative">
