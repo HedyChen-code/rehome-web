@@ -147,13 +147,12 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
       className="modal fade"
       tabIndex="-1"
       aria-labelledby="productModalLabel"
-      aria-hidden="true"
     >
       <div className="modal-dialog modal-xl">
         <div className="modal-content border-0">
           <div
             className={`modal-header ${
-              modalType === 'delete' ? 'bg-danger' : 'bg-dark'
+              modalType === 'delete' ? 'bg-danger' : 'bg-primary-30'
             } text-white`}
           >
             <h5 id="productModalLabel" className="modal-title">
@@ -169,7 +168,9 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"
+              onClick={() => {
+                closeModal();
+              }}
             ></button>
           </div>
           <div className="modal-body">
