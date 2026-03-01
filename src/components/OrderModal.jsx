@@ -40,33 +40,41 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
     }
   };
 
-  // 處理商品數量變動
+  // 修正後的處理商品數量變動
   const handleProductQtyChange = (productId, newQty) => {
-    const qty = Math.max(1, Number(newQty));
+    // 1. 允許空字串，這樣使用者才能刪掉數字重新輸入
+    if (newQty === '') {
+      updateQtyState(productId, '');
+      return;
+    }
 
+    const qty = Number(newQty);
+
+    // 2. 如果不是數字（例如不小心打到字），就不理它
+    if (isNaN(qty)) return;
+
+    // 3. 這裡先不強制 Math.max(1)，讓使用者可以輸入 0 或刪除
+    updateQtyState(productId, qty);
+  };
+
+  // 抽離出來的更新邏輯，減少重複代碼
+  const updateQtyState = (productId, qty) => {
     setTempData((prev) => {
-      // 1. 先複製一份目前的 products
       const updatedProducts = {
         ...prev.products,
         [productId]: {
           ...prev.products[productId],
           qty: qty,
-          // 更新該單項商品的小計 (單價 * 數量)
-          final_total: prev.products[productId].product.price * qty,
+          final_total:
+            (prev.products[productId].product?.price || 0) * (qty || 0),
         },
       };
 
-      // 2. 重新計算整筆訂單的總計
       const newTotal = Object.values(updatedProducts).reduce((acc, item) => {
-        return acc + item.product?.price * item.qty;
+        return acc + (item.product?.price || 0) * (item.qty || 0);
       }, 0);
 
-      // 3. 回傳完整的更新物件
-      return {
-        ...prev,
-        products: updatedProducts,
-        total: newTotal, // 這樣送出給後台的 total 才會是正確的
-      };
+      return { ...prev, products: updatedProducts, total: newTotal };
     });
   };
   // 移除單項商品
@@ -364,6 +372,16 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                                         e.target.value,
                                       )
                                     }
+                                    onBlur={(e) => {
+                                      // 當使用者離開輸入框時，如果內容是空的、0 或負數，強制校正回 1
+                                      if (
+                                        !e.target.value ||
+                                        Number(e.target.value) < 1
+                                      ) {
+                                        handleProductQtyChange(item.id, 1);
+                                      }
+                                    }}
+                                    onFocus={(e) => e.target.select()} // 自動全選，方便直接覆蓋輸入
                                   />
                                   <span className="input-group-text">
                                     {item.product?.unit}
