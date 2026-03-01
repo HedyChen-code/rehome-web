@@ -8,46 +8,84 @@ import Cart from './views/front/Cart';
 import CheckoutDetail from './views/front/CheckoutDetail';
 import CheckoutComplete from './views/front/CheckoutComplete';
 import TradeGuide from './views/front/TradeGuide';
+import AdminLayout from './layout/AdminLayout';
+import AdminHome from './views/admin/AdminHome';
+import AdminProducts from './views/admin/AdminProducts';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminLogin from './views/admin/AdminLogin';
+import AdminTradeList from './views/admin/AdminTradeList';
 
 export const router = createHashRouter([
   // --- 前台 ---
   {
     path: '/',
-    element: <FrontendLayout />,
+    element: <FrontendLayout navbarVariant="home" />,
     children: [
       {
         index: true,
         element: <Home />, //首頁
       },
+    ],
+  },
+  {
+    element: <FrontendLayout navbarVariant="default" />,
+    children: [
       {
         path: 'products',
-        element: <Products />,
+        element: <Products />, //商品頁
       },
       {
         path: 'product/:id',
-        element: <ProductDetail />,
+        element: <ProductDetail />, //商品詳細頁
       },
       {
         path: 'cart',
-        element: <Cart />,
+        element: <Cart />, //購物車頁
       },
       {
         path: 'TradeGuide',
-        element: <TradeGuide />,
+        element: <TradeGuide />, //收購說明頁
       },
       {
-        path: 'checkout',
+        path: 'checkout', //購物流程
         children: [
           {
             path: 'detail',
-            element: <CheckoutDetail />
+            element: <CheckoutDetail />, //填寫資料
           },
           {
             path: 'complete',
-            element: <CheckoutComplete />
-          }
-        ]
-      }
+            element: <CheckoutComplete />, //結帳完成
+          },
+        ],
+      },
+    ],
+  },
+  //後台
+  {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  {
+    path: '/admin',
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminHome />,
+      },
+      {
+        path: 'products',
+        element: <AdminProducts />,
+      },
+      {
+        path: 'TradeList',
+        element: <AdminTradeList />,
+      },
     ],
   },
   {

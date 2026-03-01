@@ -1,31 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { Modal } from "bootstrap";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../slice/cartSlice";
+import { useLocation } from "react-router-dom"; //為了從主題風格連過來
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 function Products() {
+  // Redux
+  const dispatch = useDispatch();
+
   // 所有產品資料
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-
-  // 分頁狀態 <<<<<<<<<<<「尚未完成」
-  const [pagination, setPagination] = useState({});
 
   // 所有的篩選狀態
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("all");
   const [style, setStyle] = useState("all");
   const [condition, setCondition] = useState("all");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(999999);
 
-  // 排序狀態
+  // 新品價格排序狀態
   const [sortType, setSortType] = useState("latest");
 
-  // 篩選器
+  // 加入收藏狀態切換
+  const [favorites, setFavorites] = useState([]);
+
+  // 產品條件篩選
   const filteredProducts = products.filter((item) => {
     const matchSearch =
       searchTerm === "" ||
@@ -47,8 +54,7 @@ function Products() {
     );
   });
 
-  // 價格滑桿 (slider) <<<<<<<<<<<「尚未完成」
-
+  // 價格滑桿 (slider)
   const minLimit = 0;
   const maxLimit = 10000;
   const handleMinChange = (e) => {
@@ -69,15 +75,14 @@ function Products() {
     setCategory("all");
     setStyle("all");
     setCondition("all");
-    setMinPrice("");
-    setMaxPrice("");
+    setMinPrice(0);
+    setMaxPrice(999999);
     setSearchTerm("");
   };
 
   // 最新上架/價格排序
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortType === "latest") {
-      // 假設你的 API 有 id 或創造日期，這裡用 id 做簡易排序
       return b.id.localeCompare(a.id);
     }
     if (sortType === "priceHighToLow") {
@@ -90,22 +95,25 @@ function Products() {
     return 0;
   });
 
-  // 取得所有商品資料
-  // const getProducts = async (page = 1) => {
-  //   try {
-  //     const res = await axios.get(
-  //       `${API_BASE}/api/${API_PATH}/products?page=${page}`,
-  //     );
-  //     setProducts(res.data.products);
-  //     console.log(res.data.products);
-  //     setPagination(res.data.pagination);
-  //   } catch (error) {
-  //     toast.error(
-  //       `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
-  //     );
-  //   }
-  // };
+  // 分頁狀態
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 9;
+  const totalItems = sortedProducts.length;
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentItems = sortedProducts.slice(startIndex, startIndex + pageSize);
 
+  // 加入收藏的商品
+  const handleFavorite = (e, id) => {
+    e.preventDefault();
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter((favId) => favId !== id));
+    } else {
+      setFavorites([...favorites, id]);
+    }
+  };
+
+  // 取得所有商品函式
   const getProducts = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
@@ -118,6 +126,14 @@ function Products() {
     }
   };
 
+  // 加入購物車函式
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success(`已將 ${product.title} 加入購物車`);
+  };
+
+  const location = useLocation(); //為了從主題風格連過來
+  const incomingStyle = location.state?.selectedTheme; //為了從主題風格連過來
   useEffect(() => {
     getProducts();
   }, []);
@@ -125,6 +141,38 @@ function Products() {
   const handleView = (id) => {
     navigate(`/product/${id}`);
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [category, style, condition, minPrice, maxPrice, searchTerm]);
+
+  // 手機版備註欄：Modal 開啟/關閉
+  const modalRef = useRef(null);
+  const notesModal = useRef(null);
+
+  useEffect(() => {
+    if (modalRef.current) {
+      notesModal.current = new Modal(modalRef.current, {
+        backdrop: "static",
+        keyboard: true,
+      });
+    }
+
+    return () => {
+      if (notesModal.current) {
+        notesModal.current.dispose();
+      }
+    };
+  }, []);
+
+  const openModal = () => notesModal.current.show();
+  const closeModal = () => notesModal.current.hide();
+
+  useEffect(() => {
+    if (incomingStyle) {
+      setStyle(incomingStyle);
+    }
+  }, [incomingStyle]);
 
   return (
     <>
@@ -134,7 +182,7 @@ function Products() {
           <div className="container px-0">
             <picture>
               <source
-                srcset="./images/banner/banner05.png"
+                srcSet="./images/banner/banner05.png"
                 media="(min-width: 768px)"
               />
               <img
@@ -145,9 +193,10 @@ function Products() {
             </picture>
           </div>
         </section>
-        <section className="py-12">
+        {/* 商品頁橫幅圖下方區塊 */}
+        <section className="py-lg-12 mb-5 mb-lg-12">
           {/* 麵包屑區塊 */}
-          <nav className="container mb-9">
+          <nav className="container mb-9 d-none d-lg-block">
             <ol className="breadcrumb">
               <li className="...">
                 <a className="text-reset" href="#">
@@ -167,10 +216,14 @@ function Products() {
             <div className="row">
               <div className="col-lg-3">
                 {/* 篩選器區塊 */}
-                <section className="bg-light-grey px-5 py-9 mb-9">
+                <section className="bg-light-gray px-5 py-9 mb-5 mb-lg-9 mx-n4">
                   <div className="d-flex justify-content-between align-items-center mb-5">
                     <h5>篩選器</h5>
-                    <button className="d-block d-lg-none btn p-0 font-family-noto-sans text-primary-50 d-flex justify-content-center align-items-center">
+                    {/* 手機版備註欄：Modal 開啟與關閉按鈕*/}
+                    <button
+                      className="d-block d-lg-none btn p-0 font-family-noto-sans text-primary-50 d-flex justify-content-center align-items-center"
+                      onClick={openModal}
+                    >
                       <span className="me-3 fs-9">備註</span>
                       <i className="bi bi-exclamation-circle"></i>
                     </button>
@@ -267,7 +320,10 @@ function Products() {
                       />
                     </div>
                   </div>
-                  {/* 價格高低篩選範圍條 */}
+                  {/* 價格滑桿 */}
+                  <label htmlFor="rangeMax" className="fs-9">
+                    min.
+                  </label>
                   <input
                     type="range"
                     className="form-range"
@@ -278,6 +334,9 @@ function Products() {
                     value={minPrice}
                     onChange={handleMinChange}
                   />
+                  <label htmlFor="rangeMax" className="fs-9">
+                    max.
+                  </label>
                   <input
                     type="range"
                     className="form-range"
@@ -328,6 +387,7 @@ function Products() {
               </div>
               <div className="col-lg-9">
                 <section className="d-flex justify-content-between border-bottom py-3 mb-8">
+                  {/* 篩選結果 */}
                   <p className="font-family-noto-sans">
                     篩選結果共
                     <span className="text-primary-70 fs-5">
@@ -336,6 +396,7 @@ function Products() {
                     </span>
                     筆
                   </p>
+                  {/* 清除篩選 */}
                   <button
                     type="button"
                     className="btn btn-gray-20 btn-sm p-0 ms-2 custom-btn font-family-noto-sans fs-8"
@@ -345,8 +406,9 @@ function Products() {
                     <i className="bi bi-x text-gray-70"></i>
                   </button>
                 </section>
+                {/* 新品價格排序選擇器 */}
                 <select
-                  className="form-select mb-5 text-gray-95 w-25 ms-auto"
+                  className="form-select mb-5 text-gray-95 ms-auto custom-select-w"
                   value={sortType}
                   onChange={(e) => setSortType(e.target.value)}
                 >
@@ -354,12 +416,11 @@ function Products() {
                   <option value="priceHighToLow">價格由高到低</option>
                   <option value="priceLowToHigh">價格由低到高</option>
                 </select>
-
+                {/* 卡片區塊 */}
                 <div className="row">
-                  {sortedProducts.map((item) => (
-                    <div className="col-6 col-md-4 mb-4" key={item.id}>
-                      <div className="card h-100 border-0 px-3">
-                        {/* h-100 讓同列卡片等高 */}
+                  {currentItems.map((item) => (
+                    <div className="col-6 col-md-4 mb-8" key={item.id}>
+                      <div className="card h-auto border-0 px-3">
                         <section className="card-container mb-3">
                           <img
                             src={item.imageUrl}
@@ -367,8 +428,15 @@ function Products() {
                             style={{ height: "200px" }} // 固定高度
                             alt={item.title}
                           />
-                          <button type="button" className="favorite-btn">
-                            <i className="bi bi-heart text-white"></i>
+                          {/* 加入收藏按鈕 */}
+                          <button
+                            type="button"
+                            className="favorite-btn"
+                            onClick={(e) => handleFavorite(e, item.id)}
+                          >
+                            <i
+                              className={`bi ${favorites.includes(item.id) ? "bi-heart-fill text-primary-10" : "bi-heart text-white"}`}
+                            ></i>
                           </button>
                         </section>
                         <section className="mb-3">
@@ -380,10 +448,10 @@ function Products() {
                           </span>
                         </section>
                         <div className="card-body d-flex flex-column p-0">
+                          {/* text-truncate 防止標題過長 */}
                           <h5 className="card-title text-truncate">
                             {item.title}
                           </h5>
-                          {/* text-truncate 防止標題過長 */}
                           <p
                             className="card-text text-secondary"
                             style={{ fontSize: "0.9rem" }}
@@ -393,9 +461,14 @@ function Products() {
                               ? `${item.story.substring(0, 50)}...`
                               : item.story}
                           </p>
-                          <div className="mt-auto">
-                            {/* mt-auto 將價格與按鈕推至底部對齊 */}
-                            <p className="card-text text-end mb-3">
+                          <button
+                            className="btn p-0 mt-n4 stretched-link text-white "
+                            onClick={() => handleView(item.id)}
+                          >
+                            {/* 查看細節 */}
+                          </button>
+                          <div>
+                            <p className="card-text text-end">
                               <del className="text-muted">
                                 ${item.origin_price}
                               </del>
@@ -403,24 +476,24 @@ function Products() {
                                 ${item.price}
                               </span>
                             </p>
-                            <button
-                              className="btn btn-primary w-100"
-                              onClick={() => handleView(item.id)}
-                            >
-                              加入購物車
-                              <i className="bi bi-cart3 ms-3"></i>
-                            </button>
                           </div>
                         </div>
                       </div>
+                      <button
+                        className="btn btn-light w-100 custom-btn-hover"
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        加入購物車
+                        <i className="bi bi-cart3 ms-3"></i>
+                      </button>
                     </div>
                   ))}
                 </div>
-                {/* 分頁區塊********(尚未完成 JS 的部分) */}
-                <nav aria-label="Page navigation example">
+                {/* 分頁區塊 */}
+                <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center">
                     <li
-                      className={`page-item ${!pagination.has_pre && "disabled"}`}
+                      className={`page-item ${currentPage === 1 && "disabled"}`}
                     >
                       <a
                         className="page-link border-0"
@@ -428,31 +501,31 @@ function Products() {
                         aria-label="Previous"
                         onClick={(e) => {
                           e.preventDefault();
-                          getProducts(pagination.current_page - 1);
+                          setCurrentPage((prev) => prev - 1);
                         }}
                       >
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    {Array.from(
-                      { length: pagination.total_pages },
-                      (_, index) => (
-                        <li className="page-item" key={index}>
-                          <a
-                            className="page-link border-0"
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              getProducts(pagination.current_page + 1);
-                            }}
-                          >
-                            {index + 1}
-                          </a>
-                        </li>
-                      ),
-                    )}
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <li
+                        className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                        key={index}
+                      >
+                        <a
+                          className="page-link border-0"
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage(index + 1);
+                          }}
+                        >
+                          {index + 1}
+                        </a>
+                      </li>
+                    ))}
                     <li
-                      className={`page-item ${!pagination.has_next && "disabled"}`}
+                      className={`page-item ${currentPage === totalPages && "disabled"}`}
                     >
                       <a
                         className="page-link border-0"
@@ -460,7 +533,7 @@ function Products() {
                         aria-label="Next"
                         onClick={(e) => {
                           e.preventDefault();
-                          getProducts(pagination.current_page + 1);
+                          setCurrentPage((prev) => prev + 1);
                         }}
                       >
                         <span aria-hidden="true">&raquo;</span>
@@ -473,6 +546,57 @@ function Products() {
           </div>
         </section>
       </main>
+      {/* Modal */}
+      <div className="modal" ref={modalRef} tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered p-8">
+          <div className="modal-content">
+            <div className="modal-header border-0">
+              <h5 className="modal-title">備註：</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModal}
+              ></button>
+            </div>
+            <div className="modal-body font-family-noto-sans">
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 A
+                </span>
+                <p className="fs-8">
+                  外觀完美如新，無明顯可見的磨損、刮痕或污漬，功能完好。
+                </p>
+              </div>
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 B
+                </span>
+                <p className="fs-8">
+                  有正常使用下極輕微的痕跡，不影響整體美觀與功能。
+                </p>
+              </div>
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 C
+                </span>
+                <p className="fs-8">
+                  有中度使用痕跡，如輕微刮傷或小掉漆，功能性完全正常。
+                </p>
+              </div>
+              <div className="mb-4">
+                <span className="badge rounded-pill text-bg-secondary-10 text-gray-70 mb-2">
+                  中古程度 D
+                </span>
+                <p className="fs-8">
+                  有明顯的磨損、污漬或老化痕跡。功能可能受輕微影響、或需部分維修，狀態可瀏覽各自商品描述中的說明。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <Toaster position="top-right" reverseOrder={false} />
     </>
   );
