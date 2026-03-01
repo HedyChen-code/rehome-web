@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 // 引入 Swiper React 元件
@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import ScrollToTop from "../../components/ScrollToTop";
 
 // 引入需要的模組 (選用：導覽箭頭、分頁點)
 import { Navigation, Pagination } from "swiper/modules";
@@ -99,7 +100,7 @@ function ProductCategorySection() {
     },
     {
       img: "images/theme/theme08.jpg",
-      title: "宅寂",
+      title: "侘寂",
       className: "corner-br",
       alt: "theme08",
     },
@@ -131,11 +132,21 @@ function ProductCategorySection() {
   };
   const handleThemeClick = (style) => {
     navigate("/products", {
-      state: { style },
+      state: { selectedTheme: style },
     });
   };
+  //向上跳轉
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <>
+      <ScrollToTop />
       <div className="hero-section">
         <section data-aos="fade-right">
           <div
@@ -143,6 +154,7 @@ function ProductCategorySection() {
             className="carousel slide"
             data-bs-ride="carousel"
           >
+            <div className="indicator-line" />
             {/* 指示點 */}
             <div className="carousel-indicators">
               {[0, 1, 2].map((index) => (
@@ -330,7 +342,7 @@ function ProductCategorySection() {
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
                 }} // 顯示左右箭頭
-                pagination={{ clickable: true }} // 顯示下方分頁點可不可以跳頁的意思
+                pagination={{ type: "progressbar" }} // 顯示下方分頁點可不可以跳頁的意思
                 className="pb-5"
                 breakpoints={{
                   768: {
@@ -401,7 +413,7 @@ function ProductCategorySection() {
                 <div className="text-center mb-4 ">
                   <div
                     className={`theme-img ${theme.className}`}
-                    onClick={() => handleThemeClick(theme.style)}
+                    onClick={() => handleThemeClick(theme.title)}
                     style={{ cursor: "pointer" }}
                   >
                     <img src={theme.img} alt={theme.alt} />
@@ -549,6 +561,18 @@ function ProductCategorySection() {
           </div>
         </div>
       </section>
+      <button
+        onClick={scrollToTop}
+        className="btn btn-primary-70 rounded-circle position-fixed"
+        style={{
+          bottom: "20px",
+          right: "20px",
+          width: "50px",
+          height: "50px",
+        }}
+      >
+        <i className="bi bi-arrow-up"></i>
+      </button>
     </>
   );
 }
