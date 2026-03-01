@@ -140,8 +140,8 @@ function ProductDetail() {
                       {product.condition_level}
                     </p>
                   </div>
-                  <h3 className="text-gray-90 mb-5">{product.title}</h3>
-                  <p className="fs-4 text-gray-90 mb-5">NT${product.price}</p>
+                  <h3 className="text-gray-95 mb-5">{product.title}</h3>
+                  <p className="fs-4 text-gray-95 mb-5">NT${product.price}</p>
                   {/* 產品故事 */}
                   <p className="text-gray fs-6 mb-4">it’s story...</p>
                   <div className="py-5 px-4 mb-5 bg-light-grey">
@@ -302,7 +302,7 @@ function ProductDetail() {
               </div>
               {/* 你可能會喜歡 */}
               <section className="my-12">
-                <h6 className="text-gray-90 mb-8 text-lg-center">
+                <h6 className="text-gray-95 mb-8 text-lg-center">
                   你可能也會喜歡⋯⋯
                 </h6>
                 <div className="position-relative">

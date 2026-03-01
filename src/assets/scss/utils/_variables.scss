@@ -310,7 +310,7 @@ $primary-10: #e6ebf9;
 $secondary-40: #f8d809;
 $secondary-20: #f7e281;
 $secondary-10: #fcf3c9;
-$gray: #636363; //custom
+// $gray: #636363; //custom // 改為 gray-50
 
 $light-grey: #f7f7f7; // custom
 
@@ -319,7 +319,7 @@ $gray-20: #d9d9de;
 $gray-30: #b8b8c1;
 $gray-50: #737484;
 $gray-70: #4c4c58;
-$gray-90: #303036;
+$gray-95: #212121;
 
 // alert colors (design spec)
 $success: #8bcb8c; // custom
@@ -351,13 +351,13 @@ $theme-colors: (
   'dark': $dark,
 
   //custom
-  'gray': $gray,
+  'gray': $gray-50,
   'gray-10': $gray-10,
   'gray-20': $gray-20,
   'gray-30': $gray-30,
   'gray-50': $gray-50,
   'gray-70': $gray-70,
-  'gray-90': $gray-90,
+  'gray-95': $gray-95,
   'primary-90': $primary-90,
   'primary-70': $primary-70,
   'primary-50': $primary-50,
@@ -517,7 +517,7 @@ $body-text-align: null !default;
 $body-color: $black !default; //$gray-900 !default;//custom
 $body-bg: $white !default;
 
-$body-secondary-color: $gray !default; //rgba($body-color, .75) !default;
+$body-secondary-color: $gray-50 !default; //rgba($body-color, .75) !default;
 $body-secondary-bg: $gray-200 !default;
 
 $body-tertiary-color: rgba($body-color, 0.5) !default;
@@ -889,6 +889,7 @@ $table-variants: (
   'info': shift-color($info, $table-bg-scale),
   'warning': shift-color($warning, $table-bg-scale),
   'danger': shift-color($danger, $table-bg-scale),
+  'gray': $gray-10, // custom
   'light': $light,
   'dark': $dark,
 ) !default;
