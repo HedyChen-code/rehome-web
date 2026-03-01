@@ -1,4 +1,9 @@
 .hero-section {
+  /* 讓 carousel 成為定位基準 */
+  #heroCarousel {
+    position: relative;
+  }
+
   .carousel-item {
     height: 100vh;
 
@@ -30,27 +35,43 @@
       padding-right: 24px;
     }
   }
-
-  .hero-title {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    background: white;
-    color: #333;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    display: inline-block;
+  /* 指示點容器 */
+  .carousel-indicators {
+    position: absolute;
+    bottom: 60px; // 自己控制高度
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px; // 控制點距離
+    margin: 0;
+    z-index: 3;
   }
 
-  .hero-text {
-    color: white;
-    margin-top: 1rem;
+  /* 底下固定線 */
+  .indicator-line {
+    position: absolute;
+    bottom: 76px; // 比 indicators 高 6px（半徑）
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px; // 自行調整
+    height: 2px;
+    background-color: $primary-70;
+    z-index: 1;
   }
 
+  /* 圓點 */
   .carousel-indicators [data-bs-target] {
+    position: relative;
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    margin: 0 6px;
     background-color: $primary-70;
+    opacity: 1;
+  }
+
+  .carousel-indicators .active {
+    background-color: $primary-10;
+    border:8px solid $primary-70 ;
   }
 }
 

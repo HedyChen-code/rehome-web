@@ -79,7 +79,7 @@
     }
 
     &:not(:placeholder-shown) {
-      color: $gray-90; // 輸入後文字變深
+      color: $gray-95; // 輸入後文字變深
     }
 
     &.is-invalid {
@@ -110,4 +110,9 @@
   .footer-link {
     width: 20%; /* md 以上：一行五個 */
   }
+}
+
+// 灰色背景頁面的背景色調整
+.bg-gray-footer-page .footer-wrapper {
+  background-color: $light-grey;
 }

@@ -41,4 +41,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 1024px) {
+  main {
+    margin-top: 136px;
+  }
+  .custom-select-w {
+    width: 25%;
+  }
 }
