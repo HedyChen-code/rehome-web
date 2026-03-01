@@ -3,11 +3,16 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { Modal } from "bootstrap";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../slice/cartSlice";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 function Products() {
+  // Redux
+  const dispatch = useDispatch();
+
   // 所有產品資料
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -107,6 +112,7 @@ function Products() {
     }
   };
 
+  // 取得所有商品函式
   const getProducts = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
@@ -117,6 +123,12 @@ function Products() {
         `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
+  };
+
+  // 加入購物車函式
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success(`已將 ${product.title} 加入購物車`);
   };
 
   useEffect(() => {
@@ -421,10 +433,10 @@ function Products() {
                           </span>
                         </section>
                         <div className="card-body d-flex flex-column p-0">
+                          {/* text-truncate 防止標題過長 */}
                           <h5 className="card-title text-truncate">
                             {item.title}
                           </h5>
-                          {/* text-truncate 防止標題過長 */}
                           <p
                             className="card-text text-secondary"
                             style={{ fontSize: "0.9rem" }}
@@ -452,7 +464,10 @@ function Products() {
                           </div>
                         </div>
                       </div>
-                      <button className="btn btn-light w-100 custom-btn-hover">
+                      <button
+                        className="btn btn-light w-100 custom-btn-hover"
+                        onClick={() => handleAddToCart(item)}
+                      >
                         加入購物車
                         <i className="bi bi-cart3 ms-3"></i>
                       </button>
