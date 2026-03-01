@@ -1,3 +1,91 @@
+.hero-section {
+  /* 讓 carousel 成為定位基準 */
+  #heroCarousel {
+    position: relative;
+  }
+
+  .carousel-item {
+    height: 100vh;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(65%);
+    }
+  }
+
+  .hero-caption {
+    inset: 0;
+    display: flex;
+    margin-top: 200px;
+    padding: 0 12px;
+    @media (min-width: 992px) {
+      align-items: center; // lg 以上置中
+      margin-top: 0px;
+    }
+  }
+
+  .caption-content {
+    max-width: 720px;
+    text-align: center;
+    animation: fadeIn 1s both;
+    @media (max-width: 768px) {
+      justify-content: flex-start; // 手機靠左
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+  /* 指示點容器 */
+  .carousel-indicators {
+    position: absolute;
+    bottom: 60px; // 自己控制高度
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px; // 控制點距離
+    margin: 0;
+    z-index: 3;
+  }
+
+  /* 底下固定線 */
+  .indicator-line {
+    position: absolute;
+    bottom: 76px; // 比 indicators 高 6px（半徑）
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px; // 自行調整
+    height: 2px;
+    background-color: $primary-70;
+    z-index: 1;
+  }
+
+  /* 圓點 */
+  .carousel-indicators [data-bs-target] {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: $primary-70;
+    opacity: 1;
+  }
+
+  .carousel-indicators .active {
+    background-color: $primary-10;
+    border:8px solid $primary-70 ;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .about-section {
   background: url(/public/images/background/bg02.png);
   background-position: center;
@@ -83,7 +171,27 @@
   object-fit: cover;
   filter: brightness(50%); /* 圖片暗50% */
 }
+.theme-img .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(89, 161, 51, 0); /* 初始透明 */
+  pointer-events: none;
+  transition: all 0.3s ease;
+  border-radius: inherit; /* 這行最重要 不然只有圓形變色*/
+}
+/* hover */
+.theme-img:hover img {
+  filter: brightness(50%) blur(4px);
+  transform: scale(1.05);
+}
 
+.theme-img:hover .overlay {
+  background-color: rgba($primary-90, 0.25); /* 75% 透明 primary */
+  backdrop-filter: blur(4px);
+}
 /* 文字疊加 */
 .theme-text {
   position: absolute;
@@ -142,7 +250,7 @@
   background: url(/public/images/decorate/Vector3.svg);
   background-size: contain;
   background-position: center;
-
+  background-size: cover;
   @media (min-width: 992px) {
     background: url(/public/images/decorate/Vector2.svg);
     background-repeat: no-repeat;

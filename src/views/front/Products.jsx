@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { Modal } from "bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../slice/cartSlice";
+import { useLocation } from "react-router-dom"; //為了從主題風格連過來
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -22,8 +23,8 @@ function Products() {
   const [category, setCategory] = useState("all");
   const [style, setStyle] = useState("all");
   const [condition, setCondition] = useState("all");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(999999);
 
   // 新品價格排序狀態
   const [sortType, setSortType] = useState("latest");
@@ -74,8 +75,8 @@ function Products() {
     setCategory("all");
     setStyle("all");
     setCondition("all");
-    setMinPrice("");
-    setMaxPrice("");
+    setMinPrice(0);
+    setMaxPrice(999999);
     setSearchTerm("");
   };
 
@@ -131,6 +132,8 @@ function Products() {
     toast.success(`已將 ${product.title} 加入購物車`);
   };
 
+  const location = useLocation(); //為了從主題風格連過來
+  const incomingStyle = location.state?.selectedTheme; //為了從主題風格連過來
   useEffect(() => {
     getProducts();
   }, []);
@@ -154,10 +157,22 @@ function Products() {
         keyboard: true,
       });
     }
+
+    return () => {
+      if (notesModal.current) {
+        notesModal.current.dispose();
+      }
+    };
   }, []);
 
   const openModal = () => notesModal.current.show();
   const closeModal = () => notesModal.current.hide();
+
+  useEffect(() => {
+    if (incomingStyle) {
+      setStyle(incomingStyle);
+    }
+  }, [incomingStyle]);
 
   return (
     <>

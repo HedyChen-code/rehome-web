@@ -61,6 +61,11 @@ const AdminLayout = () => {
               📦 商品列表
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link text-white" to="/admin/TradeList">
+              📋 家具收購申請清單
+            </NavLink>
+          </li>          
           <li className="nav-item mt-auto">
             <NavLink className="nav-link text-white" to="/">
               ⬅️ 回到前台
