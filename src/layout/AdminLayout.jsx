@@ -6,6 +6,33 @@ import toast, { Toaster } from 'react-hot-toast';
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
+const NavItems = () => {
+  return (
+    <ul className="nav d-flex flex-column p-4 flex-grow-1">
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin">
+          🏠 後臺首頁
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin/products">
+          📦 商品列表
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin/orders">
+          📦 訂單列表
+        </NavLink>
+      </li>
+      <li className="nav-item mt-auto">
+        <NavLink className="nav-link text-white" to="/">
+          ⬅️ 回到前台
+        </NavLink>
+      </li>
+    </ul>
+  );
+};
+
 const AdminLayout = () => {
   const navigate = useNavigate();
 
@@ -28,7 +55,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="d-flex min-vh-100">
+    <div className="d-flex ">
       <Toaster position="top-center" reverseOrder={false} />
       {/* --- 左側側邊欄 (Sidebar) --- */}
       <aside
@@ -49,24 +76,7 @@ const AdminLayout = () => {
             <h6>管理後台</h6>
           </div>
         </div>
-
-        <ul className="nav d-flex flex-column p-4 flex-grow-1">
-          <li className="nav-item">
-            <NavLink className="nav-link text-white" to="/admin">
-              🏠 後臺首頁
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link text-white" to="/admin/products">
-              📦 商品列表
-            </NavLink>
-          </li>
-          <li className="nav-item mt-auto">
-            <NavLink className="nav-link text-white" to="/">
-              ⬅️ 回到前台
-            </NavLink>
-          </li>
-        </ul>
+        <NavItems />
       </aside>
 
       {/* --- 右側內容區 (Main Content) --- */}
