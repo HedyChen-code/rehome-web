@@ -58,7 +58,6 @@ function AdminProducts() {
       );
       setProducts(res.data.products);
       setPagination(res.data.pagination);
-      console.log(res.data.products);
     } catch (error) {
       showError(error.response?.data?.message || '取得資料失敗');
     } finally {
@@ -131,7 +130,7 @@ function AdminProducts() {
               </button>
             </span>
           </div>
-          <table className="table table-striped">
+          <table className="table table-hover">
             <thead>
               <tr>
                 <th className="text-center">產品資訊</th>
@@ -164,7 +163,7 @@ function AdminProducts() {
                         <div style={{ width: '100px', height: '100px' }}>
                           <img
                             src={item.imageUrl}
-                            className="img-fluid rounded object-fit-cover"
+                            className="img-fluid rounded object-fit-cover w-100 h-100"
                             alt="主圖"
                           />
                         </div>

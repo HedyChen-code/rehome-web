@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { emailValidation, passwordValidation } from '../../utils/validation';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -95,10 +95,13 @@ function AdminLogin() {
               </form>
             </div>
           </div>
-          <p className="mt-5 mb-3 text-muted">
+          <p className="mt-5 mb-3 text-muted text-center">
             &copy; 2025 物拾 Re: home. All Rights Reserved.
           </p>
         </div>
+        <NavLink className="nav-link fw-bold font-noto text-info" to="/">
+          <i className="bi bi-box-arrow-left fs-5"></i> 回到前台
+        </NavLink>
       </div>
     </div>
   );

@@ -11,22 +11,27 @@ const NavItems = () => {
     <ul className="nav d-flex flex-column p-4 flex-grow-1">
       <li className="nav-item">
         <NavLink className="nav-link text-white" to="/admin">
-          🏠 後臺首頁
+          <i className="bi bi-house-door me-2"></i> 後臺首頁
         </NavLink>
       </li>
       <li className="nav-item">
         <NavLink className="nav-link text-white" to="/admin/products">
-          📦 商品列表
+          <i className="bi bi-box-seam me-2"></i> 商品列表
         </NavLink>
       </li>
       <li className="nav-item">
         <NavLink className="nav-link text-white" to="/admin/orders">
-          📦 訂單列表
+          <i className="bi bi-receipt me-2"></i> 訂單列表
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin/TradeList">
+          <i className="bi bi-clipboard-data me-2"></i> 家具收購申請清單
         </NavLink>
       </li>
       <li className="nav-item mt-auto">
         <NavLink className="nav-link text-white" to="/">
-          ⬅️ 回到前台
+          <i className="bi bi-box-arrow-left me-2"></i> 回到前台
         </NavLink>
       </li>
     </ul>

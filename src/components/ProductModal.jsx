@@ -153,7 +153,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
         <div className="modal-content border-0">
           <div
             className={`modal-header ${
-              modalType === 'delete' ? 'bg-danger' : 'bg-dark'
+              modalType === 'delete' ? 'bg-danger' : 'bg-primary-30'
             } text-white`}
           >
             <h5 id="productModalLabel" className="modal-title">
