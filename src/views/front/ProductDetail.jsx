@@ -3,7 +3,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { NavLink, useParams } from 'react-router';
+import { NavLink, useNavigate, useParams } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -19,11 +19,14 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 function ProductDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState();
   // state 儲存目前顯示的主圖
   const [mainImage, setMainImage] = useState('');
   // 儲存推薦商品的 state
   const [recommendProducts, setRecommendProducts] = useState([]);
+
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const handleView = async (id) => {
@@ -73,6 +76,23 @@ function ProductDetail() {
       );
     }
   };
+
+  // 立即購買處理函式
+  const handleBuyNow = async (id, qty = 1) => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+    try {
+      await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
+        data: { product_id: id, qty },
+      });
+      navigate('/cart');
+    } catch (error) {
+      toast.error('處理失敗');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -203,12 +223,19 @@ function ProductDetail() {
                   {/* 按鈕 */}
                   <div className="pb-9 pb-lg-10 border-bottom border-gray-30 d-lg-flex mb-lg-10">
                     <button
+                      typeof="button"
                       className="w-100 btn btn-outline-primary-90 rounded-pill p-0 mb-5 mb-lg-0 me-lg-8"
                       onClick={() => addCart(product.id)}
                     >
                       <h5 className="fw-medium my-5">加入購物車</h5>
                     </button>
-                    <button className="w-100 btn btn-primary-90 rounded-pill p-0">
+
+                    <button
+                      to="/cart"
+                      typeof="button"
+                      className="w-100 btn btn-primary-90 rounded-pill p-0"
+                      onClick={() => handleBuyNow(product.id)}
+                    >
                       <h5 className="fw-medium my-5">立即購買</h5>
                     </button>
                   </div>

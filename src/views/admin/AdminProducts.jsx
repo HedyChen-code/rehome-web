@@ -77,6 +77,9 @@ function AdminProducts() {
     productModalRef.current.show();
   };
   const closeModal = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     productModalRef.current.hide();
     setTemplateData(INITIAL_TEMPLATE_DATA);
   };

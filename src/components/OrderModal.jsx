@@ -134,10 +134,9 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
   return (
     <div
       id="orderModal"
-      className="modal"
+      className="modal fade"
       tabIndex="-1"
       aria-labelledby="orderModalLabel"
-      aria-hidden="true"
     >
       <div className="modal-dialog modal-xl">
         <div className="modal-content border-0">
@@ -157,7 +156,9 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"
+              onClick={() => {
+                closeModal();
+              }}
             ></button>
           </div>
           <div className="modal-body">

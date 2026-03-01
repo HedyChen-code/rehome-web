@@ -101,6 +101,9 @@ const AdminOrders = () => {
     orderModalRef.current.show();
   };
   const closeModal = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     orderModalRef.current.hide();
     setTemplateData(INITIAL_TEMPLATE_DATA);
   };

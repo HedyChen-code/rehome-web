@@ -147,7 +147,6 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
       className="modal fade"
       tabIndex="-1"
       aria-labelledby="productModalLabel"
-      aria-hidden="true"
     >
       <div className="modal-dialog modal-xl">
         <div className="modal-content border-0">
@@ -169,7 +168,9 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"
+              onClick={() => {
+                closeModal();
+              }}
             ></button>
           </div>
           <div className="modal-body">

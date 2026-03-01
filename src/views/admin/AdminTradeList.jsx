@@ -124,7 +124,7 @@ function AdminTradeList() {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan="8" className="text-center">
                   目前沒有申請資料
                 </td>
               </tr>
