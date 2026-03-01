@@ -1,213 +1,192 @@
-const Home = () => {
+import { useEffect, useState } from "react";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+
+// 引入 Swiper React 元件
+import { Swiper, SwiperSlide } from "swiper/react";
+// 引入 Swiper 樣式
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// 引入需要的模組 (選用：導覽箭頭、分頁點)
+import { Navigation, Pagination } from "swiper/modules";
+
+const API_BASE = import.meta.env.VITE_API_BASE;
+const API_PATH = import.meta.env.VITE_API_PATH;
+
+function ProductCategorySection() {
+  const [products, setProducts] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("沙發 / 座椅類");
+  const [activeTab, setActiveTab] = useState("新品");
+
+  const getProducts = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
+      setProducts(res.data.products);
+    } catch (error) {
+      toast.error("取得資料失敗");
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const filteredProducts = products.filter((item) => {
+    const isCategoryMatch = item.category === activeCategory;
+    let isTabMatch = false;
+    if (activeTab === "新品") {
+      isTabMatch = item.is_new === 1 || item.is_new === true;
+    } else if (activeTab === "推薦") {
+      isTabMatch = item.is_recommend === 1 || item.is_recommend === true;
+    }
+    return isCategoryMatch && isTabMatch;
+  });
+
+  const categoryMenu = [
+    "沙發 / 座椅類",
+    "儲物 / 櫃體類",
+    "床具 / 寢臥類",
+    "桌類 / 檯面類",
+    "擺飾 / 家飾類",
+  ];
+
   const themes = [
     {
-      img: 'images/theme/theme01.jpg',
-      title: '工業',
-      className: 'corner-tl',
-      alt: 'theme01',
+      img: "images/theme/theme01.jpg",
+      title: "工業",
+      className: "corner-tl",
+      alt: "theme01",
     },
     {
-      img: 'images/theme/theme02.jpg',
-      title: '義大利現代',
-      className: '',
-      alt: 'theme02',
+      img: "images/theme/theme02.jpg",
+      title: "義大利現代",
+      className: "",
+      alt: "theme02",
     },
     {
-      img: 'images/theme/theme03.jpg',
-      title: '現代北歐',
-      className: '',
-      alt: 'theme03',
+      img: "images/theme/theme03.jpg",
+      title: "現代北歐",
+      className: "",
+      alt: "theme03",
     },
     {
-      img: 'images/theme/theme04.jpg',
-      title: '日式無印',
-      className: 'corner-tr',
-      alt: 'theme04',
+      img: "images/theme/theme04.jpg",
+      title: "日式無印",
+      className: "corner-tr",
+      alt: "theme04",
     },
     {
-      img: 'images/theme/theme05.jpg',
-      title: '現代簡約風',
-      className: 'corner-bl',
-      alt: 'theme05',
+      img: "images/theme/theme05.jpg",
+      title: "現代簡約風",
+      className: "corner-bl",
+      alt: "theme05",
     },
     {
-      img: 'images/theme/theme06.jpg',
-      title: '世紀中期',
-      className: '',
-      alt: 'theme06',
+      img: "images/theme/theme06.jpg",
+      title: "世紀中期",
+      className: "",
+      alt: "theme06",
     },
     {
-      img: 'images/theme/theme07.jpg',
-      title: '療癒奶油',
-      className: '',
-      alt: 'theme07',
+      img: "images/theme/theme07.jpg",
+      title: "療癒奶油",
+      className: "",
+      alt: "theme07",
     },
     {
-      img: 'images/theme/theme08.jpg',
-      title: '宅寂',
-      className: 'corner-br',
-      alt: 'theme08',
+      img: "images/theme/theme08.jpg",
+      title: "宅寂",
+      className: "corner-br",
+      alt: "theme08",
     },
   ];
+
+  const carouselData = [
+    {
+      image: "images/banner/banner01.png",
+      alt: "banner01",
+      title: "質感生活，不必高價擁有",
+      text: "物拾嚴選：經專業處理與清潔，讓您放心添購優質二手設計。",
+    },
+    {
+      image: "images/banner/banner02.png",
+      alt: "banner02",
+      title: "空間換新，輕鬆啟動",
+      text: "專業團隊上門服務，為您閒置的優質家具高效估價與收購。",
+    },
+    {
+      image: "images/banner/banner03.png",
+      alt: "banner03",
+      title: "尋找有故事的獨特設計",
+      text: "曾經的使用痕跡是生活的溫度與意義，讓每次選購、都像收藏一段生活。",
+    },
+  ];
+  const navigate = useNavigate();
+  const handleView = (id) => {
+    navigate(`/product/${id}`);
+  };
+  const handleThemeClick = (style) => {
+    navigate("/products", {
+      state: { style },
+    });
+  };
   return (
     <>
-      {/* Hero 大圖輪播 */}
-      <section className="hero-section" data-aos="fade-right">
-        <div
-          id="carouselExampleIndicators"
-          className="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-indicators">
-            <button
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide-to="0"
-              className="active"
-              aria-current="true"
-              aria-label="Slide 1"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide-to="1"
-              aria-label="Slide 2"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide-to="2"
-              aria-label="Slide 3"
-            ></button>
-          </div>
-
-          <div className="carousel-inner">
-            {/* 輪播項目 1 */}
-            <div className="carousel-item active">
-              <img
-                src="images/banner/banner01.png"
-                className="d-block w-100"
-                alt="banner01"
-              />
-              <div
-                className="carousel-caption d-flex align-items-center justify-content-center"
-                style={{
-                  top: 0,
-                  bottom: 0,
-                  background: 'rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <div
-                  className="text-center"
-                  style={{ maxWidth: '760px', animation: 'fadeIn 1s' }}
-                >
-                  <p className="h1 text-white">質感生活，不必高價擁有</p>
-                  <p className="h6 text-white">
-                    物拾嚴選：經專業處理與清潔，讓您放心添購優質二手設計。
-                  </p>
-                </div>
-              </div>
+      <div className="hero-section">
+        <section data-aos="fade-right">
+          <div
+            id="heroCarousel"
+            className="carousel slide"
+            data-bs-ride="carousel"
+          >
+            {/* 指示點 */}
+            <div className="carousel-indicators">
+              {[0, 1, 2].map((index) => (
+                <button
+                  key={index}
+                  type="button"
+                  data-bs-target="#heroCarousel"
+                  data-bs-slide-to={index}
+                  className={index === 0 ? "active" : ""}
+                  aria-current={index === 0}
+                  aria-label={`Slide ${index + 1}`}
+                />
+              ))}
             </div>
 
-            {/* 輪播項目 2 */}
-            <div className="carousel-item">
-              <img
-                src="images/banner/banner02.png"
-                className="d-block w-100"
-                alt="banner02"
-              />
-              <div
-                className="carousel-caption d-flex align-items-center justify-content-center"
-                style={{
-                  top: 0,
-                  bottom: 0,
-                  background: 'rgba(0, 0, 0, 0.2)',
-                }}
-              >
+            {/* 輪播內容 */}
+            <div className="carousel-inner">
+              {carouselData.map((item, index) => (
                 <div
-                  className="text-center"
-                  style={{ maxWidth: '760px', animation: 'fadeIn 1s' }}
+                  key={index}
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
                 >
-                  <p className="h1 text-white">空間換新，輕鬆啟動</p>
-                  <p className="h6 text-white">
-                    專業團隊上門服務，為您閒置的優質家具高效估價與收購。
-                  </p>
-                </div>
-              </div>
-            </div>
+                  <img
+                    src={item.image}
+                    className="d-block w-100"
+                    alt={item.alt}
+                  />
 
-            {/* 輪播項目 3 */}
-            <div className="carousel-item">
-              <img
-                src="images/banner/banner03.png"
-                className="d-block w-100"
-                alt="banner03"
-              />
-              <div
-                className="carousel-caption d-flex align-items-center justify-content-center"
-                style={{
-                  top: 0,
-                  bottom: 0,
-                  background: 'rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <div
-                  className="text-center"
-                  style={{ maxWidth: '760px', animation: 'fadeIn 1s' }}
-                >
-                  <p className="h1 text-white">尋找有故事的獨特設計</p>
-                  <p className="fs-8 fs-lg-3 my-3 mx-5 text-white">
-                    曾經的使用痕跡是生活的溫度與意義，讓每次選購、都像收藏一段生活。
-                  </p>
+                  <div className="carousel-caption hero-caption container">
+                    <div className="caption-content">
+                      <p className="fs-4 fs-lg-1 mb-3 bg-white text-gray-95 rounded text-start text-lg-center">
+                        {item.title}
+                      </p>
+                      <p className="fs-9 fs-lg-6 text-white text-shadow">
+                        {item.text}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
-
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
-
-        {/* 淡入動畫 */}
-        <style>{`
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .carousel-caption > div {
-      animation-fill-mode: both;
-    }
-  `}</style>
-      </section>
+        </section>
+      </div>
 
       {/* S1延續美好生活 */}
       <section className="service-section my-16">
@@ -216,7 +195,7 @@ const Home = () => {
           <img
             src="images/icon/graphic 01.svg"
             className="deco deco-book"
-            alt=""
+            alt="裝飾小圖"
           />
           <div className="row align-items-center">
             {/* 插畫(上左) */}
@@ -224,7 +203,7 @@ const Home = () => {
               <img
                 src="images/service-img/service.png"
                 className="img-fluid"
-                style={{ width: '526px' }}
+                style={{ width: "526px" }}
                 alt="延續美好生活"
               />
             </div>
@@ -239,9 +218,12 @@ const Home = () => {
                 為您不再需要的家具找到永續的第二人生。
               </p>
 
-              <a href="#" className="btn btn-outline-primary">
+              <Link
+                to="/TradeGuide"
+                className="btn btn-outline-primary-90 rounded-pill px-5"
+              >
                 我想找收購
-              </a>
+              </Link>
             </div>
             {/* 插畫下右 */}
             <div className="col-12 col-md-6 text-center mb-4 mb-md-0 order-md-2">
@@ -267,153 +249,142 @@ const Home = () => {
                 alt="deco-chair"
               />
               <h3 className="fw-bold mb-3">
-                嚴選品質承諾：<span className="text-primary">購買的安心值</span>
+                嚴選品質承諾：
+                <span className="text-primary">購買的安心值</span>
               </h3>
 
               <p className="text-muted mb-4">
                 我們對每一件收購家具進行嚴格的清潔、檢測與整理， 讓您安心選購。
               </p>
 
-              <a href="#" className="btn btn-outline-primary">
+              <Link
+                to="/products"
+                className="btn btn-outline-primary-90 rounded-pill px-5"
+              >
                 我想買家具
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </section>
       {/* S2 尋找您喜歡的分類商品 */}
       <section
-        className="categories-section"
+        className="categories-section py-5"
         aria-labelledby="categories-title"
       >
         <div className="categoriesBanner">
           <img
             src="images/background/bg03.png"
             alt="categories Banner"
-            className="img-fluid w-100"
+            className=" w-100 img-fluid"
           />
         </div>
 
         <div className="container">
           <div className="text-center mt-12 mt-lg-16">
-            <img
-              src="images/icon/graphic 04.svg"
-              alt="categories-section"
-              className="mb-5"
-            />
+            <img src="images/icon/graphic 04.svg" alt="icon" className="mb-5" />
             <h2 className="h4">尋找您喜歡的分類商品</h2>
           </div>
-
-          <div>
-            <ul className="categories-menu d-flex list-unstyled mb-4">
-              <li className="h6 flex-fill text-center">
-                <i className="bi bi-arrow-right arrow me-2"></i>
-                沙發 / 座椅類
-              </li>
-              <li className="h6 flex-fill text-center">
-                <i className="bi bi-arrow-right arrow me-2"></i>
-                儲物 / 櫃體類
-              </li>
-              <li className="h6 flex-fill text-center">
-                <i className="bi bi-arrow-right arrow me-2"></i>
-                床具 / 寢臥類
-              </li>
-              <li className="h6 flex-fill text-center">
-                <i className="bi bi-arrow-right arrow me-2"></i>
-                桌類 / 檯面類
-              </li>
-              <li className="h6 flex-fill text-center">
-                <i className="bi bi-arrow-right arrow me-2"></i>
-                擺飾 / 家飾類
-              </li>
+          {/* 分類選單 */}
+          <div className="container">
+            <ul className="categories-menu d-flex list-unstyled mb-4 overflow-auto">
+              {categoryMenu.map((cat) => (
+                <li
+                  key={cat}
+                  className={`h6 flex-fill text-center pointer text-nowrap px-3 ${activeCategory === cat ? "text-primary" : ""}`}
+                  style={{ cursor: "pointer", transition: "0.3s" }}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  <i className="bi bi-arrow-right arrow me-2"></i>
+                  {cat}
+                </li>
+              ))}
             </ul>
           </div>
-
+          {/* 新品 / 推薦切換 */}
           <div className="text-center mb-6">
-            <ul>
-              <li className="tab" data-state="unselected">
-                新品
-              </li>
-              <li className="tab" data-state="unselected">
-                推薦
-              </li>
+            <ul className="d-flex justify-content-center list-unstyled gap-4">
+              {["新品", "推薦"].map((t) => (
+                <li
+                  key={t}
+                  className="tab"
+                  data-state={activeTab === t ? "unselected" : "selected"}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setActiveTab(t)}
+                >
+                  {t}
+                </li>
+              ))}
             </ul>
           </div>
-
-          {/* 卡片區 */}
-          <div className="product-carousel">
-            <div className="product-card">
-              <img
-                src="images/product/product01.jpg"
-                className="img-fluid rounded mb-4"
-                alt="product01"
-              />
-              <span className="pill text-gray-70 body-text-t-s mb-3">
-                中古程度 B
-              </span>
-              <h6 className="h6 mb-3">北歐實木三人座沙發</h6>
-              <p className="body-text-t-m">$18,500</p>
-            </div>
-
-            <div className="product-card">
-              <img
-                src="images/product/product04.jpg"
-                className="img-fluid rounded mb-4"
-                alt="product04"
-              />
-              <span className="pill text-gray-70 body-text-t-s mb-3">
-                中古程度Ａ
-              </span>
-              <h6 className="h6 mb-3">經典款原木餐桌</h6>
-              <p className="body-text-t-m">$9,200</p>
-            </div>
-
-            <div className="product-card">
-              <img
-                src="images/product/product02.jpg"
-                className="img-fluid rounded mb-4"
-                alt="product02"
-              />
-              <span className="pill text-gray-70 body-text-t-s mb-3">
-                中古程度Ａ
-              </span>
-              <h6 className="h6 mb-3">米白色羊羔絨單椅</h6>
-              <p className="body-text-t-m">$5,990</p>
-            </div>
-
-            <div className="product-card">
-              <img
-                src="images/product/product05.jpg"
-                className="img-fluid rounded mb-4"
-                alt="product05"
-              />
-              <span className="pill text-gray-70 body-text-t-s mb-3">
-                中古程度 B
-              </span>
-              <h6 className="h6 mb-3">三層抽屜斗櫃</h6>
-              <p className="body-text-t-m">$6,500</p>
-            </div>
-
-            <div className="product-card">
-              <img
-                src="images/product/product03.jpg"
-                className="img-fluid rounded mb-4"
-                alt="product03"
-              />
-              <span className="pill text-gray-70 body-text-t-s mb-3">
-                中古程度 B
-              </span>
-              <h6 className="h6 mb-3">設計師款造型吊燈</h6>
-              <p className="body-text-t-m">$2,999</p>
-            </div>
+          {/* 商品展示區 - Swiper */}
+          <div className="product-carousel-container m-0 position-relative">
+            {filteredProducts.length > 0 ? (
+              <Swiper
+                modules={[Navigation, Pagination]}
+                spaceBetween={24} // 卡片間距
+                slidesPerView={1.4} // 手機版預設看到 1.3 格
+                navigation={{
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
+                }} // 顯示左右箭頭
+                pagination={{ clickable: true }} // 顯示下方分頁點可不可以跳頁的意思
+                className="pb-5"
+                breakpoints={{
+                  768: {
+                    slidesPerView: 5, // 桌機（平板以上）
+                  },
+                }}
+              >
+                {filteredProducts.map((item) => (
+                  <SwiperSlide key={item.id}>
+                    <div
+                      className="product-card h-100 p-0 m-0 "
+                      onClick={() => handleView(item.id)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div className="img-container rounded mb-3">
+                        <img
+                          src={item.imageUrl}
+                          className="img-fluid object-fit-cover w-100"
+                          style={{ height: "160px" }}
+                          alt={item.title}
+                        />
+                      </div>
+                      <span className="pill text-gray-70 body-text-t-s mb-3">
+                        {item.condition_level || "基本款"}
+                      </span>
+                      <h6 className="h6 mb-3 ">{item.title}</h6>
+                      <p className=" body-text-t-m ">
+                        ${item.price?.toLocaleString()}
+                      </p>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <div className="text-center py-5">
+                <p className="text-muted">
+                  目前「{activeCategory}」中沒有相關的{activeTab}商品
+                </p>
+              </div>
+            )}
+            <div className="custom-prev swiper-button-prev d-none d-xl-flex rounded-circle"></div>
+            <div className="custom-next swiper-button-next d-none d-xl-flex rounded-circle"></div>
           </div>
-
-          <div className="text-center mb-12 mb-lg-16">
-            <button className="btn-pr">瀏覽全部商品</button>
+          <div className="text-center mb-12 mb-lg-16 mt-5">
+            <Link
+              to="/products"
+              className="btn btn-outline-primary-90 rounded-pill px-5"
+            >
+              瀏覽全部商品
+            </Link>
           </div>
         </div>
+        <Toaster />
       </section>
-
       {/* S3 主題風格 */}
       <section className="theme-section">
         <div className="container py-12 py-lg-15">
@@ -427,10 +398,15 @@ const Home = () => {
           <div className="row g-8">
             {themes.map((theme) => (
               <div className="col-6 col-md-4 col-lg-3" key={theme.title}>
-                <div className="text-center mb-4">
-                  <div className={`theme-img ${theme.className}`}>
+                <div className="text-center mb-4 ">
+                  <div
+                    className={`theme-img ${theme.className}`}
+                    onClick={() => handleThemeClick(theme.style)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <img src={theme.img} alt={theme.alt} />
-                    <div className="theme-text h3">{theme.title}</div>
+                    <div className="overlay"></div>
+                    <div className="theme-text h3 ">{theme.title}</div>
                   </div>
                 </div>
               </div>
@@ -575,5 +551,6 @@ const Home = () => {
       </section>
     </>
   );
-};
-export default Home;
+}
+
+export default ProductCategorySection;

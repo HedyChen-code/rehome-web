@@ -14,6 +14,7 @@ import AdminProducts from './views/admin/AdminProducts';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLogin from './views/admin/AdminLogin';
 import AdminOrders from './views/admin/AdminOrders';
+import AdminTradeList from './views/admin/AdminTradeList';
 
 export const router = createHashRouter([
   // --- 前台 ---
@@ -85,6 +86,10 @@ export const router = createHashRouter([
       {
         path: 'orders',
         element: <AdminOrders />,
+      },
+      {
+        path: 'TradeList',
+        element: <AdminTradeList />,
       },
     ],
   },

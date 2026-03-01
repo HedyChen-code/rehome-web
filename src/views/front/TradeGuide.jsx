@@ -1,45 +1,70 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import { useForm ,useWatch} from "react-hook-form";
 // import axios from 'axios';
 import { tradeApi } from '../../api/tradeApi';
 // const API_BASE = import.meta.env.VITE_API_BASE;
 // const API_PATH = import.meta.env.VITE_API_PATH;
 
 const TradeGuide = () => {
-  // 1. 定義表單狀態
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    address: '',
-    category: '',
-    condition: '',
-    width: '',
-    depth: '',
-    height: '',
-    image: '',
+  // 使用 useForm 初始化
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue, // 用於手動更新隱藏欄位值（如圖片）
+    control,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange"
+  });
+  // 監看圖片值，用於 UI 顯示
+  const watchImage = useWatch({
+    control,
+    name: "image", 
   });
 
-  // 2. 處理欄位變更
-  const handleChange = (e) => {
-    const { id, value, name } = e.target;
-    const fieldName = id || name;
-    setFormData((prev) => ({
-      ...prev,
-      [fieldName]: value,
-    }));
-  };
+  // // 1. 定義表單狀態
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   phone: '',
+  //   address: '',
+  //   category: '',
+  //   condition: '',
+  //   width: '',
+  //   depth: '',
+  //   height: '',
+  //   image: '',
+  // });
+
+  // // 2. 處理欄位變更
+  // const handleChange = (e) => {
+  //   const { id, value, name } = e.target;
+  //   const fieldName = id || name;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [fieldName]: value,
+  //   }));
+  // };
 
   // 3. 處理圖片上傳 (轉為 base64 上傳)
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    const limitSize = 5 * 1024 * 1024;
+      if (file.size > limitSize) {
+      alert("圖片太大了！請上傳小於 5MB 的照片，以免送出失敗。");
+      e.target.value = ""; // 清空 input
+      return;
+    }
 
     try {
       const base64Image = await tradeApi.uploadImage(file);
 
-      setFormData((prev) => ({
-        ...prev,
-        image: base64Image, // 將轉換後的長字串存入表單
-      }));
+      // setFormData((prev) => ({
+      //   ...prev,
+      //   image: base64Image, // 將轉換後的長字串存入表單
+      // }));
+      setValue("image", base64Image, { shouldValidate: true });
     } catch (error) {
       console.error('圖片處理失敗:', error);
       alert('圖片讀取失敗，請重試');
@@ -47,23 +72,13 @@ const TradeGuide = () => {
   };
 
   // 4. 送出表單
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (formData) => {
+    // e.preventDefault();
     try {
       await tradeApi.createTrade(formData);
       alert('家具收購申請送出成功！');
       // 清空表單
-      setFormData({
-        name: '',
-        phone: '',
-        address: '',
-        category: '',
-        condition: '',
-        width: '',
-        depth: '',
-        height: '',
-        image: '',
-      });
+      reset(); 
     } catch (error) {
       console.error('送出失敗:', error);
       alert('送出失敗，請檢查 json-server 是否啟動');
@@ -450,10 +465,10 @@ const TradeGuide = () => {
                     <div className="p-3 rounded-3 bg-white">✔</div>
                   </td>
                   <td className="p-0">
-                    <div className="p-3 rounded-3 bg-white">✔</div>
+                    <div className="p-3 rounded-3 bg-white">✘</div>
                   </td>
                   <td className="p-0">
-                    <div className="p-3 rounded-3 bg-white">✔</div>
+                    <div className="p-3 rounded-3 bg-white">✘</div>
                   </td>
                 </tr>
                 <tr>
@@ -485,7 +500,7 @@ const TradeGuide = () => {
                     <div className="p-3 rounded-3 bg-white">✔</div>
                   </td>
                   <td className="p-0">
-                    <div className="p-3 rounded-3 bg-white">✘</div>
+                    <div className="p-3 rounded-3 bg-white">✔</div>
                   </td>
                   <td className="p-0">
                     <div className="p-3 rounded-3 bg-white">✔</div>
@@ -507,64 +522,62 @@ const TradeGuide = () => {
               <p className="fs-lg-3  fs-4 pb-lg-9 pb-8 text-center text-lg-start">
                 售物意向表單
               </p>
-              <form className="row" onSubmit={handleSubmit}>
+              <form className="row" onSubmit={handleSubmit(onSubmit)}>
                 {/* 姓名 */}
                 <div className="col-lg-6 col-12 mb-8">
                   <label htmlFor="name" className="form-label fs-6 mb-3">
-                    姓名
+                    姓名 <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
-                    className="form-control sell-form-col"
+                    className={`form-control sell-form-col ${errors.name ? 'is-invalid' : ''}`}
                     id="name"
                     placeholder="請輸入你的姓名"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
+                    {...register("name", { required: "請輸入姓名" })}
                   />
+                  {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
                 </div>
 
                 {/* 聯絡電話 */}
                 <div className="col-lg-6 col-12 mb-8">
                   <label htmlFor="phone" className="form-label fs-6 mb-3">
-                    聯絡電話
+                    聯絡電話 <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
-                    className="form-control sell-form-col"
+                    className={`form-control sell-form-col ${errors.phone ? 'is-invalid' : ''}`}
                     id="phone"
                     placeholder="請輸入聯絡電話"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
+                    {...register("phone", { 
+                      required: "請輸入聯絡電話",
+                      pattern: { value: /^\d+$/, message: "電話僅能輸入數字" },
+                      minLength: { value: 8, message: "電話至少需 8 碼" }
+                      })}
                   />
+                  {errors.phone && <div className="invalid-feedback">{errors.phone.message}</div>}
                 </div>
 
                 {/* 取件地址 */}
                 <div className="col-12 mb-8">
                   <label htmlFor="address" className="form-label fs-6 mb-3">
-                    取件地址
+                    取件地址 <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
-                    className="form-control sell-form-col"
+                    className={`form-control sell-form-col ${errors.address ? 'is-invalid' : ''}`}
                     id="address"
                     placeholder="請輸入取件地址"
-                    value={formData.address}
-                    onChange={handleChange}
-                    required
+                    {...register("address", { required: "請輸入地址" })}
                   />
+                  {errors.address && <div className="invalid-feedback">{errors.address.message}</div>}
                 </div>
 
                 {/* 家具類別 */}
                 <div className="col-lg-6 col-12 mb-8">
-                  <label className="form-label fs-6 mb-3">家具類別</label>
+                  <label className="form-label fs-6 mb-3">家具類別 <span className="text-danger">*</span></label>
                   <select
-                    className="form-select sell-form-col"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    required
+                    className={`form-select sell-form-col ${errors.category ? 'is-invalid' : ''}`}
+                    {...register("category", { required: "請選擇類別" })}
                   >
                     <option value="">請選擇家具類型</option>
                     <option value="沙發/座椅類">沙發 / 座椅類</option>
@@ -573,17 +586,15 @@ const TradeGuide = () => {
                     <option value="桌類/檯面類">桌類 / 檯面類</option>
                     <option value="擺飾/家飾類">擺飾 / 家飾類</option>
                   </select>
+                  {errors.category && <div className="invalid-feedback">{errors.category.message}</div>}
                 </div>
 
                 {/* 狀況自評 */}
                 <div className="col-lg-6 mb-8">
-                  <label className="form-label fs-lg-6 mb-3">狀況自評</label>
+                  <label className="form-label fs-lg-6 mb-3">狀況自評 <span className="text-danger">*</span></label>
                   <select
-                    className="form-select sell-form-col"
-                    name="condition"
-                    value={formData.condition}
-                    onChange={handleChange}
-                    required
+                    className={`form-select sell-form-col ${errors.condition ? 'is-invalid' : ''}`}
+                    {...register("condition", { required: "請評估物品狀況" })}
                   >
                     <option value="">請選擇物件狀況</option>
                     <option value="全新">全新</option>
@@ -592,6 +603,7 @@ const TradeGuide = () => {
                     <option value="較差">較差</option>
                     <option value="破損">破損</option>
                   </select>
+                  {errors.condition && <div className="invalid-feedback">{errors.condition.message}</div>}
                 </div>
 
                 {/* 尺寸 */}
@@ -605,10 +617,8 @@ const TradeGuide = () => {
                       <input
                         type="number"
                         className="size-input ps-4 sell-form-col"
-                        id="width"
-                        value={formData.width}
+                        {...register("width", { required: "請輸入寬度" })}
                         placeholder="ex:100"
-                        onChange={handleChange}
                       />
                       <span className="ms-3">cm</span>
                     </div>
@@ -620,10 +630,8 @@ const TradeGuide = () => {
                       <input
                         type="number"
                         className="size-input ps-4 sell-form-col"
-                        id="depth"
-                        value={formData.depth}
+                        {...register("depth", { required: "請輸入深度" })}
                         placeholder="ex:100"
-                        onChange={handleChange}
                       />
                       <span className="ms-3">cm</span>
                     </div>
@@ -635,10 +643,9 @@ const TradeGuide = () => {
                       <input
                         type="number"
                         className="size-input ps-4 sell-form-col"
-                        id="height"
-                        value={formData.height}
+                        {...register("height", { required: "請輸入高度" })}
                         placeholder="ex:100"
-                        onChange={handleChange}
+
                       />
                       <span className="ms-3">cm</span>
                     </div>
@@ -647,10 +654,10 @@ const TradeGuide = () => {
 
                 {/* 照片上傳 */}
                 <div className="mb-9 mt-8">
-                  <label className="form-label fs-lg-6 mb-3">照片上傳</label>
+                  <label className="form-label fs-lg-6 mb-3">照片上傳 <span className="text-danger">*</span></label>
                   <label
                     htmlFor="formFile"
-                    className="upload-box d-flex flex-column align-items-center justify-content-center"
+                    className={`upload-box d-flex flex-column align-items-center justify-content-center ${errors.image ? 'border-danger' : ''}`}
                     style={{
                       border: '1px dashed #ccc',
                       cursor: 'pointer',
@@ -659,7 +666,7 @@ const TradeGuide = () => {
                   >
                     <i className="bi bi-upload mb-2"></i>
                     <span>
-                      {formData.image ? '已選擇照片' : '點擊上傳照片'}
+                      <span>{watchImage ? '已選擇照片' : '點擊上傳照片'}</span>
                     </span>
                     <input
                       className="form-control"
@@ -669,7 +676,10 @@ const TradeGuide = () => {
                       onChange={handleImageUpload}
                       accept="image/*"
                     />
+                    {/* 隱藏欄位用來承接 base64 字串並進行驗證 */}
+                    <input type="hidden" {...register("image", { required: "請上傳物品照片" })} />
                   </label>
+                  {errors.image && <p className="text-danger fs-7 mt-2" style={{ display: 'block' }}>{errors.image.message}</p>}
                 </div>
 
                 {/* 送出按鈕 */}

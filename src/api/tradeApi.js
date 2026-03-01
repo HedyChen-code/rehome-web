@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const client = axios.create({
   baseURL: 'https://rehome.onrender.com', // json-server 埠口
-  timeout: 5000
+  timeout: 50000
 });
 
 export const tradeApi = {
