@@ -29,10 +29,8 @@ const ScrollToTop = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="btn btn-primary-70 rounded-circle position-fixed d-flex align-items-center justify-content-center"
+          className="back-to-top btn btn-primary-70 rounded-circle position-fixed d-flex align-items-center justify-content-center"
           style={{
-            bottom: '120px',
-            right: '120px',
             width: '50px',
             height: '50px',
             zIndex: 1050,

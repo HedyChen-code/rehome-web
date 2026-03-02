@@ -8,3 +8,16 @@
 .form-check-input:checked {
   background-color: $primary-30;
 }
+
+.back-to-top {
+  bottom: 24px;
+  right: 16px;
+}
+
+/* 電腦版 (螢幕寬度 >= 992px) 時變化數值 */
+@media (min-width: 992px) {
+  .back-to-top {
+    bottom: 120px;
+    right: 120px;
+  }
+}
