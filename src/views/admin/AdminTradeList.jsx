@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import { tradeApi } from '../../api/tradeApi';
-
+import toast, { Toaster } from 'react-hot-toast';
 // const API_BASE = import.meta.env.VITE_API_BASE;
 // const API_PATH = import.meta.env.VITE_API_PATH;
 
@@ -25,12 +25,13 @@ function AdminTradeList() {
 
   // 新增刪除功能
   const handleDelete = async (id) => {
-    if (!window.confirm('確定要刪除這筆申請嗎？')) return;
     try {
       await tradeApi.deleteTrade(id);
+      toast.success('刪除成功');
       fetchTradeList(); // 重新整理列表
-    } catch {
-      alert('刪除失敗');
+    } catch (error) {
+      console.error('刪除失敗:', error);
+      toast.error('刪除失敗');
     }
   };
 
@@ -39,10 +40,12 @@ function AdminTradeList() {
   }, []);
 
   return (
-    <div className="mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>家具收購申請清單</h2>
-      </div>
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="mt-5">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h2>家具收購申請清單</h2>
+        </div>
 
       <div className="table-responsive">
         <table className="table table-hover align-middle">
@@ -133,6 +136,7 @@ function AdminTradeList() {
         </table>
       </div>
     </div>
+    </>
   );
 }
 
