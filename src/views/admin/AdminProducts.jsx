@@ -48,22 +48,28 @@ function AdminProducts() {
 
   const { showError } = useMessage();
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   // 取得所有商品資料.
-  const getData = useCallback(async (page = 1) => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(
-        `${API_BASE}/api/${API_PATH}/admin/products?page=${page}`,
-      );
-      setProducts(res.data.products);
-      setPagination(res.data.pagination);
-    } catch (error) {
-      showError(error.response?.data?.message || '取得資料失敗');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const getData = useCallback(
+    async (page = 1) => {
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const res = await axios.get(
+          `${API_BASE}/api/${API_PATH}/admin/products?page=${page}`,
+        );
+        setProducts(res.data.products);
+        setPagination(res.data.pagination);
+      } catch (error) {
+        setIsError(true);
+        showError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [showError],
+  );
 
   // 使用 ref 控制 Modal
   const openModal = (product, type) => {
@@ -157,8 +163,18 @@ function AdminProducts() {
                     <p className="mt-2">資料讀取中...</p>
                   </td>
                 </tr>
+              ) : isError ? (
+                // 2. 新增：API 出錯的狀態
+                <tr>
+                  <td colSpan="8" className="text-center py-5 text-danger">
+                    <i className="bi bi-exclamation-triangle-fill fs-3"></i>
+                    <p className="mt-2">
+                      資料取得失敗，請連絡相關人員或稍後再試
+                    </p>
+                  </td>
+                </tr>
               ) : products && products.length > 0 ? (
-                // 2. 有資料的狀態
+                // 3. 有資料的狀態
                 products.map((item) => (
                   <tr key={item.id}>
                     <td>
@@ -254,7 +270,7 @@ function AdminProducts() {
                   </tr>
                 ))
               ) : (
-                // 3. 確定沒資料的狀態
+                // 4. 確定沒資料的狀態
                 <tr>
                   <td colSpan="8" className="text-center py-5 text-muted">
                     尚無產品資料

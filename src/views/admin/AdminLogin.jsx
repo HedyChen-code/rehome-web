@@ -1,14 +1,15 @@
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { emailValidation, passwordValidation } from '../../utils/validation';
 import { NavLink, useNavigate } from 'react-router-dom';
+import useMessage from '../../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 function AdminLogin() {
   const navigate = useNavigate();
+  const { showError } = useMessage();
 
   const {
     register,
@@ -34,7 +35,7 @@ function AdminLogin() {
         navigate('/admin');
       }, 1000);
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      showError(error.response?.data?.message);
     }
   };
 
@@ -42,7 +43,6 @@ function AdminLogin() {
     // 登入頁面
     <div className="bg-primary-10">
       <div className="container login">
-        <Toaster position="top-right" reverseOrder={false} />
         <div className="p-16 bg-white rounded-3">
           <div className="row justify-content-center">
             <h1 className="h3 mb-3 font-weight-normal">請先登入</h1>

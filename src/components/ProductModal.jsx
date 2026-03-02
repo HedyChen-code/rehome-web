@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
 import useMessage from '../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
@@ -8,7 +7,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 function ProductModal({ modalType, templateData, closeModal, getData }) {
   const [tempData, setTempData] = useState(templateData);
-  const { showSuccess } = useMessage();
+  const { showSuccess, showError } = useMessage();
 
   useEffect(() => {
     setTempData(templateData);
@@ -41,15 +40,6 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
     }));
   };
 
-  // 移除圖片
-  const handleRemoveImage = () => {
-    setTempData((prevData) => {
-      const newImages = [...prevData.imagesUrl];
-      newImages.pop();
-      return { ...prevData, imagesUrl: newImages };
-    });
-  };
-
   // 更新商品資訊(新增、編輯)
   const updateProduct = async (id) => {
     let url = `${API_BASE}/api/${API_PATH}/admin/product`;
@@ -77,7 +67,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
         is_enabled: Number(tempData.is_enabled),
         is_new: Number(tempData.is_new),
         is_is_recommend: Number(tempData.is_is_recommend),
-        material: tempData.material,
+        material: tempData.material?.filter((mat) => mat.trim() !== '') || [],
         imageUrl: tempData.imageUrl,
         imagesUrl: tempData.imagesUrl?.filter((url) => url !== ''),
       },
@@ -90,7 +80,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
     } catch (error) {
       const message =
         error?.response?.data?.message || '資料填寫不完整或發生錯誤';
-      alert(message);
+      showError(message);
     }
   };
 
@@ -102,9 +92,9 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
       );
       getData();
       closeModal();
-      toast.success('資料刪除成功:', res.data);
+      showSuccess(`資料刪除成功：${res.data.message}`);
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      showError(error.response?.data?.message);
     }
   };
 
@@ -135,9 +125,9 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
         ...pre,
         imageUrl: res.data.imageUrl,
       }));
-      toast.success('上傳成功');
+      showSuccess('圖片上傳成功');
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      showError(error.response?.data?.message);
     }
   };
 
@@ -562,8 +552,12 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                   <tr>
                     <th className="bg-primary-30">更多照片網址</th>
                     <td colSpan="3">
+                      {/* 1. 遍歷顯示所有輸入框，每個輸入框後方帶一個「刪除」按鈕 */}
                       {(tempData.imagesUrl || []).map((image, index) => (
-                        <div key={index} className="d-flex ">
+                        <div
+                          key={index}
+                          className="d-flex mb-2 align-items-center"
+                        >
                           <input
                             type="text"
                             value={image}
@@ -571,37 +565,33 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                               handleImageChange(index, e.target.value)
                             }
                             placeholder={`圖片網址 ${index + 1}`}
-                            className="form-control mb-2 w-75"
+                            className="form-control w-75"
                           />
-                          <div className="ms-2 d-flex justify-content-between">
-                            {tempData.imagesUrl.length < 5 &&
-                              tempData.imagesUrl[
-                                tempData.imagesUrl.length - 1
-                              ] !== '' && (
-                                <button
-                                  type="button"
-                                  className="btn btn-outline-info btn-sm w-100 mb-2"
-                                  onClick={handleAddImage}
-                                >
-                                  新增圖片
-                                </button>
-                              )}
-
-                            {tempData.imagesUrl.length && (
-                              <button
-                                type="button"
-                                className="ms-2 btn btn-outline-danger btn-sm w-100 mb-2"
-                                onClick={handleRemoveImage}
-                              >
-                                取消圖片
-                              </button>
-                            )}
-                          </div>
+                          {/* 專屬刪除按鈕 */}
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger btn-sm ms-2"
+                            onClick={() => {
+                              const newImages = [...tempData.imagesUrl];
+                              newImages.splice(index, 1); // 刪除當前這一筆
+                              setTempData((prev) => ({
+                                ...prev,
+                                imagesUrl: newImages,
+                              }));
+                            }}
+                          >
+                            刪除
+                          </button>
                         </div>
                       ))}
+
+                      {/* 2. 獨立在外的「新增圖片」按鈕，固定在最下方 */}
                       <div className="mt-2">
                         {(!tempData.imagesUrl ||
-                          tempData.imagesUrl.length < 5) && (
+                          (tempData.imagesUrl.length < 5 &&
+                            tempData.imagesUrl[
+                              tempData.imagesUrl.length - 1
+                            ] !== '')) && (
                           <button
                             type="button"
                             className="btn btn-outline-info btn-sm"

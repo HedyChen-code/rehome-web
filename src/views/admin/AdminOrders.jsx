@@ -41,10 +41,12 @@ const AdminOrders = () => {
   const [templateData, setTemplateData] = useState(INITIAL_TEMPLATE_DATA);
   const { showError } = useMessage();
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   // 取得所有訂單資料
   const getOrders = useCallback(async (page = 1) => {
     setIsLoading(true);
+    setIsError(false);
     try {
       const res = await axios.get(
         `${API_BASE}/api/${API_PATH}/admin/orders?page=${page}`,
@@ -52,6 +54,7 @@ const AdminOrders = () => {
       setOrders(res.data.orders);
       setPagination(res.data.pagination);
     } catch (error) {
+      setIsError(true);
       showError(error.response?.data?.message || '取得資料失敗');
     } finally {
       setIsLoading(false);
@@ -136,6 +139,14 @@ const AdminOrders = () => {
                   <p className="mt-2">資料讀取中...</p>
                 </td>
               </tr>
+            ) : isError ? (
+              // 2. 新增：API 出錯的狀態
+              <tr>
+                <td colSpan="8" className="text-center py-5 text-danger">
+                  <i className="bi bi-exclamation-triangle-fill fs-3"></i>
+                  <p className="mt-2">資料取得失敗，請連絡相關人員或稍後再試</p>
+                </td>
+              </tr>
             ) : orders && orders.length > 0 ? (
               orders.map((order) => (
                 <tr key={order.id}>
@@ -158,7 +169,7 @@ const AdminOrders = () => {
                   {/* 產品項目 (處理物件轉陣列) */}
                   <td>
                     <ul className="list-unstyled mb-0 small">
-                      {Object.values(order.products).map((item) => (
+                      {Object.values(order.products || {}).map((item) => (
                         <li key={item.id}>
                           {item.product.title.slice(-5)}...
                           <span className="badge bg-secondary-20 ms-1 text-gray-50">

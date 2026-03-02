@@ -1,7 +1,8 @@
 import { Outlet, NavLink } from 'react-router';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import MessageToast from '../components/MessageToast';
+import useMessage from '../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -40,6 +41,7 @@ const NavItems = () => {
 
 const AdminLayout = () => {
   const navigate = useNavigate();
+  const { showError, showSuccess } = useMessage();
 
   // 登出
   const checkLoggOut = async (e) => {
@@ -50,18 +52,18 @@ const AdminLayout = () => {
       // 移除 token
       document.cookie = 'hexToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
       delete axios.defaults.headers.common.Authorization;
-      toast.success(res.data.message);
+      showSuccess(res.data.message);
       setTimeout(() => {
         navigate('/admin/login');
       }, 1000);
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      showError(error.response?.data?.message);
     }
   };
 
   return (
     <div className="d-flex ">
-      <Toaster position="top-center" reverseOrder={false} />
+      <MessageToast />
       {/* --- 左側側邊欄 (Sidebar) --- */}
       <aside
         className="d-flex flex-column position-fixed min-vh-100 text-white bg-primary-90"
