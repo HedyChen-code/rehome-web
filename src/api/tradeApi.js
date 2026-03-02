@@ -14,7 +14,7 @@ export const tradeApi = {
         queryParams.q = keyword;
         }
 
-        const response = await client.get('/data', {
+        const response = await client.get('/items', {
         params: queryParams 
         });
 
@@ -24,25 +24,25 @@ export const tradeApi = {
 
   // 2. 取得詳細資料 (使用 expand 關聯)
   getTradeById: async (id) => {
-    const response = await client.get(`/data/${id}`);
+    const response = await client.get(`/items/${id}`);
     return response.data;
   },
 
   // 3. 新增家具收購申請
   createTrade: async (newTradeData) => {
-    const response = await client.post('/data', newTradeData);
+    const response = await client.post('/items', newTradeData);
     return response.data;
   },
 
   // 4. 修改家具收購申請 (部分更新)
   updateTrade: async (id, updatedFields) => {
-    const response = await client.patch(`/data/${id}`, updatedFields);
+    const response = await client.patch(`/items/${id}`, updatedFields);
     return response.data;
   },
 
   // 5. 刪除家具收購申請
   deleteTrade: async (id) => {
-    await client.delete(`/data/${id}`);
+    await client.delete(`/items/${id}`);
     return id; // 通常回傳 id 確認刪除成功
   },
 

@@ -4,6 +4,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { tradeApi } from '../../api/tradeApi';
 // const API_BASE = import.meta.env.VITE_API_BASE;
 // const API_PATH = import.meta.env.VITE_API_PATH;
+import toast, { Toaster } from 'react-hot-toast';
 
 const TradeGuide = () => {
   // 使用 useForm 初始化
@@ -11,7 +12,7 @@ const TradeGuide = () => {
     register,
     handleSubmit,
     reset,
-    setValue, // 用於手動更新隱藏欄位值（如圖片）
+    setValue, 
     control,
     formState: { errors },
   } = useForm({
@@ -52,7 +53,7 @@ const TradeGuide = () => {
     if (!file) return;
     const limitSize = 5 * 1024 * 1024;
     if (file.size > limitSize) {
-      alert('圖片太大了！請上傳小於 5MB 的照片，以免送出失敗。');
+      toast.error('圖片太大了！請上傳小於 5MB 的照片，以免送出失敗。');
       e.target.value = ''; // 清空 input
       return;
     }
@@ -67,7 +68,7 @@ const TradeGuide = () => {
       setValue('image', base64Image, { shouldValidate: true });
     } catch (error) {
       console.error('圖片處理失敗:', error);
-      alert('圖片讀取失敗，請重試');
+      toast.error('圖片讀取失敗，請重試');
     }
   };
 
@@ -76,17 +77,18 @@ const TradeGuide = () => {
     // e.preventDefault();
     try {
       await tradeApi.createTrade(formData);
-      alert('家具收購申請送出成功！');
+      toast.success('家具收購申請送出成功！');
       // 清空表單
       reset();
     } catch (error) {
       console.error('送出失敗:', error);
-      alert('送出失敗，請檢查 json-server 是否啟動');
+      toast.error('送出失敗，請檢查 json-server 是否啟動');
     }
   };
 
   return (
     <>
+      <Toaster position="top-right" reverseOrder={false} />
       <section className="guide_sm_bg custom-container ">
         <div className="container">
           <div className="guide_bg d-block">
