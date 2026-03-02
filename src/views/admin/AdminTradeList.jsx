@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import { tradeApi } from '../../api/tradeApi';
-import toast, { Toaster } from 'react-hot-toast';
+import useMessage from '../../hooks/useMessage';
+
 // const API_BASE = import.meta.env.VITE_API_BASE;
 // const API_PATH = import.meta.env.VITE_API_PATH;
 
 function AdminTradeList() {
   const [tradeList, setTradeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const { showError, showSuccess } = useMessage();
   // 1. 取得資料
   const fetchTradeList = async () => {
     try {
@@ -27,11 +28,11 @@ function AdminTradeList() {
   const handleDelete = async (id) => {
     try {
       await tradeApi.deleteTrade(id);
-      toast.success('刪除成功');
+      showSuccess('刪除成功');
       fetchTradeList(); // 重新整理列表
     } catch (error) {
       console.error('刪除失敗:', error);
-      toast.error('刪除失敗');
+      showError('刪除失敗');
     }
   };
 
@@ -41,101 +42,100 @@ function AdminTradeList() {
 
   return (
     <>
-      <Toaster position="top-center" reverseOrder={false} />
       <div className="mt-5">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h2>家具收購申請清單</h2>
         </div>
 
-      <div className="table-responsive">
-        <table className="table table-hover align-middle">
-          <thead className="table-light">
-            <tr>
-              <th style={{ width: '120px' }}>照片</th>
-              <th>姓名 </th>
-              <th>聯絡電話</th>
-              <th>類別 </th>
-              <th>狀況 </th>
-              <th>尺寸 (寬x深x高)</th>
-              <th>取件地址</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
+        <div className="table-responsive">
+          <table className="table table-hover align-middle">
+            <thead className="table-light">
               <tr>
-                <td colSpan="8" className="text-center py-5">
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                  <p className="mt-2">資料讀取中...</p>
-                </td>
+                <th style={{ width: '120px' }}>照片</th>
+                <th>姓名 </th>
+                <th>聯絡電話</th>
+                <th>類別 </th>
+                <th>狀況 </th>
+                <th>尺寸 (寬x深x高)</th>
+                <th>取件地址</th>
+                <th>操作</th>
               </tr>
-            ) : Array.isArray(tradeList) && tradeList.length > 0 ? (
-              tradeList.map((item) => (
-                <tr key={item.id}>
-                  {/* 照片: 對應 image */}
-                  <td>
-                    <img
-                      src={item.image || 'https://via.placeholder.com/100'}
-                      alt="家具照片"
-                      className="img-thumbnail"
-                      style={{
-                        width: '100px',
-                        height: '80px',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </td>
-                  {/* 姓名: 對應 name */}
-                  <td>
-                    <div className="fw-bold">{item.name}</div>
-                  </td>
-                  {/* 電話: 對應 phone */}
-                  <td>
-                    <div className="fw-bold">{item.phone}</div>
-                  </td>
-                  {/* 類別 */}
-                  <td>
-                    <span>{item.category || '未分類'}</span>
-                  </td>
-                  {/* 狀況 */}
-                  <td>
-                    <span>{item.condition || '未知狀況'}</span>
-                  </td>
-                  {/* 尺寸 (寬x深x高): 寬->tag[2]; 深->tag[3]; 高->tag[4] */}
-                  <td>
-                    <span className="text-primary-70">
-                      {item.width
-                        ? `${item.width} x ${item.depth} x ${item.height} cm`
-                        : '未提供尺寸'}
-                    </span>
-                  </td>
-                  {/* 取件地址: 地址->description */}
-                  <td>{item.address}</td>
-                  <td>
-                    <div className="btn-group btn-group-sm">
-                      <button
-                        className="btn btn-outline-danger"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        刪除
-                      </button>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <td colSpan="8" className="text-center py-5">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
                     </div>
+                    <p className="mt-2">資料讀取中...</p>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="text-center">
-                  目前沒有申請資料
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : Array.isArray(tradeList) && tradeList.length > 0 ? (
+                tradeList.map((item) => (
+                  <tr key={item.id}>
+                    {/* 照片: 對應 image */}
+                    <td>
+                      <img
+                        src={item.image || 'https://via.placeholder.com/100'}
+                        alt="家具照片"
+                        className="img-thumbnail"
+                        style={{
+                          width: '100px',
+                          height: '80px',
+                          objectFit: 'cover',
+                        }}
+                      />
+                    </td>
+                    {/* 姓名: 對應 name */}
+                    <td>
+                      <div className="fw-bold">{item.name}</div>
+                    </td>
+                    {/* 電話: 對應 phone */}
+                    <td>
+                      <div className="fw-bold">{item.phone}</div>
+                    </td>
+                    {/* 類別 */}
+                    <td>
+                      <span>{item.category || '未分類'}</span>
+                    </td>
+                    {/* 狀況 */}
+                    <td>
+                      <span>{item.condition || '未知狀況'}</span>
+                    </td>
+                    {/* 尺寸 (寬x深x高): 寬->tag[2]; 深->tag[3]; 高->tag[4] */}
+                    <td>
+                      <span className="text-primary-70">
+                        {item.width
+                          ? `${item.width} x ${item.depth} x ${item.height} cm`
+                          : '未提供尺寸'}
+                      </span>
+                    </td>
+                    {/* 取件地址: 地址->description */}
+                    <td>{item.address}</td>
+                    <td>
+                      <div className="btn-group btn-group-sm">
+                        <button
+                          className="btn btn-outline-danger"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          刪除
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" className="text-center">
+                    目前沒有申請資料
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </>
   );
 }

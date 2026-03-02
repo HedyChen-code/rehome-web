@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -14,6 +13,7 @@ import ScrollToTop from '../../components/ScrollToTop';
 
 // 引入需要的模組 (選用：導覽箭頭、分頁點)
 import { Navigation, Pagination } from 'swiper/modules';
+import useMessage from '../../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -22,13 +22,14 @@ function ProductCategorySection() {
   const [products, setProducts] = useState([]);
   const [activeCategory, setActiveCategory] = useState('沙發 / 座椅類');
   const [activeTab, setActiveTab] = useState('新品');
+  const { showError } = useMessage();
 
   const getProducts = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
       setProducts(res.data.products);
     } catch (error) {
-      toast.error('取得資料失敗');
+      showError('取得資料失敗');
     }
   };
 
@@ -136,13 +137,6 @@ function ProductCategorySection() {
     });
   };
   //向上跳轉
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }
 
   return (
     <>
@@ -395,7 +389,6 @@ function ProductCategorySection() {
             </Link>
           </div>
         </div>
-        <Toaster />
       </section>
       {/* S3 主題風格 */}
       <section className="theme-section">
