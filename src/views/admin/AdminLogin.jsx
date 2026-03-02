@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { emailValidation, passwordValidation } from '../../utils/validation';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useMessage from '../../hooks/useMessage';
+import MessageToast from '../../components/MessageToast';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -35,6 +36,7 @@ function AdminLogin() {
         navigate('/admin');
       }, 1000);
     } catch (error) {
+      console.log(error);
       showError(error.response?.data?.message);
     }
   };
@@ -42,6 +44,7 @@ function AdminLogin() {
   return (
     // 登入頁面
     <div className="bg-primary-10">
+      <MessageToast />
       <div className="container login">
         <div className="p-16 bg-white rounded-3">
           <div className="row justify-content-center">
