@@ -11,6 +11,18 @@
 li:hover .navlink-lg {
   color: $primary-90;
 }
+.icon-hover {
+  i.nav-icon {
+    color: $white !important;
+  }
+  &:hover {
+    background-color: $primary-10 !important;
+    i.nav-icon {
+      color: $primary-90 !important;
+      transition: color 0.3s ease;
+    }
+  }
+}
 /* 漢堡選單容器 */
 .hamburger-icon {
   padding: 6px 3px;

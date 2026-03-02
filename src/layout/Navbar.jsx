@@ -317,7 +317,7 @@ const Navbar = ({ setPage, variant = 'default' }) => {
               </ul>
               {/* 購物車 icon */}
               <div className="d-flex">
-                <div className="icon-wrapper p-4 d-flex align-items-center">
+                <div className="icon-wrapper p-4 pe-5 d-flex align-items-center rounded-pill">
                   {/* 搜尋輸入框 */}
                   <input
                     type="text"
@@ -335,21 +335,21 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                     <i className="bi bi-search text-white nav-icon"></i>
                   </div>
                 </div>
-                <div className="icon-wrapper p-5 d-flex align-items-center">
+                <div className="icon-wrapper icon-hover p-5 d-flex align-items-center rounded-pill">
                   <div
                     className="bg-transparent border-0 shadow-none p-0"
                     role="button"
                   >
-                    <i className="bi bi-person text-white nav-icon"></i>
+                    <i className="bi bi-person nav-icon"></i>
                   </div>
                 </div>
-                <div className="icon-wrapper p-5 d-flex align-items-center">
+                <div className="icon-wrapper icon-hover p-5 d-flex align-items-center rounded-pill">
                   <div
                     className="bg-transparent border-0 shadow-none p-0 position-relative"
                     role="button"
                   >
                     <NavLink to="/cart">
-                      <i className="bi bi-cart text-white nav-icon"></i>
+                      <i className="bi bi-cart nav-icon"></i>
                       {cartCount > 0 && (
                         <span
                           className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"

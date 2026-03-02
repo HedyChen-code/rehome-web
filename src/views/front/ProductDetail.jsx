@@ -222,7 +222,7 @@ function ProductDetail() {
                   <div className="pb-9 pb-lg-10 border-bottom border-gray-30 d-lg-flex mb-lg-10">
                     <button
                       typeof="button"
-                      className="w-100 btn btn-outline-primary-90 rounded-pill p-0 mb-5 mb-lg-0 me-lg-8"
+                      className="w-100 btn btn-outline-primary-90 rounded-pill btn-border p-0 mb-5 mb-lg-0 me-lg-8"
                       onClick={() => addCart(product.id)}
                     >
                       <h5 className="fw-medium my-5">加入購物車</h5>
@@ -231,7 +231,7 @@ function ProductDetail() {
                     <button
                       to="/cart"
                       typeof="button"
-                      className="w-100 btn btn-primary-90 rounded-pill p-0"
+                      className="w-100 btn btn-primary-90 rounded-pill btn-fill p-0"
                       onClick={() => handleBuyNow(product.id)}
                     >
                       <h5 className="fw-medium my-5">立即購買</h5>
