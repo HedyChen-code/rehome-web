@@ -87,7 +87,7 @@ const Cart = () => {
               <form action="">
                 <section className="checkout-card mb-10 mb-md-12 fs-md-6">
                   <div className="container">
-                    <h2 className="mb-4">購物車清單</h2>
+                    <h2 className="mb-4 fs-3 fs-md-2">購物車清單</h2>
                     <div className="text-end mb-2">
                       <button 
                         type="button" 
@@ -99,13 +99,14 @@ const Cart = () => {
                         清空購物車
                       </button>
                     </div>
-                    <table className="table table-hover">
+                    <table className="table table-hover fs-7 fs-md-6">
                       <thead>
                         <tr>
-                          <th scope="col" style={{width: "15%"}}></th>
-                          <th scope="col" style={{width: "40%"}}>品名</th>
-                          <th scope="col" style={{width: "30%"}}>數量 / 單位</th>
-                          <th scope="col" style={{width: "15%"}}>小計</th>
+                          <th scope="col" className="col-del"></th>
+                          <th scope="col" className="col-title">品名</th>
+                          <th scope="col" className="col-qty">數量 / 單位</th>
+                          <th scope="col" className="col-total">小計</th>
+
                         </tr>
                       </thead>
                       <tbody>
@@ -125,8 +126,8 @@ const Cart = () => {
                               </td>
                               <td>{ cartItem.product.title }</td>
                               <td>
-                                <div className="d-flex align-items-center gap-2">
-                                  <div className="input-group me-3 w-auto">
+                                <div className="d-flex align-items-center flex-wrap flex-md-nowrap fs-8 fs-md-6">
+                                  <div className="input-group me-md-3 w-auto">
                                     <button 
                                       className="btn btn-outline-danger"
                                       disabled={cartItem.qty <= 1}
@@ -138,8 +139,8 @@ const Cart = () => {
                                       type="text" 
                                       inputMode="numeric"
                                       pattern="[0-9]*"
-                                      className="form-control text-center bg-white"
-                                      style={{flex: '0 0 70px'}} 
+                                      className="form-control text-center bg-white qty-input"
+                                      // style={{flex: '0 0 70px'}} 
                                       aria-label="cart-product-num" 
                                       aria-describedby="cart-product-num" 
                                       value={ cartItem.qty }
@@ -157,7 +158,7 @@ const Cart = () => {
                                   </span>
                                 </div>
                               </td>
-                              <td className="text-end">{ formateNumber(cartItem.final_total) }</td>
+                              <td className="text-end text-nowrap fs-8 fs-md-6">$ { formateNumber(cartItem.final_total) }</td>
                             </tr>
                           ))
                         ) : (
@@ -170,7 +171,7 @@ const Cart = () => {
                       <tfoot>
                         <tr className="table-gray">
                           <td className="text-end" colSpan="3">總計</td>
-                          <td className="text-end">$ { formateNumber(cart.final_total) }</td>
+                          <td className="text-end text-nowrap">$ { formateNumber(cart.final_total) }</td>
                         </tr>
                       </tfoot>
                     </table>

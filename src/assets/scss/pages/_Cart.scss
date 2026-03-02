@@ -1,0 +1,32 @@
+.input-group  .qty-input {
+  flex: 0 0 70px;
+}
+
+@media (max-width: 768px) {
+  .input-group  .qty-input {
+    flex: 0 0 35px;
+  }
+}
+
+.input-group  button {
+  padding: 6px 12px;
+}
+
+@media (max-width: 768px) {
+  .input-group  button {
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+}
+
+.col-del   { width: 15%; }
+.col-title { width: 40%; }
+.col-qty   { width: 30%; }
+.col-total { width: 15%; }
+
+@media (max-width: 768px) {
+  .col-del   { width: 5%; }
+  .col-title { width: 42%; }
+  .col-qty   { width: 50%; }
+  .col-total { width: 3%; }
+}
