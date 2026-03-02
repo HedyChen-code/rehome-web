@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
 import useMessage from '../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
@@ -8,7 +7,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 function OrderModal({ modalType, templateData, closeModal, getOrders }) {
   const [tempData, setTempData] = useState(templateData);
-  const { showSuccess } = useMessage();
+  const { showSuccess, showError } = useMessage();
 
   useEffect(() => {
     setTempData(templateData);
@@ -79,16 +78,19 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
   };
   // 移除單項商品
   const removeProduct = (productId) => {
-    setTempData((prev) => {
-      // 1. 複製目前的 products 物件
-      const updatedProducts = { ...prev.products };
+    // 【防呆】檢查商品數量
+    const productKeys = Object.keys(tempData.products || {});
+    if (productKeys.length <= 1) {
+      showError('訂單至少必須包含一項商品，不可全部刪除。');
+      return;
+    }
 
-      // 2. 刪除該 id 的商品
+    setTempData((prev) => {
+      const updatedProducts = { ...prev.products };
       delete updatedProducts[productId];
 
-      // 3. 重新計算總計 (避免刪除後總金額沒變)
       const newTotal = Object.values(updatedProducts).reduce((acc, item) => {
-        return acc + item.product?.price * item.qty;
+        return acc + (item.product?.price || 0) * (item.qty || 0);
       }, 0);
 
       return {
@@ -100,6 +102,24 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
   };
   // 更新商品資訊(新增、編輯)
   const updateOrder = async (id) => {
+    // 【防呆】必填欄位檢查 (排除 message)
+    const { user } = tempData;
+    if (
+      !user?.name?.trim() ||
+      !user?.email?.trim() ||
+      !user?.tel?.trim() ||
+      !user?.address?.trim()
+    ) {
+      showError('請填寫完整的客戶資訊（姓名、信箱、電話、地址為必填）');
+      return;
+    }
+
+    // 【防呆】確保還有商品（雙重保險）
+    if (!tempData.products || Object.keys(tempData.products).length === 0) {
+      showError('訂單內無商品，無法儲存');
+      return;
+    }
+
     let url = `${API_BASE}/api/${API_PATH}/admin/order`;
     let method = 'post';
 
@@ -109,22 +129,19 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
     }
 
     const orderData = {
-      data: {
-        ...tempData,
-      },
+      data: { ...tempData },
     };
+
     try {
       const res = await axios[method](url, orderData);
       showSuccess(res.data.message);
       getOrders();
       closeModal();
     } catch (error) {
-      const message =
-        error?.response?.data?.message || '資料填寫不完整或發生錯誤';
-      alert(message);
+      const message = error?.response?.data?.message || '資料儲存失敗';
+      showError(message);
     }
   };
-
   // 刪除商品
   const deleteOrder = async (id) => {
     try {
@@ -133,9 +150,9 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
       );
       getOrders();
       closeModal();
-      toast.success('資料刪除成功:', res.data);
+      showSuccess(`資料刪除成功：${res.data.message}`);
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      showError(error.response?.data?.message);
     }
   };
 
@@ -172,7 +189,7 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
           <div className="modal-body">
             {modalType === 'delete' ? (
               <p className="fs-5 p-3">
-                確定要取消由{' '}
+                確定要取消由
                 <span className="text-danger fw-bold">
                   {tempData.user?.name}
                 </span>
@@ -349,7 +366,7 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                       </thead>
                       <tbody>
                         {tempData.products &&
-                          Object.values(tempData.products).map((item) => (
+                          Object.values(tempData.products || {}).map((item) => (
                             <tr key={item.id}>
                               <td>
                                 <div className="fw-bold font-noto">

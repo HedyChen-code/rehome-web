@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { Modal } from 'bootstrap';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../slice/cartSlice';
 import { useLocation } from 'react-router-dom'; //為了從主題風格連過來
+import useMessage from '../../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -17,6 +17,7 @@ function Products() {
   // 所有產品資料
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const { showError, showSuccess } = useMessage();
 
   // 所有的篩選狀態
   const [searchTerm, setSearchTerm] = useState('');
@@ -119,7 +120,7 @@ function Products() {
       setProducts(res.data.products);
       console.log(res.data.products);
     } catch (error) {
-      toast.error(
+      showError(
         `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
@@ -128,7 +129,7 @@ function Products() {
   // 加入購物車函式
   const handleAddToCart = (e, product) => {
     dispatch(addToCart(product));
-    toast.success(`已將 ${product.title} 加入購物車`);
+    showSuccess(`已將 ${product.title} 加入購物車`);
   };
 
   const location = useLocation(); //為了從主題風格連過來
@@ -610,7 +611,6 @@ function Products() {
           </div>
         </div>
       </div>
-      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 }

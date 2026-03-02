@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { formateNumber } from '../../utils/filter';
-import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router';
+import useMessage from '../../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 const Cart = () => {
-  const [ cart, setCart ] = useState({ cart: [] });
+  const [cart, setCart] = useState({ cart: [] });
   const navigate = useNavigate();
+  const { showError, showSuccess } = useMessage();
 
   const getCart = async () => {
     try {
@@ -17,13 +18,13 @@ const Cart = () => {
       const res = await axios.get(url);
       setCart(res.data.data);
     } catch (error) {
-      toast.error(
+      showError(
         `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
   };
 
-  const updateCartNum = async (cartId, productId, qty=1) => {
+  const updateCartNum = async (cartId, productId, qty = 1) => {
     try {
       const url = `${API_BASE}/api/${API_PATH}/cart/${cartId}`;
       const data = {
@@ -32,9 +33,9 @@ const Cart = () => {
       };
       const res = await axios.put(url, { data });
       getCart();
-      toast.success('修改商品數量成功');
+      showSuccess('修改商品數量成功');
     } catch (error) {
-      toast.error(
+      showError(
         `修改購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
@@ -45,9 +46,9 @@ const Cart = () => {
       const url = `${API_BASE}/api/${API_PATH}/cart/${id}`;
       const res = await axios.delete(url);
       getCart();
-      toast.success('刪除這一筆購物車成功');
+      showSuccess('刪除這一筆購物車成功');
     } catch (error) {
-      toast.error(
+      showError(
         `清除該筆購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
@@ -58,9 +59,9 @@ const Cart = () => {
       const url = `${API_BASE}/api/${API_PATH}/carts`;
       const res = await axios.delete(url);
       getCart();
-      toast.success('清空購物車成功！');
+      showSuccess('清空購物車成功！');
     } catch (error) {
-      toast.error(
+      showError(
         `清空購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
@@ -74,121 +75,170 @@ const Cart = () => {
     getCart();
   }, []);
 
-  return (<>
-    { !cart ? (
-      <div className="text-center mt-5">載入中...</div>
-    ) : (<>
-      <div className="bg-light-gray py-8 py-md-12">
-        <Toaster position="top-right" reverseOrder={false} />
-        <div className="container text-gray-95" style={{ marginTop: '144px' }}>
-          <div className="row justify-content-center">
-            <div className="col">
-              <form action="">
-                <section className="checkout-card mb-10 mb-md-12 fs-md-6">
-                  <div className="container">
-                    <h2 className="mb-4 fs-3 fs-md-2">購物車清單</h2>
-                    <div className="text-end mb-2">
-                      <button 
-                        type="button" 
-                        className="btn btn-outline-danger"
-                        onMouseEnter={ (e) => e.target.style.color = "#f8f9fa" }
-                        onMouseLeave={ (e) => e.target.style.color = "" }
-                        onClick={ deleteCartAll }
-                      >
-                        清空購物車
-                      </button>
-                    </div>
-                    <table className="table table-hover fs-7 fs-md-6">
-                      <thead>
-                        <tr>
-                          <th scope="col" className="col-del"></th>
-                          <th scope="col" className="col-title">品名</th>
-                          <th scope="col" className="col-qty">數量 / 單位</th>
-                          <th scope="col" className="col-total">小計</th>
-
-                        </tr>
-                      </thead>
-                      <tbody>
-                        { cart.carts && cart.carts.length > 0 ? (
-                          cart.carts.map( cartItem => (
-                            <tr key={ cartItem.id}>
-                              <td>
-                                <button 
-                                  type="button" 
-                                  className="btn btn-sm btn-outline-danger"
-                                  onMouseEnter={ (e) => e.target.style.color = "#f8f9fa" }
-                                  onMouseLeave={ (e) => e.target.style.color = "" }
-                                  onClick={ () => deleteCart(cartItem.id) }
-                                >
-                                  刪除
-                                </button>
-                              </td>
-                              <td>{ cartItem.product.title }</td>
-                              <td>
-                                <div className="d-flex align-items-center flex-wrap flex-md-nowrap fs-8 fs-md-6">
-                                  <div className="input-group me-md-3 w-auto">
-                                    <button 
-                                      className="btn btn-outline-danger"
-                                      disabled={cartItem.qty <= 1}
-                                      onMouseEnter={ (e) => e.target.style.color = "#f8f9fa" }
-                                      onMouseLeave={ (e) => e.target.style.color = "" }
-                                      onClick={() => updateCartNum(cartItem.id, cartItem.product_id, cartItem.qty - 1)}
-                                    ><i className="bi bi-dash-circle"></i></button>
-                                    <input 
-                                      type="text" 
-                                      inputMode="numeric"
-                                      pattern="[0-9]*"
-                                      className="form-control text-center bg-white qty-input"
-                                      // style={{flex: '0 0 70px'}} 
-                                      aria-label="cart-product-num" 
-                                      aria-describedby="cart-product-num" 
-                                      value={ cartItem.qty }
-                                      readOnly
-                                    />
-                                    <button 
-                                      className="btn btn-outline-danger"
-                                      onMouseEnter={ (e) => e.target.style.color = "#f8f9fa" }
-                                      onMouseLeave={ (e) => e.target.style.color = "" }
-                                      onClick={() => updateCartNum(cartItem.id, cartItem.product_id, cartItem.qty + 1)}
-                                    ><i className="bi bi-plus-circle"></i></button>
-                                  </div>
-                                  <span className="" id="cart-product-num">
-                                    / { cartItem.product.unit }
-                                  </span>
-                                </div>
-                              </td>
-                              <td className="text-end text-nowrap fs-8 fs-md-6">$ { formateNumber(cartItem.final_total) }</td>
+  return (
+    <>
+      {!cart ? (
+        <div className="text-center mt-5">載入中...</div>
+      ) : (
+        <>
+          <div className="bg-light-gray py-8 py-md-12">
+            <div
+              className="container text-gray-95"
+              style={{ marginTop: '144px' }}
+            >
+              <div className="row justify-content-center">
+                <div className="col">
+                  <form action="">
+                    <section className="checkout-card mb-10 mb-md-12 fs-md-6">
+                      <div className="container">
+                        <h2 className="mb-4 fs-3 fs-md-2">購物車清單</h2>
+                        <div className="text-end mb-2">
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger"
+                            onMouseEnter={(e) =>
+                              (e.target.style.color = '#f8f9fa')
+                            }
+                            onMouseLeave={(e) => (e.target.style.color = '')}
+                            onClick={deleteCartAll}
+                          >
+                            清空購物車
+                          </button>
+                        </div>
+                        <table className="table table-hover fs-7 fs-md-6">
+                          <thead>
+                            <tr>
+                              <th scope="col" className="col-del"></th>
+                              <th scope="col" className="col-title">
+                                品名
+                              </th>
+                              <th scope="col" className="col-qty">
+                                數量 / 單位
+                              </th>
+                              <th scope="col" className="col-total">
+                                小計
+                              </th>
                             </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="3">尚無購物車資料</td>
-                          </tr>
-                        ) }
-                        
-                      </tbody>
-                      <tfoot>
-                        <tr className="table-gray">
-                          <td className="text-end" colSpan="3">總計</td>
-                          <td className="text-end text-nowrap">$ { formateNumber(cart.final_total) }</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </section>
-              </form>
+                          </thead>
+                          <tbody>
+                            {cart.carts && cart.carts.length > 0 ? (
+                              cart.carts.map((cartItem) => (
+                                <tr key={cartItem.id}>
+                                  <td>
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-outline-danger"
+                                      onMouseEnter={(e) =>
+                                        (e.target.style.color = '#f8f9fa')
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.target.style.color = '')
+                                      }
+                                      onClick={() => deleteCart(cartItem.id)}
+                                    >
+                                      刪除
+                                    </button>
+                                  </td>
+                                  <td>{cartItem.product.title}</td>
+                                  <td>
+                                    <div className="d-flex align-items-center flex-wrap flex-md-nowrap fs-8 fs-md-6">
+                                      <div className="input-group me-md-3 w-auto">
+                                        <button
+                                          className="btn btn-outline-danger"
+                                          disabled={cartItem.qty <= 1}
+                                          onMouseEnter={(e) =>
+                                            (e.target.style.color = '#f8f9fa')
+                                          }
+                                          onMouseLeave={(e) =>
+                                            (e.target.style.color = '')
+                                          }
+                                          onClick={() =>
+                                            updateCartNum(
+                                              cartItem.id,
+                                              cartItem.product_id,
+                                              cartItem.qty - 1,
+                                            )
+                                          }
+                                        >
+                                          <i className="bi bi-dash-circle"></i>
+                                        </button>
+                                        <input
+                                          type="text"
+                                          inputMode="numeric"
+                                          pattern="[0-9]*"
+                                          className="form-control text-center bg-white qty-input"
+                                          // style={{flex: '0 0 70px'}}
+                                          aria-label="cart-product-num"
+                                          aria-describedby="cart-product-num"
+                                          value={cartItem.qty}
+                                          readOnly
+                                        />
+                                        <button
+                                          className="btn btn-outline-danger"
+                                          onMouseEnter={(e) =>
+                                            (e.target.style.color = '#f8f9fa')
+                                          }
+                                          onMouseLeave={(e) =>
+                                            (e.target.style.color = '')
+                                          }
+                                          onClick={() =>
+                                            updateCartNum(
+                                              cartItem.id,
+                                              cartItem.product_id,
+                                              cartItem.qty + 1,
+                                            )
+                                          }
+                                        >
+                                          <i className="bi bi-plus-circle"></i>
+                                        </button>
+                                      </div>
+                                      <span className="" id="cart-product-num">
+                                        / {cartItem.product.unit}
+                                      </span>
+                                    </div>
+                                  </td>
+                                  <td className="text-end text-nowrap fs-8 fs-md-6">
+                                    $ {formateNumber(cartItem.final_total)}
+                                  </td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan="3">尚無購物車資料</td>
+                              </tr>
+                            )}
+                          </tbody>
+                          <tfoot>
+                            <tr className="table-gray">
+                              <td className="text-end" colSpan="3">
+                                總計
+                              </td>
+                              <td className="text-end text-nowrap">
+                                $ {formateNumber(cart.final_total)}
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </section>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <button
+                type="button"
+                className="btn btn-pr"
+                onClick={goToCheckout}
+              >
+                去買單
+              </button>
             </div>
           </div>
-        </div>
-        <div className="text-center">
-          <button type="button" className="btn btn-pr" onClick={ goToCheckout }>去買單</button>
-        </div>
-      </div>
+        </>
+      )}
     </>
-      
-    )}
-    
-  </>)
-}
+  );
+};
 
-export default Cart
+export default Cart;

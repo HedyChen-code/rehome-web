@@ -2,17 +2,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
 import { NavLink, useNavigate, useParams } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import ScrollToTop from '../../components/ScrollToTop';
 
 // Swiper 樣式
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { RotatingLines } from 'react-loader-spinner';
+import useMessage from '../../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -25,7 +24,7 @@ function ProductDetail() {
   const [mainImage, setMainImage] = useState('');
   // 儲存推薦商品的 state
   const [recommendProducts, setRecommendProducts] = useState([]);
-
+  const { showError, showSuccess } = useMessage();
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ function ProductDetail() {
         setProduct(res.data.product);
         setMainImage(res.data.product.imageUrl);
       } catch (error) {
-        toast.error(
+        showError(
           `取得商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
         );
       }
@@ -69,9 +68,9 @@ function ProductDetail() {
       const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
         data,
       });
-      toast.success(`${res.data.message}`);
+      showSuccess(`${res.data.message}`);
     } catch (error) {
-      toast.error(
+      showError(
         `加入購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
@@ -87,7 +86,7 @@ function ProductDetail() {
       });
       navigate('/cart');
     } catch (error) {
-      toast.error('處理失敗');
+      showError(`處理失敗：${error.response?.data?.message}`);
     } finally {
       setIsProcessing(false);
     }
@@ -95,7 +94,6 @@ function ProductDetail() {
 
   return (
     <>
-      <ScrollToTop />
       {!product ? (
         <div
           style={{
@@ -116,7 +114,6 @@ function ProductDetail() {
       ) : (
         <>
           <div className="container" style={{ marginTop: '144px' }}>
-            <Toaster position="top-right" reverseOrder={false} />
             {/* 麵包屑 */}
             <nav aria-label="breadcrumb" className="mb-8 mb-lg-9 mt-12">
               <ol className="breadcrumb p-0 m-0">
@@ -224,7 +221,7 @@ function ProductDetail() {
                   <div className="pb-9 pb-lg-10 border-bottom border-gray-30 d-lg-flex mb-lg-10">
                     <button
                       typeof="button"
-                      className="w-100 btn btn-outline-primary-90 rounded-pill p-0 mb-5 mb-lg-0 me-lg-8"
+                      className="w-100 btn btn-outline-primary-90 rounded-pill btn-border p-0 mb-5 mb-lg-0 me-lg-8"
                       onClick={() => addCart(product.id)}
                     >
                       <h5 className="fw-medium my-5">加入購物車</h5>
@@ -233,7 +230,7 @@ function ProductDetail() {
                     <button
                       to="/cart"
                       typeof="button"
-                      className="w-100 btn btn-primary-90 rounded-pill p-0"
+                      className="w-100 btn btn-primary-90 rounded-pill btn-fill p-0"
                       onClick={() => handleBuyNow(product.id)}
                     >
                       <h5 className="fw-medium my-5">立即購買</h5>
