@@ -39,7 +39,7 @@ function MenuContent({ close }) {
         <ul className="navbar-nav justify-content-center align-items-center flex-grow-1 mb-8 border-bottom border-primary-30">
           <li className="nav-item pb-2">
             <NavLink
-              className="nav-link fs-6 text-black px-5 py-4"
+              className="nav-link fs-6 px-5 py-4 "
               to="/products"
               onClick={close}
             >
@@ -47,13 +47,11 @@ function MenuContent({ close }) {
             </NavLink>
           </li>
           <li className="nav-item pb-2">
-            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
-              風格嚴選
-            </NavLink>
+            <span className="nav-link fs-6 px-5 py-4 ">風格嚴選</span>
           </li>
           <li className="nav-item pb-2">
             <NavLink
-              className="nav-link fs-6 text-black px-5 py-4"
+              className="nav-link fs-6 px-5 py-4"
               to="/TradeGuide"
               onClick={close}
             >
@@ -61,17 +59,17 @@ function MenuContent({ close }) {
             </NavLink>
           </li>
           <li className="nav-item pb-2">
-            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
-              品牌故事
-            </NavLink>
+            <span className="nav-link fs-6 px-5 py-4">品牌故事</span>
           </li>
           <li className="nav-item pb-2">
-            <NavLink to="/" className="nav-link fs-6 text-black px-5 py-4">
-              連絡我們
-            </NavLink>
+            <span className="nav-link fs-6 px-5 py-4">連絡我們</span>
           </li>
           <li className="nav-item pb-5">
-            <NavLink to="/cart" className="nav-link fs-6 text-black px-5 py-4">
+            <NavLink
+              to="/cart"
+              className="nav-link fs-6 px-5 py-4"
+              onClick={close}
+            >
               查看購物車
               {cartCount > 0 && (
                 <span className="badge rounded-pill bg-danger ms-2">
@@ -82,15 +80,10 @@ function MenuContent({ close }) {
           </li>
         </ul>
         <div className="d-flex justify-content-center align-items-center">
-          <NavLink
-            to="/"
-            className="btn btn-outline-primary py-4 px-8 me-4 rounded-5"
-          >
+          <span className="btn btn-outline-primary py-4 px-8 me-4 rounded-5">
             註冊
-          </NavLink>
-          <NavLink to="/" className="btn btn-primary py-4 px-8 me-4 rounded-5">
-            登入
-          </NavLink>
+          </span>
+          <span className="btn btn-primary py-4 px-8 me-4 rounded-5">登入</span>
         </div>
       </div>
       <div className="offcanvas-footer text-center mb-5">
@@ -290,41 +283,41 @@ const Navbar = ({ setPage, variant = 'default' }) => {
             <div className="d-flex justify-content-between">
               {/* 選項 */}
               <ul className="d-flex mb-2 mb-lg-0">
-                <li className="p-5 me-3">
+                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
                   <NavLink
-                    className="text-white fs-6 lh-sm fw-medium"
+                    className="navlink-lg fs-6 lh-sm fw-medium"
                     to="/products"
                   >
                     商品系列
                   </NavLink>
                 </li>
-                <li className="p-5 me-3">
-                  <NavLink to="/" className="text-white fs-6 lh-sm fw-medium">
+                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
+                  <NavLink to="/" className="navlink-lg fs-6 lh-sm fw-medium">
                     風格嚴選
                   </NavLink>
                 </li>
-                <li className="p-5 me-3">
+                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
                   <NavLink
-                    className="text-white fs-6 lh-sm fw-medium"
+                    className="navlink-lg fs-6 lh-sm fw-medium"
                     to="/TradeGuide"
                   >
                     關於收購
                   </NavLink>
                 </li>
-                <li className="p-5 me-3">
-                  <NavLink to="/" className="text-white fs-6 lh-sm fw-medium">
+                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
+                  <NavLink to="/" className="navlink-lg fs-6 lh-sm fw-medium">
                     品牌故事
                   </NavLink>
                 </li>
-                <li className="p-5">
-                  <NavLink to="/" className="text-white fs-6 lh-sm fw-medium">
+                <li className="p-5 btn btn-outline-primary-10 border-0 rounded-pill">
+                  <NavLink to="/" className="navlink-lg fs-6 lh-sm fw-medium">
                     聯絡我們
                   </NavLink>
                 </li>
               </ul>
               {/* 購物車 icon */}
               <div className="d-flex">
-                <div className="icon-wrapper p-5 d-flex align-items-center">
+                <div className="icon-wrapper p-4 d-flex align-items-center">
                   {/* 搜尋輸入框 */}
                   <input
                     type="text"

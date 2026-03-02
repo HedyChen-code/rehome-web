@@ -6,7 +6,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { NavLink, useNavigate, useParams } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import ScrollToTop from '../../components/ScrollToTop';
 
 // Swiper 樣式
 import 'swiper/css';
@@ -87,7 +86,7 @@ function ProductDetail() {
       });
       navigate('/cart');
     } catch (error) {
-      toast.error('處理失敗');
+      toast.error(`處理失敗：${error.response?.data?.message}`);
     } finally {
       setIsProcessing(false);
     }
@@ -95,7 +94,6 @@ function ProductDetail() {
 
   return (
     <>
-      <ScrollToTop />
       {!product ? (
         <div
           style={{
