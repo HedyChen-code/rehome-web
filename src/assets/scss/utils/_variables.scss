@@ -892,7 +892,7 @@ $table-variants: (
   'info': shift-color($info, $table-bg-scale),
   'warning': shift-color($warning, $table-bg-scale),
   'danger': shift-color($danger, $table-bg-scale),
-  'gray': $gray-10, // custom
+  'gray': $gray-20, // custom
   'light': $light,
   'dark': $dark,
 ) !default;
