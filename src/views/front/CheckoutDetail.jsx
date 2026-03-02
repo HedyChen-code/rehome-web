@@ -1,16 +1,15 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import * as bootstrap from 'bootstrap';
-import { formateNumber } from "../../utils/filter";
-import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 const CheckoutDetail = () => {
   const [ submitModal, setSubmitModal ] = useState({});
+  const navigate = useNavigate();
 
   // const [form, setForm] = useState({
   //   shippingMethod: "shippingNormal",      // shippingNormal / shippingHome / shippingStore
@@ -58,7 +57,6 @@ const CheckoutDetail = () => {
     }
   }
 
-
   const addressModalRef = useRef(null);
   const openAddressModal = () => {
     addressModalRef.current.show();
@@ -67,6 +65,11 @@ const CheckoutDetail = () => {
   const orderSubmitModalRef = useRef(null);
   const openOrderSubmitModal = () => {
     orderSubmitModalRef.current.show();
+  }
+
+  const handleSubmitCheck = () => {
+    navigate('/');
+    orderSubmitModalRef.current.hide();
   }
 
   useEffect(() => {
@@ -626,7 +629,8 @@ const CheckoutDetail = () => {
             
           </div>
           <div className="modal-footer border-0">
-            <Link to="/" className="btn btn-pr">確認</Link>
+            <button type="button" className="btn btn-pr" onClick={ handleSubmitCheck }>確認</button>
+            {/* <Link to="/" className="btn btn-pr">確認</Link> */}
           </div>
         </div>
       </div>
