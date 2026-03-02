@@ -6,6 +6,38 @@ import toast, { Toaster } from 'react-hot-toast';
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
+const NavItems = () => {
+  return (
+    <ul className="nav d-flex flex-column p-4 flex-grow-1">
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin">
+          <i className="bi bi-house-door me-2"></i> 後臺首頁
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin/products">
+          <i className="bi bi-box-seam me-2"></i> 商品列表
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin/orders">
+          <i className="bi bi-receipt me-2"></i> 訂單列表
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link text-white" to="/admin/TradeList">
+          <i className="bi bi-clipboard-data me-2"></i> 家具收購申請清單
+        </NavLink>
+      </li>
+      <li className="nav-item mt-auto">
+        <NavLink className="nav-link text-white" to="/">
+          <i className="bi bi-box-arrow-left me-2"></i> 回到前台
+        </NavLink>
+      </li>
+    </ul>
+  );
+};
+
 const AdminLayout = () => {
   const navigate = useNavigate();
 
@@ -28,7 +60,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="d-flex min-vh-100">
+    <div className="d-flex ">
       <Toaster position="top-center" reverseOrder={false} />
       {/* --- 左側側邊欄 (Sidebar) --- */}
       <aside
@@ -49,29 +81,7 @@ const AdminLayout = () => {
             <h6>管理後台</h6>
           </div>
         </div>
-
-        <ul className="nav d-flex flex-column p-4 flex-grow-1">
-          <li className="nav-item">
-            <NavLink className="nav-link text-white" to="/admin">
-              🏠 後臺首頁
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link text-white" to="/admin/products">
-              📦 商品列表
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link text-white" to="/admin/TradeList">
-              📋 家具收購申請清單
-            </NavLink>
-          </li>          
-          <li className="nav-item mt-auto">
-            <NavLink className="nav-link text-white" to="/">
-              ⬅️ 回到前台
-            </NavLink>
-          </li>
-        </ul>
+        <NavItems />
       </aside>
 
       {/* --- 右側內容區 (Main Content) --- */}

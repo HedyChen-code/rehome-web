@@ -48,9 +48,12 @@
   transform: scale(1.1);
   background: rgba(0, 0, 0, 0.5);
 }
+.custom-container {
+  margin-top: 80px;
+}
 
 @media (min-width: 1024px) {
-  main {
+  .custom-container {
     margin-top: 136px;
   }
   .custom-select-w {

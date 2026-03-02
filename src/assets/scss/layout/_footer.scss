@@ -11,7 +11,7 @@
   z-index: 2;
 }
 .footer-box-dark::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0; /* 從右邊延伸 */
@@ -40,7 +40,7 @@
 }
 
 .footer-box-light::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0; /* 從左邊延伸 */

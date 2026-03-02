@@ -1,9 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { formateNumber } from "../../utils/filter";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { formateNumber } from '../../utils/filter';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from "react-router";
-
+import { useNavigate } from 'react-router';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -19,27 +18,27 @@ const Cart = () => {
       setCart(res.data.data);
     } catch (error) {
       toast.error(
-          `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
-        );
+        `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
     }
-  }
+  };
 
   const updateCartNum = async (cartId, productId, qty=1) => {
     try {
       const url = `${API_BASE}/api/${API_PATH}/cart/${cartId}`;
       const data = {
         product_id: productId,
-        qty
-      }
+        qty,
+      };
       const res = await axios.put(url, { data });
       getCart();
       toast.success('修改商品數量成功');
     } catch (error) {
       toast.error(
-          `修改購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
-        );
+        `修改購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
     }
-  }
+  };
 
   const deleteCart = async (id) => {
     try {
@@ -49,31 +48,31 @@ const Cart = () => {
       toast.success('刪除這一筆購物車成功');
     } catch (error) {
       toast.error(
-          `清除該筆購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
-        );
+        `清除該筆購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
     }
-  }
+  };
 
   const deleteCartAll = async () => {
     try {
       const url = `${API_BASE}/api/${API_PATH}/carts`;
       const res = await axios.delete(url);
       getCart();
-      toast.success('清空購物車成功！')
+      toast.success('清空購物車成功！');
     } catch (error) {
       toast.error(
-          `清空購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
-        );
+        `清空購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
     }
-  }
+  };
 
   const goToCheckout = () => {
     navigate('/checkout/detail');
-  }
+  };
 
   useEffect(() => {
     getCart();
-  }, [])
+  }, []);
 
   return (<>
     { !cart ? (
@@ -191,5 +190,3 @@ const Cart = () => {
     
   </>)
 }
-
-export default Cart

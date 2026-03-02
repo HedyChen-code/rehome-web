@@ -94,6 +94,28 @@
   color: $gray-30;
 }
 
+/* 處理寬度動畫與基礎重設 */
+.desktop-search-input {
+  width: 0;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* 當 isOpen 狀態為真時套用的樣式 */
+.desktop-search-input.is-open {
+  width: 120px;
+  opacity: 1;
+  padding: 0 5px;
+  border-bottom: 1px solid white !important; /* 確保底線出現 */
+}
+
 .icon-wrapper {
   flex: 0 0 auto; /* 固定大小，不讓它擠壓 input */
 }

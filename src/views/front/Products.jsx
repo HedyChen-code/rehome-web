@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router";
-import { Modal } from "bootstrap";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../slice/cartSlice";
-import { useLocation } from "react-router-dom"; //為了從主題風格連過來
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
+import { Modal } from 'bootstrap';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../slice/cartSlice';
+import { useLocation } from 'react-router-dom'; //為了從主題風格連過來
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -19,30 +19,29 @@ function Products() {
   const navigate = useNavigate();
 
   // 所有的篩選狀態
-  const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("all");
-  const [style, setStyle] = useState("all");
-  const [condition, setCondition] = useState("all");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('all');
+  const [style, setStyle] = useState('all');
+  const [condition, setCondition] = useState('all');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(999999);
 
   // 新品價格排序狀態
-  const [sortType, setSortType] = useState("latest");
-
+  const [sortType, setSortType] = useState('latest');
   // 加入收藏狀態切換
   const [favorites, setFavorites] = useState([]);
 
   // 產品條件篩選
   const filteredProducts = products.filter((item) => {
     const matchSearch =
-      searchTerm === "" ||
+      searchTerm === '' ||
       item.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchCategory = category === "all" || item.category === category;
-    const matchStyle = style === "all" || item.style === style;
+    const matchCategory = category === 'all' || item.category === category;
+    const matchStyle = style === 'all' || item.style === style;
     const matchCondition =
-      condition === "all" || item.condition_level === condition;
-    const matchMinPrice = minPrice === "" || item.price >= Number(minPrice);
-    const matchMaxPrice = maxPrice === "" || item.price <= Number(maxPrice);
+      condition === 'all' || item.condition_level === condition;
+    const matchMinPrice = minPrice === '' || item.price >= Number(minPrice);
+    const matchMaxPrice = maxPrice === '' || item.price <= Number(maxPrice);
 
     return (
       matchSearch &&
@@ -72,23 +71,23 @@ function Products() {
 
   // 清除所有條件
   const clearFilters = () => {
-    setCategory("all");
-    setStyle("all");
-    setCondition("all");
+    setCategory('all');
+    setStyle('all');
+    setCondition('all');
     setMinPrice(0);
     setMaxPrice(999999);
-    setSearchTerm("");
+    setSearchTerm('');
   };
 
   // 最新上架/價格排序
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortType === "latest") {
+    if (sortType === 'latest') {
       return b.id.localeCompare(a.id);
     }
-    if (sortType === "priceHighToLow") {
+    if (sortType === 'priceHighToLow') {
       return b.price - a.price; // 價格高到低
     }
-    if (sortType === "priceLowToHigh") {
+    if (sortType === 'priceLowToHigh') {
       return a.price - b.price; // 價格低到高
     }
 
@@ -127,7 +126,7 @@ function Products() {
   };
 
   // 加入購物車函式
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (e, product) => {
     dispatch(addToCart(product));
     toast.success(`已將 ${product.title} 加入購物車`);
   };
@@ -153,7 +152,7 @@ function Products() {
   useEffect(() => {
     if (modalRef.current) {
       notesModal.current = new Modal(modalRef.current, {
-        backdrop: "static",
+        backdrop: 'static',
         keyboard: true,
       });
     }
@@ -174,12 +173,26 @@ function Products() {
     }
   }, [incomingStyle]);
 
+  const incomingKeyword = location.state?.keyword; // 取得傳過來的關鍵字
+
+  // 新增：處理從導航列傳來的搜尋關鍵字
+
+  useEffect(() => {
+    if (incomingKeyword) {
+      setSearchTerm(incomingKeyword);
+
+      // 建議選做：清除 state 避免重新整理頁面時一直觸發篩選
+
+      window.history.replaceState({}, document.title);
+    }
+  }, [incomingKeyword]);
+
   return (
     <>
       <main>
         {/* 商品頁上方橫幅圖區塊 */}
         <section className="banner">
-          <div className="container px-0">
+          <div className="container custom-container px-0">
             <picture>
               <source
                 srcSet="./images/banner/banner05.png"
@@ -250,7 +263,7 @@ function Products() {
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className={`form-select mb-5 me-5 ${category === "all" ? "text-gray-30" : "text-gray-90"}`}
+                      className={`form-select mb-5 me-5 ${category === 'all' ? 'text-gray-30' : 'text-gray-90'}`}
                     >
                       <option value="all">請選擇類別</option>
                       <option value="沙發 / 座椅類">沙發 / 座椅類</option>
@@ -262,7 +275,7 @@ function Products() {
                     <select
                       value={style}
                       onChange={(e) => setStyle(e.target.value)}
-                      className={`form-select mb-5 ${style === "all" ? "text-gray-30" : "text-gray-90"}`}
+                      className={`form-select mb-5 ${style === 'all' ? 'text-gray-30' : 'text-gray-90'}`}
                     >
                       <option value="all">請選擇風格</option>
                       <option value="工業">工業</option>
@@ -278,7 +291,7 @@ function Products() {
                   <select
                     value={condition}
                     onChange={(e) => setCondition(e.target.value)}
-                    className={`form-select mb-5 ${condition === "all" ? "text-gray-30" : "text-gray-90"}`}
+                    className={`form-select mb-5 ${condition === 'all' ? 'text-gray-30' : 'text-gray-90'}`}
                   >
                     <option value="all">請選擇中古程度</option>
                     <option value="中古Ａ">中古程度 A</option>
@@ -391,8 +404,8 @@ function Products() {
                   <p className="font-family-noto-sans">
                     篩選結果共
                     <span className="text-primary-70 fs-5">
-                      {" "}
-                      {filteredProducts.length}{" "}
+                      {' '}
+                      {filteredProducts.length}{' '}
                     </span>
                     筆
                   </p>
@@ -425,7 +438,7 @@ function Products() {
                           <img
                             src={item.imageUrl}
                             className="card-img-top object-fit-cover"
-                            style={{ height: "200px" }} // 固定高度
+                            style={{ height: '200px' }} // 固定高度
                             alt={item.title}
                           />
                           {/* 加入收藏按鈕 */}
@@ -435,7 +448,7 @@ function Products() {
                             onClick={(e) => handleFavorite(e, item.id)}
                           >
                             <i
-                              className={`bi ${favorites.includes(item.id) ? "bi-heart-fill text-primary-10" : "bi-heart text-white"}`}
+                              className={`bi ${favorites.includes(item.id) ? 'bi-heart-fill text-primary-10' : 'bi-heart text-white'}`}
                             ></i>
                           </button>
                         </section>
@@ -454,7 +467,7 @@ function Products() {
                           </h5>
                           <p
                             className="card-text text-secondary"
-                            style={{ fontSize: "0.9rem" }}
+                            style={{ fontSize: '0.9rem' }}
                           >
                             {/* 限制描述文字行數 */}
                             {item.story?.length > 50
@@ -481,7 +494,7 @@ function Products() {
                       </div>
                       <button
                         className="btn btn-light w-100 custom-btn-hover"
-                        onClick={() => handleAddToCart(item)}
+                        onClick={(e) => handleAddToCart(e, item)}
                       >
                         加入購物車
                         <i className="bi bi-cart3 ms-3"></i>
@@ -493,7 +506,7 @@ function Products() {
                 <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center">
                     <li
-                      className={`page-item ${currentPage === 1 && "disabled"}`}
+                      className={`page-item ${currentPage === 1 && 'disabled'}`}
                     >
                       <a
                         className="page-link border-0"
@@ -509,7 +522,7 @@ function Products() {
                     </li>
                     {Array.from({ length: totalPages }, (_, index) => (
                       <li
-                        className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                        className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
                         key={index}
                       >
                         <a
@@ -525,7 +538,7 @@ function Products() {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${currentPage === totalPages && "disabled"}`}
+                      className={`page-item ${currentPage === totalPages && 'disabled'}`}
                     >
                       <a
                         className="page-link border-0"
