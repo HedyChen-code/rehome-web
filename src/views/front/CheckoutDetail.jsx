@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import * as bootstrap from 'bootstrap';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import ScrollToTop from "../../components/ScrollToTop";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -635,6 +636,7 @@ const CheckoutDetail = () => {
         </div>
       </div>
     </div>
+    <ScrollToTop />
     
     
   </div>

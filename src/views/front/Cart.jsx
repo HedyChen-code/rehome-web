@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { formateNumber } from '../../utils/filter';
 import { useNavigate } from 'react-router';
 import useMessage from '../../hooks/useMessage';
+import ScrollToTop from '../../components/ScrollToTop';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -235,6 +236,7 @@ const Cart = () => {
               </button>
             </div>
           </div>
+          <ScrollToTop />
         </>
       )}
     </>
