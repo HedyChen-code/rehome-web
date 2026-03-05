@@ -179,7 +179,7 @@ function AdminProducts() {
                   <tr key={item.id}>
                     <td>
                       <div className="d-flex">
-                        <div style={{ width: '100px', height: '100px' }}>
+                        <div className="product-img">
                           <img
                             src={item.imageUrl}
                             className="img-fluid rounded object-fit-cover w-100 h-100"
@@ -307,13 +307,11 @@ function AdminProducts() {
                     <div>
                       <img
                         src={item.imageUrl}
-                        className="img-fluid rounded"
+                        className="img-fluid rounded  object-fit-cover w-100"
                         alt={item.title}
                         style={{
-                          width: '100%',
                           height: 160,
                           cursor: 'pointer',
-                          objectFit: 'cover',
                         }}
                       />
                     </div>

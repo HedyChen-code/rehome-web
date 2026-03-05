@@ -87,12 +87,7 @@ function AdminTradeList() {
                       <img
                         src={item.image || 'https://via.placeholder.com/100'}
                         alt="家具照片"
-                        className="img-thumbnail"
-                        style={{
-                          width: '100px',
-                          height: '80px',
-                          objectFit: 'cover',
-                        }}
+                        className="img-thumbnail  object-fit-cover tradelist-img"
                       />
                     </td>
                     {/* 姓名: 對應 name */}

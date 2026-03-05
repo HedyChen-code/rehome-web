@@ -30,10 +30,7 @@ function AdminSingleTrade({ tempTrade, setTempTrade }) {
                           tempTrade.image || 'https://via.placeholder.com/100'
                         }
                         alt="家具照片"
-                        className="img-thumbnail tradelist-img"
-                        style={{
-                          objectFit: 'cover',
-                        }}
+                        className="img-thumbnail tradelist-img  object-fit-cover"
                       />
                     </div>
                   </div>
