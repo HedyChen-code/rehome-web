@@ -13,11 +13,28 @@
   bottom: 24px;
   right: 16px;
 }
+.tradelist-img {
+  width: 100%;
+  height: auto;
+}
 
 /* 電腦版 (螢幕寬度 >= 992px) 時變化數值 */
 @media (min-width: 992px) {
   .back-to-top {
     bottom: 120px;
     right: 120px;
+  }
+  .w-lg-240 {
+    width: 240px !important;
+  }
+  .ms-lg-240 {
+    margin-left: 240px !important;
+  }
+  .text-lg-white {
+    color: $white !important;
+  }
+  .tradelist-img {
+    width: 100px;
+    height: 80px;
   }
 }
