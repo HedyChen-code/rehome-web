@@ -10,7 +10,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 const NavItems = ({ close }) => {
   return (
-    <div className="offcanvas-body py-5 px-4">
+    <div className="offcanvas-body py-5 px-4 d-flex">
       <ul className="nav d-flex align-items-center align-items-lg-start flex-column p-4 flex-grow-1">
         <li className="nav-item">
           <NavLink
@@ -188,7 +188,7 @@ const AdminLayout = () => {
           </nav>
         </header>
 
-        <main className="m-0 p-5 p-lg-10 flex-grow-1">
+        <main className="m-0 p-5 p-lg-10 flex-grow-1 w-100">
           <Outlet />
         </main>
 

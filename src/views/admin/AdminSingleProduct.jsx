@@ -37,12 +37,7 @@ function AdminSingleProduct({ tempProduct, setTempProduct }) {
                             <img
                               key={index}
                               src={url}
-                              className="img-fluid rounded border"
-                              style={{
-                                width: '120px',
-                                height: '120px',
-                                objectFit: 'cover',
-                              }}
+                              className="img-fluid rounded border product-img  object-fit-cover"
                               alt={`副圖 ${index + 1}`}
                             />
                           ))}
