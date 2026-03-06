@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as bootstrap from 'bootstrap';
 import ProductModal from '../../components/ProductModal';
 import Pagination from '../../components/Pagination';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AdminSingleProduct from './AdminSingleProduct';
 import useMessage from '../../hooks/useMessage';
 

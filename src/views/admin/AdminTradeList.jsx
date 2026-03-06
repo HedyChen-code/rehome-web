@@ -1,13 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { tradeApi } from '../../api/tradeApi';
 import useMessage from '../../hooks/useMessage';
 import AdminSingleTrade from './AdminSingleTrade';
+import * as bootstrap from 'bootstrap';
+import TradeModal from '../../components/TradeModal';
 
 function AdminTradeList() {
   const [tradeList, setTradeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { showError, showSuccess } = useMessage();
   const [tempTrade, setTempTrade] = useState(null);
+  const [viewTrade, setViewTrade] = useState(null);
+  const deleteTradeModalRef = useRef(null);
+  const viewTradeModalRef = useRef(null);
+
+  useEffect(() => {
+    // 初始化查看用的 Modal
+    const viewEl = document.getElementById('viewTradeModal');
+    if (viewEl) {
+      viewTradeModalRef.current = new bootstrap.Modal(viewEl);
+    }
+  }, []);
+
+  const openViewModal = (item) => {
+    setTempTrade(item);
+    viewTradeModalRef.current.show();
+  };
 
   // 1. 取得資料
   const fetchTradeList = async () => {
@@ -15,9 +33,7 @@ function AdminTradeList() {
       setIsLoading(true);
       const result = await tradeApi.getTrades(); // 這裡拿到的是 GAS 回傳的完整物件
 
-      console.log('原始回傳資料：', result);
-
-      // 💡 關鍵修改：檢查結構並存入 data 陣列
+      // 檢查結構並存入 data 陣列
       if (result && result.status === 'success' && Array.isArray(result.data)) {
         setTradeList(result.data);
         showSuccess('資料讀取成功');
@@ -27,35 +43,42 @@ function AdminTradeList() {
         showError(result.message || '資料格式錯誤');
       }
     } catch (error) {
-      console.error('Fetch Error:', error);
       showError('資料讀取失敗，請檢查網路或 CORS 設定');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 新增刪除功能
-  const handleDelete = async (e, id) => {
-    // 阻止原生 HTML 行為，防止它變成「新增」
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  // 打開刪除 Modal
+  const openDeleteModal = (item) => {
+    setTempTrade(item);
+    deleteTradeModalRef.current.show();
+  };
 
-    if (!window.confirm('確定要刪除嗎？')) return;
+  // 關閉刪除 Modal
+  const closeDeleteModal = () => {
+    deleteTradeModalRef.current.hide();
+  };
 
+  // 執行刪除
+  const handleDelete = async (id) => {
     try {
-      const result = await tradeApi.deleteTrade(id);
-      console.log('刪除回傳：', result);
-      // 重新取得列表
-      fetchTradeList();
+      await tradeApi.deleteTrade(id);
+      showSuccess('刪除成功');
+      closeDeleteModal(); // 刪除完關閉
+      fetchTradeList(); // 刷新列表
     } catch (error) {
-      // 即使報 CORS 錯誤，其實通常已經刪除成功了
-      console.error('雖然報 CORS，但請檢查試算表是否已刪除');
-      fetchTradeList();
+      showError('刪除失敗');
     }
   };
   useEffect(() => {
+    // 初始化 Modal (只在掛載時執行一次)
+    if (!deleteTradeModalRef.current) {
+      deleteTradeModalRef.current = new bootstrap.Modal('#deleteTradeModal', {
+        keyboard: false,
+      });
+    }
+
     fetchTradeList();
   }, []);
 
@@ -137,14 +160,14 @@ function AdminTradeList() {
                         <button
                           className="btn btn-outline-danger"
                           type="button"
-                          onClick={(e) => handleDelete(e, item.id)}
+                          onClick={() => openDeleteModal(item)}
                         >
                           刪除
                         </button>
                       </div>
                       <button
                         className="btn d-lg-none"
-                        onClick={() => setTempTrade(item)}
+                        onClick={() => setViewTrade(item)}
                       >
                         <i className="bi bi-box-arrow-up-right"></i>
                       </button>
@@ -162,7 +185,13 @@ function AdminTradeList() {
           </table>
         </div>
         {/* 查看單一商品元件 */}
-        <AdminSingleTrade tempTrade={tempTrade} setTempTrade={setTempTrade} />
+        <AdminSingleTrade tempTrade={viewTrade} setTempTrade={setViewTrade} />
+        {/* 放置 Modal 元件 */}
+        <TradeModal
+          templateData={tempTrade}
+          closeModal={closeDeleteModal}
+          handleDelete={handleDelete}
+        />
       </div>
     </>
   );
