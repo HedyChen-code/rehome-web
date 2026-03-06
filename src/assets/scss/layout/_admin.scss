@@ -26,7 +26,7 @@
     color: $gray-95 !important;
   }
 }
-.nav-link.active {
+.admin-nav .nav-link.active {
   color: $gray-95 !important;
 }
 
@@ -59,7 +59,7 @@
       color: $secondary-40 !important;
     }
   }
-  .nav-link.active {
+  .admin-nav .nav-link.active {
     color: $secondary-40 !important;
   }
 }

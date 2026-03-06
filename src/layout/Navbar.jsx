@@ -292,9 +292,9 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                   </NavLink>
                 </li>
                 <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <NavLink to="/" className="navlink-lg fs-6 lh-sm fw-medium">
+                  <span className="navlink-lg fs-6 lh-sm fw-medium">
                     風格嚴選
-                  </NavLink>
+                  </span>
                 </li>
                 <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
                   <NavLink
@@ -305,19 +305,19 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                   </NavLink>
                 </li>
                 <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <NavLink to="/" className="navlink-lg fs-6 lh-sm fw-medium">
+                  <span className="navlink-lg fs-6 lh-sm fw-medium">
                     品牌故事
-                  </NavLink>
+                  </span>
                 </li>
                 <li className="p-5 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <NavLink to="/" className="navlink-lg fs-6 lh-sm fw-medium">
+                  <span className="navlink-lg fs-6 lh-sm fw-medium">
                     聯絡我們
-                  </NavLink>
+                  </span>
                 </li>
               </ul>
               {/* 購物車 icon */}
               <div className="d-flex">
-                <div className="icon-wrapper p-4 pe-5 d-flex align-items-center rounded-pill">
+                <div className="icon-wrapper pe-5 d-flex align-items-center rounded-pill">
                   {/* 搜尋輸入框 */}
                   <input
                     type="text"
