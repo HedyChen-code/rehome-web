@@ -12,48 +12,28 @@ const NavItems = ({ close }) => {
   return (
     <div className="offcanvas-body py-5 px-4 d-flex">
       <ul className="nav d-flex align-items-center align-items-lg-start flex-column p-4 flex-grow-1">
-        <li className="nav-item">
-          <NavLink
-            className="nav-link text-primary text-lg-white"
-            to="/admin"
-            onClick={close}
-          >
+        <li className="nav-item admin-nav">
+          <NavLink className="nav-link" to="/admin" onClick={close} end>
             <i className="bi bi-house-door me-2"></i> 後臺首頁
           </NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink
-            className="nav-link text-primary text-lg-white"
-            to="/admin/products"
-            onClick={close}
-          >
+        <li className="nav-item admin-nav">
+          <NavLink className="nav-link" to="/admin/products" onClick={close}>
             <i className="bi bi-box-seam me-2"></i> 商品列表
           </NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink
-            className="nav-link text-primary text-lg-white"
-            to="/admin/orders"
-            onClick={close}
-          >
+        <li className="nav-item admin-nav">
+          <NavLink className="nav-link" to="/admin/orders" onClick={close}>
             <i className="bi bi-receipt me-2"></i> 訂單列表
           </NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink
-            className="nav-link text-primary text-lg-white"
-            to="/admin/TradeList"
-            onClick={close}
-          >
+        <li className="nav-item admin-nav">
+          <NavLink className="nav-link" to="/admin/TradeList" onClick={close}>
             <i className="bi bi-clipboard-data me-2"></i> 家具收購申請清單
           </NavLink>
         </li>
-        <li className="nav-item mt-auto">
-          <NavLink
-            className="nav-link text-primary text-lg-white"
-            to="/"
-            onClick={close}
-          >
+        <li className="nav-item admin-nav mt-auto">
+          <NavLink className="nav-link" to="/" onClick={close}>
             <i className="bi bi-box-arrow-left me-2"></i> 回到前台
           </NavLink>
         </li>

@@ -1,13 +1,9 @@
-// import React, { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-// import axios from 'axios';
 import { tradeApi } from '../../api/tradeApi';
 import useMessage from '../../hooks/useMessage';
-// const API_BASE = import.meta.env.VITE_API_BASE;
-// const API_PATH = import.meta.env.VITE_API_PATH;
+import { useState } from 'react';
 
 const TradeGuide = () => {
-  // 使用 useForm 初始化
   const {
     register,
     handleSubmit,
@@ -18,75 +14,50 @@ const TradeGuide = () => {
   } = useForm({
     mode: 'onChange',
   });
-  // 監看圖片值，用於 UI 顯示
-  const watchImage = useWatch({
-    control,
-    name: 'image',
-  });
+  const watchImage = useWatch({ control, name: 'image' });
   const { showError, showSuccess } = useMessage();
+  const [isSending, setIsSending] = useState(false);
 
-  // // 1. 定義表單狀態
-  // const [formData, setFormData] = useState({
-  //   name: '',
-  //   phone: '',
-  //   address: '',
-  //   category: '',
-  //   condition: '',
-  //   width: '',
-  //   depth: '',
-  //   height: '',
-  //   image: '',
-  // });
-
-  // // 2. 處理欄位變更
-  // const handleChange = (e) => {
-  //   const { id, value, name } = e.target;
-  //   const fieldName = id || name;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [fieldName]: value,
-  //   }));
-  // };
-
-  // 3. 處理圖片上傳 (轉為 base64 上傳)
+  // 處理圖片上傳
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // 提醒：GAS 對於傳輸量有限制，建議維持 5MB 以下，甚至壓縮到 1MB 更好
     const limitSize = 5 * 1024 * 1024;
     if (file.size > limitSize) {
-      showError('圖片太大了！請上傳小於 5MB 的照片，以免送出失敗。');
-      e.target.value = ''; // 清空 input
+      showError('圖片太大了！請上傳小於 5MB 的照片。');
+      e.target.value = '';
       return;
     }
 
     try {
+      // 這裡呼叫你的 tradeApi.uploadImage，它應該會回傳 base64 字串
       const base64Image = await tradeApi.uploadImage(file);
-
-      // setFormData((prev) => ({
-      //   ...prev,
-      //   image: base64Image, // 將轉換後的長字串存入表單
-      // }));
       setValue('image', base64Image, { shouldValidate: true });
     } catch (error) {
-      console.error('圖片處理失敗:', error);
       showError('圖片讀取失敗，請重試');
     }
   };
 
-  // 4. 送出表單
-  const onSubmit = async (formData) => {
-    // e.preventDefault();
+  // 送出表單 (修改重點：手動產生 ID 與 調整 API 呼叫)
+  const onSubmit = async (data) => {
+    setIsSending(true); // 開始送出
     try {
-      await tradeApi.createTrade(formData);
-      showSuccess('家具收購申請送出成功！');
-      // 清空表單
+      const finalData = {
+        ...data,
+        id: `ID-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        timestamp: new Date().toLocaleString(),
+      };
+      await tradeApi.createTrade(finalData);
+      showSuccess('家具收購申請送出成功！我們將盡快聯繫您。');
       reset();
     } catch (error) {
-      console.error('送出失敗:', error);
-      showError('送出失敗，請檢查 json-server 是否啟動');
+      showError('送出失敗，請檢查網路連線或稍後再試');
+    } finally {
+      setIsSending(false); // 結束狀態
     }
   };
-
   return (
     <>
       <section className="guide_sm_bg custom-container ">
@@ -722,8 +693,20 @@ const TradeGuide = () => {
                   <button
                     type="submit"
                     className="btn btn-primary rounded-pill px-8 py-4"
+                    disabled={isSending}
                   >
-                    送出表單
+                    {isSending ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        處理中...
+                      </>
+                    ) : (
+                      '送出表單'
+                    )}
                   </button>
                 </div>
               </form>

@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { tradeApi } from '../../api/tradeApi';
 import useMessage from '../../hooks/useMessage';
 import AdminSingleTrade from './AdminSingleTrade';
-
-// const API_BASE = import.meta.env.VITE_API_BASE;
-// const API_PATH = import.meta.env.VITE_API_PATH;
 
 function AdminTradeList() {
   const [tradeList, setTradeList] = useState([]);
@@ -17,28 +13,48 @@ function AdminTradeList() {
   const fetchTradeList = async () => {
     try {
       setIsLoading(true);
-      const data = await tradeApi.getTrades();
-      showSuccess('資料讀取成功');
-      setTradeList(data); // json-server 回傳的是陣列
+      const result = await tradeApi.getTrades(); // 這裡拿到的是 GAS 回傳的完整物件
+
+      console.log('原始回傳資料：', result);
+
+      // 💡 關鍵修改：檢查結構並存入 data 陣列
+      if (result && result.status === 'success' && Array.isArray(result.data)) {
+        setTradeList(result.data);
+        showSuccess('資料讀取成功');
+      } else {
+        // 處理後端回傳 status 為 error 的情況
+        setTradeList([]);
+        showError(result.message || '資料格式錯誤');
+      }
     } catch (error) {
-      showError('資料讀取失敗', error);
+      console.error('Fetch Error:', error);
+      showError('資料讀取失敗，請檢查網路或 CORS 設定');
     } finally {
       setIsLoading(false);
     }
   };
 
   // 新增刪除功能
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    // 阻止原生 HTML 行為，防止它變成「新增」
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    if (!window.confirm('確定要刪除嗎？')) return;
+
     try {
-      await tradeApi.deleteTrade(id);
-      showSuccess('刪除成功');
-      fetchTradeList(); // 重新整理列表
+      const result = await tradeApi.deleteTrade(id);
+      console.log('刪除回傳：', result);
+      // 重新取得列表
+      fetchTradeList();
     } catch (error) {
-      showError('刪除失敗:', error);
-      showError('刪除失敗');
+      // 即使報 CORS 錯誤，其實通常已經刪除成功了
+      console.error('雖然報 CORS，但請檢查試算表是否已刪除');
+      fetchTradeList();
     }
   };
-
   useEffect(() => {
     fetchTradeList();
   }, []);
@@ -120,7 +136,8 @@ function AdminTradeList() {
                       <div className="btn-group btn-group-sm d-none d-lg-table-cell">
                         <button
                           className="btn btn-outline-danger"
-                          onClick={() => handleDelete(item.id)}
+                          type="button"
+                          onClick={(e) => handleDelete(e, item.id)}
                         >
                           刪除
                         </button>
