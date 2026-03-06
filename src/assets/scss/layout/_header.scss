@@ -23,6 +23,15 @@ li:hover .navlink-lg {
     }
   }
 }
+li:has(.navlink-lg.active) {
+  background-color: $primary-10;
+  border-radius: 50rem; /* 確保圓角跟著背景走 */
+
+  .navlink-lg.active {
+    color: $primary-90;
+    background-color: transparent;
+  }
+}
 /* 漢堡選單容器 */
 .hamburger-icon {
   padding: 6px 3px;
