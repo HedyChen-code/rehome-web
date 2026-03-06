@@ -1,6 +1,6 @@
 function AdminSingleTrade({ tempTrade, setTempTrade }) {
   // 如果沒有資料，就不渲染任何內容，避免報錯
-  if (!tempTrade) return null;
+  if (!tempTrade || Object.keys(tempTrade).length === 0) return null;
 
   return (
     <>

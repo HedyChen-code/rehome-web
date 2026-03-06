@@ -1,45 +1,84 @@
-import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
 import { tradeApi } from '../../api/tradeApi';
 import useMessage from '../../hooks/useMessage';
 import AdminSingleTrade from './AdminSingleTrade';
-
-// const API_BASE = import.meta.env.VITE_API_BASE;
-// const API_PATH = import.meta.env.VITE_API_PATH;
+import * as bootstrap from 'bootstrap';
+import TradeModal from '../../components/TradeModal';
 
 function AdminTradeList() {
   const [tradeList, setTradeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { showError, showSuccess } = useMessage();
   const [tempTrade, setTempTrade] = useState(null);
+  const [viewTrade, setViewTrade] = useState(null);
+  const deleteTradeModalRef = useRef(null);
+  const viewTradeModalRef = useRef(null);
+
+  useEffect(() => {
+    // 初始化查看用的 Modal
+    const viewEl = document.getElementById('viewTradeModal');
+    if (viewEl) {
+      viewTradeModalRef.current = new bootstrap.Modal(viewEl);
+    }
+  }, []);
+
+  const openViewModal = (item) => {
+    setTempTrade(item);
+    viewTradeModalRef.current.show();
+  };
 
   // 1. 取得資料
   const fetchTradeList = async () => {
     try {
       setIsLoading(true);
-      const data = await tradeApi.getTrades();
-      showSuccess('資料讀取成功');
-      setTradeList(data); // json-server 回傳的是陣列
+      const result = await tradeApi.getTrades(); // 這裡拿到的是 GAS 回傳的完整物件
+
+      // 檢查結構並存入 data 陣列
+      if (result && result.status === 'success' && Array.isArray(result.data)) {
+        setTradeList(result.data);
+        showSuccess('資料讀取成功');
+      } else {
+        // 處理後端回傳 status 為 error 的情況
+        setTradeList([]);
+        showError(result.message || '資料格式錯誤');
+      }
     } catch (error) {
-      showError('資料讀取失敗', error);
+      showError('資料讀取失敗，請檢查網路或 CORS 設定');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 新增刪除功能
+  // 打開刪除 Modal
+  const openDeleteModal = (item) => {
+    setTempTrade(item);
+    deleteTradeModalRef.current.show();
+  };
+
+  // 關閉刪除 Modal
+  const closeDeleteModal = () => {
+    deleteTradeModalRef.current.hide();
+  };
+
+  // 執行刪除
   const handleDelete = async (id) => {
     try {
       await tradeApi.deleteTrade(id);
       showSuccess('刪除成功');
-      fetchTradeList(); // 重新整理列表
+      closeDeleteModal(); // 刪除完關閉
+      fetchTradeList(); // 刷新列表
     } catch (error) {
-      showError('刪除失敗:', error);
       showError('刪除失敗');
     }
   };
-
   useEffect(() => {
+    // 初始化 Modal (只在掛載時執行一次)
+    if (!deleteTradeModalRef.current) {
+      deleteTradeModalRef.current = new bootstrap.Modal('#deleteTradeModal', {
+        keyboard: false,
+      });
+    }
+
     fetchTradeList();
   }, []);
 
@@ -120,14 +159,15 @@ function AdminTradeList() {
                       <div className="btn-group btn-group-sm d-none d-lg-table-cell">
                         <button
                           className="btn btn-outline-danger"
-                          onClick={() => handleDelete(item.id)}
+                          type="button"
+                          onClick={() => openDeleteModal(item)}
                         >
                           刪除
                         </button>
                       </div>
                       <button
                         className="btn d-lg-none"
-                        onClick={() => setTempTrade(item)}
+                        onClick={() => setViewTrade(item)}
                       >
                         <i className="bi bi-box-arrow-up-right"></i>
                       </button>
@@ -145,7 +185,13 @@ function AdminTradeList() {
           </table>
         </div>
         {/* 查看單一商品元件 */}
-        <AdminSingleTrade tempTrade={tempTrade} setTempTrade={setTempTrade} />
+        <AdminSingleTrade tempTrade={viewTrade} setTempTrade={setViewTrade} />
+        {/* 放置 Modal 元件 */}
+        <TradeModal
+          templateData={tempTrade}
+          closeModal={closeDeleteModal}
+          handleDelete={handleDelete}
+        />
       </div>
     </>
   );

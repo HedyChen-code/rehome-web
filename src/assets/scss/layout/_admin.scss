@@ -8,7 +8,6 @@
 .form-check-input:checked {
   background-color: $primary-30;
 }
-
 .back-to-top {
   bottom: 24px;
   right: 16px;
@@ -20,6 +19,15 @@
 .product-img {
   width: 100px;
   height: 100px;
+}
+.admin-nav .nav-link {
+  color: $primary-70 !important;
+  &:hover {
+    color: $gray-95 !important;
+  }
+}
+.nav-link.active {
+  color: $gray-95 !important;
 }
 
 /* 電腦版 (螢幕寬度 >= 992px) 時變化數值 */
@@ -44,5 +52,14 @@
   .product-img {
     width: 120px;
     height: 120px;
+  }
+  .admin-nav .nav-link {
+    color: $white !important;
+    &:hover {
+      color: $secondary-40 !important;
+    }
+  }
+  .nav-link.active {
+    color: $secondary-40 !important;
   }
 }
