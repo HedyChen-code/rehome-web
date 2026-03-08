@@ -1,22 +1,26 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { formateNumber } from '../../utils/filter';
-import { useNavigate } from 'react-router';
-import useMessage from '../../hooks/useMessage';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { formateNumber } from "../../utils/filter";
+import { useNavigate } from "react-router";
+import useMessage from "../../hooks/useMessage";
+import { useDispatch } from "react-redux";
+import { setCart } from "../../slice/cartSlice";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 const Cart = () => {
-  const [cart, setCart] = useState({ cart: [] });
+  const [cartData, setCartData] = useState({ carts: [] });
   const navigate = useNavigate();
   const { showError, showSuccess } = useMessage();
+  const dispatch = useDispatch();
 
   const getCart = async () => {
     try {
       const url = `${API_BASE}/api/${API_PATH}/cart`;
       const res = await axios.get(url);
-      setCart(res.data.data);
+      setCartData(res.data.data);
+      dispatch(setCart(res.data.data));
     } catch (error) {
       showError(
         `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
@@ -33,7 +37,7 @@ const Cart = () => {
       };
       const res = await axios.put(url, { data });
       getCart();
-      showSuccess('修改商品數量成功');
+      showSuccess("修改商品數量成功");
     } catch (error) {
       showError(
         `修改購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
@@ -46,7 +50,7 @@ const Cart = () => {
       const url = `${API_BASE}/api/${API_PATH}/cart/${id}`;
       const res = await axios.delete(url);
       getCart();
-      showSuccess('刪除這一筆購物車成功');
+      showSuccess("刪除這一筆購物車成功");
     } catch (error) {
       showError(
         `清除該筆購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
@@ -59,7 +63,7 @@ const Cart = () => {
       const url = `${API_BASE}/api/${API_PATH}/carts`;
       const res = await axios.delete(url);
       getCart();
-      showSuccess('清空購物車成功！');
+      showSuccess("清空購物車成功！");
     } catch (error) {
       showError(
         `清空購物車失敗: ${error.response?.data?.message}，請洽工作人員`,
@@ -68,7 +72,7 @@ const Cart = () => {
   };
 
   const goToCheckout = () => {
-    navigate('/checkout/detail');
+    navigate("/checkout/detail");
   };
 
   useEffect(() => {
@@ -77,14 +81,14 @@ const Cart = () => {
 
   return (
     <>
-      {!cart ? (
+      {!cartData ? (
         <div className="text-center mt-5">載入中...</div>
       ) : (
         <>
           <div className="bg-light-gray py-8 py-md-12">
             <div
               className="container text-gray-95"
-              style={{ marginTop: '144px' }}
+              style={{ marginTop: "144px" }}
             >
               <div className="row justify-content-center">
                 <div className="col">
@@ -97,9 +101,9 @@ const Cart = () => {
                             type="button"
                             className="btn btn-outline-danger"
                             onMouseEnter={(e) =>
-                              (e.target.style.color = '#f8f9fa')
+                              (e.target.style.color = "#f8f9fa")
                             }
-                            onMouseLeave={(e) => (e.target.style.color = '')}
+                            onMouseLeave={(e) => (e.target.style.color = "")}
                             onClick={deleteCartAll}
                           >
                             清空購物車
@@ -121,18 +125,18 @@ const Cart = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {cart.carts && cart.carts.length > 0 ? (
-                              cart.carts.map((cartItem) => (
+                            {cartData.carts && cartData.carts.length > 0 ? (
+                              cartData.carts.map((cartItem) => (
                                 <tr key={cartItem.id}>
                                   <td>
                                     <button
                                       type="button"
                                       className="btn btn-sm btn-outline-danger"
                                       onMouseEnter={(e) =>
-                                        (e.target.style.color = '#f8f9fa')
+                                        (e.target.style.color = "#f8f9fa")
                                       }
                                       onMouseLeave={(e) =>
-                                        (e.target.style.color = '')
+                                        (e.target.style.color = "")
                                       }
                                       onClick={() => deleteCart(cartItem.id)}
                                     >
@@ -147,10 +151,10 @@ const Cart = () => {
                                           className="btn btn-outline-danger"
                                           disabled={cartItem.qty <= 1}
                                           onMouseEnter={(e) =>
-                                            (e.target.style.color = '#f8f9fa')
+                                            (e.target.style.color = "#f8f9fa")
                                           }
                                           onMouseLeave={(e) =>
-                                            (e.target.style.color = '')
+                                            (e.target.style.color = "")
                                           }
                                           onClick={() =>
                                             updateCartNum(
@@ -176,10 +180,10 @@ const Cart = () => {
                                         <button
                                           className="btn btn-outline-danger"
                                           onMouseEnter={(e) =>
-                                            (e.target.style.color = '#f8f9fa')
+                                            (e.target.style.color = "#f8f9fa")
                                           }
                                           onMouseLeave={(e) =>
-                                            (e.target.style.color = '')
+                                            (e.target.style.color = "")
                                           }
                                           onClick={() =>
                                             updateCartNum(
@@ -214,7 +218,7 @@ const Cart = () => {
                                 總計
                               </td>
                               <td className="text-end text-nowrap">
-                                $ {formateNumber(cart.final_total)}
+                                $ {formateNumber(cartData.final_total)}
                               </td>
                             </tr>
                           </tfoot>
