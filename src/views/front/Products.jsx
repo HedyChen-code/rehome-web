@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { Modal } from 'bootstrap';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../slice/cartSlice';
+import { setCart } from '../../slice/cartSlice';
 import { useLocation } from 'react-router-dom'; //為了從主題風格連過來
 import useMessage from '../../hooks/useMessage';
 
@@ -119,17 +119,40 @@ function Products() {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
       setProducts(res.data.products);
       console.log(res.data.products);
-    } catch (error) {
+    } catch(error) {
       showError(
         `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
   };
 
+  // 取得購物車列表
+  const getCartsAndSync = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
+      dispatch(setCart(res.data.data));
+    } catch (error){
+      showError(
+        `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
+    }
+  }
+
   // 加入購物車函式
-  const handleAddToCart = (e, product) => {
-    dispatch(addToCart(product));
-    showSuccess(`已將 ${product.title} 加入購物車`);
+  const handleAddToCart = async (product) => {
+    try {
+      const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
+        data: {
+          product_id: product.id,
+          qty: 1
+        }
+      });
+      showSuccess(`已將 ${product.title} 加入購物車`);
+      
+      getCartsAndSync(); 
+    } catch (error) {
+      showError('加入購物車失敗');
+    }
   };
 
   const location = useLocation(); //為了從主題風格連過來
@@ -495,7 +518,7 @@ function Products() {
                       </div>
                       <button
                         className="btn btn-light w-100 custom-btn-hover"
-                        onClick={(e) => handleAddToCart(e, item)}
+                        onClick={() => handleAddToCart(item)}
                       >
                         加入購物車
                         <i className="bi bi-cart3 ms-3"></i>

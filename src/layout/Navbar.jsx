@@ -29,9 +29,8 @@ function Offcanvas({ isOpen, close, type, setPage, onSearch }) {
 }
 // 選單
 function MenuContent({ close }) {
-  // 取得 Redux 中的購物車列表與數量
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartCount = cartItems.reduce((total, item) => total + item.qty, 0);
+  const cartData = useSelector((state) => state.cart.cartData);
+  const cartCount = cartData.carts?.length || 0;
 
   return (
     <>
@@ -134,8 +133,8 @@ function SearchContent({ close, onSearch }) {
 const Navbar = ({ setPage, variant = 'default' }) => {
   const navigate = useNavigate();
   // 取得 Redux 中的購物車列表與數量
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartCount = cartItems.reduce((total, item) => total + item.qty, 0);
+  const cartData = useSelector((state) => state.cart.cartData);
+  const cartCount = cartData.carts?.length || 0;
 
   // 手機板-漢堡選單、搜尋選單
   const [isOpen, setIsOpen] = useState(false);
