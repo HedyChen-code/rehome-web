@@ -25,8 +25,20 @@
 .col-total { width: 15%; }
 
 @media (max-width: 768px) {
-  .col-del   { width: 5%; }
-  .col-title { width: 42%; }
-  .col-qty   { width: 50%; }
-  .col-total { width: 3%; }
+  .col-del   { width: 10%; }
+  .col-title { width: 40%; }
+  .col-qty   { width: 35%; }
+  .col-total { width: 15%; }
+
+  /* 小計欄位 td 內縮小 padding，讓欄位實際寬度更窄 */
+  td.col-total-cell {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+}
+
+.toProducts:hover {
+  display: inline-block;
+  background-color: $secondary;
+  pad: 4px 4px;
 }

@@ -132,14 +132,14 @@ function AdminProducts() {
             <span>
               <button
                 type="button"
-                className="btn btn-secondary-40"
+                className="btn btn-secondary-40 d-none d-lg-flex"
                 onClick={() => openModal(INITIAL_TEMPLATE_DATA, 'create')}
               >
                 新增商品
               </button>
             </span>
           </div>
-          <table className="table table-hover">
+          <table className="table table-hover d-none d-lg-table">
             <thead>
               <tr>
                 <th className="text-center">產品資訊</th>
@@ -179,7 +179,7 @@ function AdminProducts() {
                   <tr key={item.id}>
                     <td>
                       <div className="d-flex">
-                        <div style={{ width: '100px', height: '100px' }}>
+                        <div className="product-img">
                           <img
                             src={item.imageUrl}
                             className="img-fluid rounded object-fit-cover w-100 h-100"
@@ -279,6 +279,60 @@ function AdminProducts() {
               )}
             </tbody>
           </table>
+
+          {/* 手機版卡片 */}
+          <div className="row d-flex d-lg-none">
+            {isLoading ? (
+              // 1. 載入中的狀態
+              <div className="text-center py-5">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+                <p className="mt-2">資料讀取中...</p>
+              </div>
+            ) : isError ? (
+              // 2. 新增：API 出錯的狀態
+              <div colSpan="8" className="text-center py-5 text-danger">
+                <i className="bi bi-exclamation-triangle-fill fs-3"></i>
+                <p className="mt-2">資料取得失敗，請連絡相關人員或稍後再試</p>
+              </div>
+            ) : products && products.length > 0 ? (
+              // 3. 有資料的狀態
+              products.map((item) => (
+                <div className="col-6 col-sm-3 text-center" key={item.id}>
+                  <button
+                    onClick={() => setTempProduct(item)}
+                    className="btn p-0"
+                  >
+                    <div>
+                      <img
+                        src={item.imageUrl}
+                        className="img-fluid rounded  object-fit-cover w-100"
+                        alt={item.title}
+                        style={{
+                          height: 160,
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </div>
+                    <div className="p-3">
+                      <p className="d-block fw-medium lh-sm text-gray-95">
+                        {item.title}
+                      </p>
+                      <p className="font-noto fs-lg-7 text-gray-95 fs-8">
+                        NT$ {item.price?.toLocaleString()}
+                      </p>
+                    </div>
+                  </button>
+                </div>
+              ))
+            ) : (
+              // 4. 確定沒資料的狀態
+              <div colSpan="8" className="text-center py-5 text-muted">
+                尚無產品資料
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

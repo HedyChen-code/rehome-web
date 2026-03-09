@@ -52,6 +52,7 @@ const AdminOrders = () => {
         `${API_BASE}/api/${API_PATH}/admin/orders?page=${page}`,
       );
       setOrders(res.data.orders);
+      console.log(res.data.orders);
       setPagination(res.data.pagination);
     } catch (error) {
       setIsError(true);
@@ -112,7 +113,7 @@ const AdminOrders = () => {
   };
 
   return (
-    <>
+    <div className="mw-100">
       <h2 className="my-5">訂單列表</h2>
       <div className="table-responsive">
         <table className="table table-hover align-middle">
@@ -120,12 +121,12 @@ const AdminOrders = () => {
             <tr>
               <th>建立時間</th>
               <th>訂單編號</th>
-              <th>客戶姓名 / Email</th>
-              <th>購買項目</th>
-              <th>應付金額</th>
-              <th className="text-center">付款狀態</th>
+              <th className="d-none d-lg-table-cell">客戶姓名 / Email</th>
+              <th className="d-none d-lg-table-cell">購買項目</th>
+              <th className="d-none d-lg-table-cell">應付金額</th>
+              <th className="text-center d-none d-lg-table-cell">付款狀態</th>
               <th className="text-center">查看細節</th>
-              <th className="text-center">修改</th>
+              <th className="text-center d-none d-lg-table-cell">修改</th>
             </tr>
           </thead>
           <tbody>
@@ -158,16 +159,21 @@ const AdminOrders = () => {
                   </td>
 
                   {/* 訂單 ID */}
-                  <td className="small text-muted">{order.id}</td>
+                  <td
+                    className="small text-muted text-truncate"
+                    style={{ maxWidth: '110px' }}
+                  >
+                    {order.id}
+                  </td>
 
                   {/* 客戶資料 */}
-                  <td>
+                  <td className="d-none d-lg-table-cell">
                     <div className="fw-bold">{order.user.name}</div>
                     <div className="small text-muted">{order.user.email}</div>
                   </td>
 
                   {/* 產品項目 (處理物件轉陣列) */}
-                  <td>
+                  <td className="d-none d-lg-table-cell">
                     <ul className="list-unstyled mb-0 small">
                       {Object.values(order.products || {}).map((item) => (
                         <li key={item.id}>
@@ -181,10 +187,12 @@ const AdminOrders = () => {
                   </td>
 
                   {/* 應付金額 */}
-                  <td>{order.total.toLocaleString()} 元</td>
+                  <td className="d-none d-lg-table-cell">
+                    {order.total.toLocaleString()} 元
+                  </td>
 
                   {/* 付款狀態 */}
-                  <td className="text-center align-middle">
+                  <td className="text-center align-middle d-none d-lg-table-cell">
                     {order.is_paid ? (
                       <span className="badge bg-success text-gray-70 rounded-pill fs-8">
                         <i className="bi bi-check-circle-fill"></i>
@@ -200,15 +208,21 @@ const AdminOrders = () => {
                   <td className="text-center align-middle">
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary d-none d-lg-table-cell"
                       onClick={() => setTempOrder(order)}
                     >
                       查看細節
                     </button>
+                    <button
+                      className="btn d-lg-none"
+                      onClick={() => setTempOrder(order)}
+                    >
+                      <i className="bi bi-box-arrow-up-right"></i>
+                    </button>
                   </td>
 
                   {/* 修改 */}
-                  <td className="text-center align-middle">
+                  <td className="text-center align-middle d-none d-lg-table-cell">
                     <div className="btn-group">
                       <button
                         type="button"
@@ -232,7 +246,7 @@ const AdminOrders = () => {
             ) : (
               <tr>
                 <td colSpan="8" className="text-center py-5 text-muted">
-                  尚無產品資料
+                  尚無訂單資料
                 </td>
               </tr>
             )}
@@ -251,7 +265,7 @@ const AdminOrders = () => {
       />
       {/* 分頁元件 */}
       <Pagination pagination={pagination} getData={getOrders} />
-    </>
+    </div>
   );
 };
 export default AdminOrders;
