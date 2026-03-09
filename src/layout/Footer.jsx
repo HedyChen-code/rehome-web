@@ -112,6 +112,7 @@ function Footer() {
                   className="form-control"
                   placeholder="請輸入E-mail信箱"
                   aria-label="Email"
+                  style={{ width: "240px" }}
                 />
                 <button className="btn-pr" type="button">
                   立即訂閱
