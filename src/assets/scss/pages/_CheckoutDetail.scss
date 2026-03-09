@@ -12,9 +12,7 @@
 }
 
 .label-btn {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
   border: 1px solid $gray-20;
   border-radius: 24px;
   padding: 24px 32px;
@@ -29,6 +27,11 @@
   }
 }
 
+.btn-check:checked + .label-btn {
+  border: 1px solid rgba(183, 193, 234, 0.75) !important;
+  background-color: rgba(183, 193, 234, 0.15);
+}
+
 .label-btn.btn:hover,
 .label-btn.btn:active {
   border: 1px solid rgba(183, 193, 234, 0.75)  !important; // primary-30 75% 以接近設計稿實際樣式
@@ -37,11 +40,6 @@
 
 
 .edit-btn {
-  position: absolute;
-  z-index: 99;
-  top: 47%;
-  right: 32px;
-  transform: translateY(-50%);
   pointer-events: auto;
 
   background: none;
@@ -65,11 +63,6 @@
   &:active svg path {
     stroke: $primary-70;
     transform: scale(1.15);
-  }
-}
-@media (max-width: 768px) {
-  .edit-btn {
-    right: 12px;
   }
 }
 

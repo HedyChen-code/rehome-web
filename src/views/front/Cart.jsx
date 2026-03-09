@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { formateNumber } from "../../utils/filter";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useMessage from "../../hooks/useMessage";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../slice/cartSlice";
+import ScrollToTop from "../../components/ScrollToTop"
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -73,6 +74,7 @@ const Cart = () => {
 
   const goToCheckout = () => {
     navigate("/checkout/detail");
+    navigate("/checkout/detail");
   };
 
   useEffect(() => {
@@ -90,12 +92,12 @@ const Cart = () => {
               className="container text-gray-95"
               style={{ marginTop: "144px" }}
             >
-              <div className="row justify-content-center">
-                <div className="col">
+              <div className="row justify-content-center mb-10 mb-md-12 fs-md-6">
+                <div className="col-12 mb-6 mb-md-8">
                   <form action="">
-                    <section className="checkout-card mb-10 mb-md-12 fs-md-6">
+                    <section className="checkout-card">
                       <div className="container">
-                        <h2 className="mb-4 fs-3 fs-md-2">購物車清單</h2>
+                        <h2 className="mb-6 fs-3 fs-md-2 pb-4 border-bottom">購物車清單</h2>
                         <div className="text-end mb-2">
                           <button
                             type="button"
@@ -110,7 +112,7 @@ const Cart = () => {
                           </button>
                         </div>
                         <table className="table table-hover fs-7 fs-md-6">
-                          <thead>
+                          <thead className="text-center text-md-start">
                             <tr>
                               <th scope="col" className="col-del"></th>
                               <th scope="col" className="col-title">
@@ -146,7 +148,7 @@ const Cart = () => {
                                   <td>{cartItem.product.title}</td>
                                   <td>
                                     <div className="d-flex align-items-center flex-wrap flex-md-nowrap fs-8 fs-md-6">
-                                      <div className="input-group me-md-3 w-auto">
+                                      <div className="input-group me-md-3 w-auto flex-nowrap">
                                         <button
                                           className="btn btn-outline-danger"
                                           disabled={cartItem.qty <= 1}
@@ -201,7 +203,7 @@ const Cart = () => {
                                       </span>
                                     </div>
                                   </td>
-                                  <td className="text-end text-nowrap fs-8 fs-md-6">
+                                  <td className="text-end text-nowrap fs-8 fs-md-6 col-total-cell">
                                     $ {formateNumber(cartItem.final_total)}
                                   </td>
                                 </tr>
@@ -227,18 +229,44 @@ const Cart = () => {
                     </section>
                   </form>
                 </div>
+                <div className="col-12">
+                  <section className="checkout-card">
+                    <h4 className="mb-6 mb-md-8 pb-4 border-bottom">結帳明細</h4>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <p>商品總金額</p>
+                      <p className="text-end">$ {formateNumber(cartData.final_total)}</p>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
             <div className="text-center">
-              <button
-                type="button"
-                className="btn btn-pr"
-                onClick={goToCheckout}
-              >
-                去買單
-              </button>
+              { cartData.carts.length > 0 ? (
+                <button
+                  type="button"
+                  className="btn btn-pr"
+                  onClick={ goToCheckout }
+                >
+                  去買單
+                </button>
+              ) : (<>
+                <button
+                  type="button"
+                  className="btn btn-pr0 mb-4"
+                  disabled
+                >
+                  去買單
+                </button>
+                <div className="text-danger">
+                  <p>還沒有找到心儀的商品嗎？</p>
+                  <p>請前往<Link to='/products' className="toProducts px-2 text-info">賣場選購</Link>，謝謝！</p>
+                </div>
+                
+              </>) }
+              
             </div>
           </div>
+          <ScrollToTop />
         </>
       )}
     </>

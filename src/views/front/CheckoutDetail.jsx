@@ -3,34 +3,68 @@ import { useEffect, useRef, useState } from "react";
 import * as bootstrap from 'bootstrap';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import ScrollToTop from "../../components/ScrollToTop";
+import { formateNumber } from "../../utils/filter";
+import useMessage from "../../hooks/useMessage";
+import { useDispatch } from "react-redux";
+import { setCart } from "../../slice/cartSlice";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 const CheckoutDetail = () => {
+  const addressModalRef = useRef(null);
+  const creditCardModalRef = useRef(null);
+  const orderSubmitModalRef = useRef(null);
   const [ submitModal, setSubmitModal ] = useState({});
+  const [ selectedAddressId, setSelectedAddressId ] = useState(null);
+  const [ addressModalType, setAddressModalType ] = useState(''); // 'add', 'edit'
   const navigate = useNavigate();
-
-  // const [form, setForm] = useState({
-  //   shippingMethod: "shippingNormal",      // shippingNormal / shippingHome / shippingStore
-  //   addressId: "addr_1",
-  //   receiver: { name: "", tel: "", address: "" },
-  //   payment: "card",             // card / transfer / cod
-  //   invoiceType: "mobile",       // mobile / company / donate
-  //   invoiceValue: "",            // 手機載具 / 統編 / 捐贈碼
-  // });
-  
-  
+  const normalAddresses = [
+    {
+      id: 'normal-1',
+      name: '陳小明',
+      tel: '+886 444556789',
+      address: '台南縣東平平區小羊路日四段12號'
+    },
+    {
+      id: 'normal-2',
+      name: '王省省',
+      tel: '+886 912342234',
+      address: '台西縣安安區太陽路二段243號'
+    }
+  ];
+  const homeAddresses = [
+    {
+      id: 'home-1',
+      name: '王省省',
+      tel: '+886 912342234',
+      address: '台西縣安安區太陽路二段243號'
+    }
+  ];
+  const [cartData, setCartData] = useState({ carts: [] });
+  const { showError, showSuccess } = useMessage();
+  const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-    reset,
   } = useForm(
     { mode: "onChange" }
   );
+
+  const shippingMethod = watch('shippingMethod');
+  const shippingFree = (
+    shippingMethod === 'shippingNormal'
+    ? 500
+    : shippingMethod === 'shippingHome'
+    ? 1500
+    : 0
+  );
+
+  const payment = watch('payment');
 
   const invoiceType = watch('invoiceType'); // mobile / company /donate
 
@@ -57,32 +91,105 @@ const CheckoutDetail = () => {
     }
   }
 
-  const addressModalRef = useRef(null);
-  const openAddressModal = () => {
+  const openAddressModal = (type) => {
     addressModalRef.current.show();
+    setAddressModalType(type);
+  }
+  const closeAddressModal = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    addressModalRef.current.hide();
   }
 
-  const orderSubmitModalRef = useRef(null);
+  const openCreditCardModal = () => {
+    creditCardModalRef.current.show();
+  }
+  const closeCreditCardModal = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    creditCardModalRef.current.hide();
+  }
+
   const openOrderSubmitModal = () => {
     orderSubmitModalRef.current.show();
   }
 
   const handleSubmitCheck = () => {
     navigate('/');
+
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     orderSubmitModalRef.current.hide();
   }
 
+  const getCart = async () => {
+    try {
+      const url = `${API_BASE}/api/${API_PATH}/cart`;
+      const res = await axios.get(url);
+      setCartData(res.data.data);
+      dispatch(setCart(res.data.data));
+    } catch (error) {
+      showError(
+        `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+      );
+    }
+  };
+
   useEffect(() => {
     addressModalRef.current = new bootstrap.Modal('#addressModal');
+    creditCardModalRef.current = new bootstrap.Modal('#creditCardModal');
     orderSubmitModalRef.current = new bootstrap.Modal('#orderSubmitModal');
+
+    getCart();
     
   }, [])
+
+  const renderAddressCards = (list, radioName) => (
+    list.map((item, index) => {
+      const radioId = `${radioName}-${item.id || index}`;
+      return (
+        <div className="row d-flex justify-content-between align-items-center"  key={item.id || radioId}>
+          <div className="col-10 col-md-11">
+            <input
+              type="radio"
+              className="btn-check"
+              name={radioName}
+              id={radioId}
+              checked={ selectedAddressId === item.id }
+              onChange={() => setSelectedAddressId(item.id)}
+            />
+            <label 
+              className="btn border font-noto label-btn" htmlFor={radioId}>
+              <div className="text-start">
+                <p className="text-gray-95 mb-2">
+                  {item.name}<span className="fs-8 fs-md-7 text-gray-50">{item.tel}</span>
+                </p>
+                <p className="fs-9 fs-md-8 text-gray-50">{item.address}</p>
+              </div>
+            </label>
+          </div>
+          <div className="col-2 col-md-1 d-flex justify-content-center align-items-center px-0">
+            <button type="button" className="edit-btn" onClick={ ()=> openAddressModal('edit') }>
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23 16H16C15.4696 16 14.9609 16.2107 14.5858 16.5858C14.2107 16.9609 14 17.4696 14 18V32C14 32.5304 14.2107 33.0391 14.5858 33.4142C14.9609 33.7893 15.4696 34 16 34H30C30.5304 34 31.0391 33.7893 31.4142 33.4142C31.7893 33.0391 32 32.5304 32 32V25" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M30.5 14.5002C30.8978 14.1024 31.4374 13.8789 32 13.8789C32.5626 13.8789 33.1022 14.1024 33.5 14.5002C33.8978 14.8981 34.1213 15.4376 34.1213 16.0002C34.1213 16.5628 33.8978 17.1024 33.5 17.5002L24 27.0002L20 28.0002L21 24.0002L30.5 14.5002Z" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+      );
+    })
+  );
 
   return (<>
   <div className="bg-light-gray py-8 py-md-12">
     <div className="container text-gray-95" style={{ marginTop: '136px' }}>
       <div className="row justify-content-center">
-        <div className="col">
+        <div className="col-12">
           <form onSubmit={ handleSubmit(onSubmit) }>
             <section className="checkout-card mb-8 mb-md-9 pb-5">
               <h3 className="font-fakepearl fw-normal fs-4 fs-md-3">
@@ -117,48 +224,8 @@ const CheckoutDetail = () => {
                     </div>
                   </div>
                   <div className="vstack gap-3 font-noto">
-                    {/* 地址卡 1 */}
-                    <div className="position-relative">
-                      <input type="radio" className="btn-check" name="normalAddr" id="normal1" autoComplete="off" defaultChecked />
-                      <label 
-                        className="btn border font-noto label-btn" htmlFor="normal1">
-                        <div className="text-start">
-                          <p className="text-gray-95 mb-2">
-                            陳小明<span className="fs-8 fs-md-7 text-gray-50">+886 444556789</span>
-                          </p>
-                          <p className="fs-9 fs-md-8 text-gray-50">台南縣東平平區小羊路日四段12號</p>
-                        </div>
-                      </label>
-                      <button type="button" className="edit-btn" onClick={ openAddressModal }>
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M23 16H16C15.4696 16 14.9609 16.2107 14.5858 16.5858C14.2107 16.9609 14 17.4696 14 18V32C14 32.5304 14.2107 33.0391 14.5858 33.4142C14.9609 33.7893 15.4696 34 16 34H30C30.5304 34 31.0391 33.7893 31.4142 33.4142C31.7893 33.0391 32 32.5304 32 32V25" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M30.5 14.5002C30.8978 14.1024 31.4374 13.8789 32 13.8789C32.5626 13.8789 33.1022 14.1024 33.5 14.5002C33.8978 14.8981 34.1213 15.4376 34.1213 16.0002C34.1213 16.5628 33.8978 17.1024 33.5 17.5002L24 27.0002L20 28.0002L21 24.0002L30.5 14.5002Z" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </button>
-                    </div>
-                    
-                    {/* 地址卡 2 */}
-                    <div className="position-relative">
-                      <input type="radio" className="btn-check" name="normalAddr" id="normal2" autoComplete="off" />
-                      <label 
-                        className="btn border font-noto label-btn" htmlFor="normal2">
-                        <div className="text-start">
-                          <p className="text-gray-95 mb-2">
-                            王省省<span className="fs-8 fs-md-7 text-gray-50">+886 912342234</span>
-                          </p>
-                          <p className="fs-9 fs-md-8 text-gray-50">台西縣安安區太陽路二段243號</p>
-                        </div>
-                      </label>
-                      <button type="button" className="edit-btn">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M23 16H16C15.4696 16 14.9609 16.2107 14.5858 16.5858C14.2107 16.9609 14 17.4696 14 18V32C14 32.5304 14.2107 33.0391 14.5858 33.4142C14.9609 33.7893 15.4696 34 16 34H30C30.5304 34 31.0391 33.7893 31.4142 33.4142C31.7893 33.0391 32 32.5304 32 32V25" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M30.5 14.5002C30.8978 14.1024 31.4374 13.8789 32 13.8789C32.5626 13.8789 33.1022 14.1024 33.5 14.5002C33.8978 14.8981 34.1213 15.4376 34.1213 16.0002C34.1213 16.5628 33.8978 17.1024 33.5 17.5002L24 27.0002L20 28.0002L21 24.0002L30.5 14.5002Z" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* 新增選項 */}
-                    <button type="button" className="btn add-option">
+                    {renderAddressCards(normalAddresses, 'normalAddr')}
+                    <button type="button" className="btn add-option" onClick={() => openAddressModal('add')}>
                       <i className="bi bi-plus-lg me-4"></i>
                       新增其他地址
                     </button>
@@ -188,25 +255,8 @@ const CheckoutDetail = () => {
                     </div>
                   </div>
                   <div className="vstack gap-3 font-noto">
-                    <div className="position-relative">
-                      <input type="radio" className="btn-check" name="homeAddr" id="home1" autoComplete="off" />
-                      <label 
-                        className="btn border label-btn" htmlFor="home1">
-                        <div className="text-start">
-                          <p className="text-gray-95 mb-2">
-                            王省省<span className="fs-8 fs-md-7 text-gray-50">+886 912342234</span>
-                          </p>
-                          <p className="fs-9 fs-md-8 text-gray-50">台西縣安安區太陽路二段243號</p>
-                        </div>
-                      </label>
-                      <button type="button" className="edit-btn">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M23 16H16C15.4696 16 14.9609 16.2107 14.5858 16.5858C14.2107 16.9609 14 17.4696 14 18V32C14 32.5304 14.2107 33.0391 14.5858 33.4142C14.9609 33.7893 15.4696 34 16 34H30C30.5304 34 31.0391 33.7893 31.4142 33.4142C31.7893 33.0391 32 32.5304 32 32V25" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M30.5 14.5002C30.8978 14.1024 31.4374 13.8789 32 13.8789C32.5626 13.8789 33.1022 14.1024 33.5 14.5002C33.8978 14.8981 34.1213 15.4376 34.1213 16.0002C34.1213 16.5628 33.8978 17.1024 33.5 17.5002L24 27.0002L20 28.0002L21 24.0002L30.5 14.5002Z" stroke="#B8B8C1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </button>
-                    </div>
-                    <button type="button" className="btn add-option">
+                    {renderAddressCards(homeAddresses, 'homeAddr')}
+                    <button type="button" className="btn add-option" onClick={() => openAddressModal('add')}>
                       <i className="bi bi-plus-lg me-4"></i>
                       新增其他地址
                     </button>
@@ -251,11 +301,13 @@ const CheckoutDetail = () => {
               aria-hidden="true"
               ref={ addressModalRef }
             >
-              <div className="modal-dialog modal-lg">
-                <div className="modal-content px-md-8 py-md-10" style={{ borderRadius: 40 }}>
-                  <div className="modal-header border-0">
-                    <h1 className="modal-title fs-5 fs-md-4" id="addressModalLabel">請填寫配送資訊</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div className="modal-dialog modal-dialog-centered modal-lg">
+                <div className="modal-content px-6 py-8 px-md-8 py-md-10" style={{ borderRadius: 40 }}>
+                  <div className="modal-header border-0 bg-gray-20">
+                    <h1 className="modal-title fs-5 fs-md-4" id="addressModalLabel">
+                      { addressModalType === 'edit' ? '編輯配送資訊' : '新增配送資訊'}
+                    </h1>
+                    <button type="button" className="btn-close" onClick={ closeAddressModal }></button>
                   </div>
                   <div className="modal-body">
                     <div className="row mb-4 mb-md-5">
@@ -267,6 +319,7 @@ const CheckoutDetail = () => {
                           name="recipientName"
                           className="form-control" 
                           placeholder="請輸入收件人姓名"
+                          {...register('shippingData.name', { message: '請輸入收件人姓名' })}
                         />
                       </div>
                       <div className="col-md-8">
@@ -277,6 +330,7 @@ const CheckoutDetail = () => {
                           name="recipientTel"
                           className="form-control" 
                           placeholder="請輸入收件人手機號碼"
+                          {...register('shippingData.tel', { message: '請輸入收件人手機號碼' })}
                         />
                       </div>
                     </div>
@@ -289,11 +343,13 @@ const CheckoutDetail = () => {
                         name="recipientAddress"
                         className="form-control" 
                         placeholder="請輸入收件地址"
+                        {...register('shippingData.address', { message: '請輸入收件地址' })}
                       />
                     </div>
                   </div>
-                  <div className="modal-footer border-0">
-                    <button type="button" className="btn btn-pr">確認</button>
+                  <div className="modal-footer border-0 d-flex mx-auto">
+                    <button type="button" className="btn btn-secondary me-4 me-md-6" onClick={ closeAddressModal }>取消</button>
+                    <button type="button" className="btn btn-primary">確認</button>
                   </div>
                 </div> 
               </div>
@@ -423,26 +479,96 @@ const CheckoutDetail = () => {
 
                     { errors.payment && <p className="invalid-feedback">{ errors?.payment?.message }</p>}
 
-                    
-                    <div className="vstack gap-3">
-                    {/* 信用卡/金融卡 1 */}
-                      <div className="position-relative">
-                        <input type="radio" className="btn-check" name="creditCard" id="credit" autoComplete="off" defaultChecked />
-                        <label 
-                          className="btn border label-btn" htmlFor="credit">
-                          <div className="d-flex justify-content-start align-items-center">
-                            <img src="images/icon/visa-brandmark.svg" style={{width: "40"}} alt="visa-icon" />
-                            <p className="text-gray-95 ms-4">****1356</p>
-                          </div>
-                        </label>
-                      </div>
+                    { payment === "paymentCard" && (<>
+                      <div className="vstack gap-3">
+                      {/* 信用卡/金融卡 1 */}
+                        <div className="col-md-8">
+                          <input type="radio" className="btn-check" name="creditCard" id="credit" autoComplete="off" defaultChecked />
+                          <label 
+                            className="btn border label-btn" htmlFor="credit">
+                            <div className="d-flex justify-content-start align-items-center">
+                              <img src="images/icon/visa-brandmark.svg" style={{width: "40"}} alt="visa-icon" />
+                              <p className="text-gray-95 ms-4">****1356</p>
+                            </div>
+                          </label>
+                        </div>
 
-                      {/* 新增選項 */}
-                      <button type="button" className="btn add-option">
-                        <i className="bi bi-plus-lg me-4"></i>
-                        新增其他信用卡
-                      </button>
+                        {/* 新增選項 */}
+                        <button type="button" className="btn add-option" onClick={ openCreditCardModal }>
+                          <i className="bi bi-plus-lg me-4"></i>
+                          新增其他信用卡
+                        </button>
+                      </div>
+                    </>)}
+
+                    
+
+                    {/* 新增信用卡 Modal */}
+                    <div 
+                      className="modal fade" 
+                      id="creditCardModal" 
+                      tabIndex="-1" 
+                      aria-labelledby="creditCardModalLabel" 
+                      aria-hidden="true"
+                      ref={ creditCardModalRef }
+                    >
+                      <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content px-6 py-8 px-md-8 py-md-10 d-flex justify-contentent-center align-items-center" style={{ borderRadius: 40 }}>
+                          <div className="modal-header w-100 bg-gray-20 mb-4 mb-md-6">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">新增信用卡</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div className="modal-body text-center">
+                            <div className="row mb-4 mb-md-5">
+                              <div className="col">
+                                <input 
+                                  type="text"
+                                  id="creditNo" 
+                                  name="creditNo"
+                                  className="form-control"
+                                  placeholder="請輸入信用卡卡號"
+                                />
+                              </div>
+                            </div>
+                            <div className="row mb-4 mb-md-5">
+                              <div className="col-md-4">
+                                <input 
+                                  type="text"
+                                  id="creditNo" 
+                                  name="creditNo"
+                                  className="form-control"
+                                  placeholder="有效月"
+                                />
+                              </div>
+                              <div className="col-md-4">
+                                 <input 
+                                  type="text"
+                                  id="creditNo" 
+                                  name="creditNo"
+                                  className="form-control"
+                                  placeholder="有效年"
+                                />
+                              </div>
+                              <div className="col-md-4">
+                                 <input 
+                                  type="text"
+                                  id="creditNo" 
+                                  name="creditNo"
+                                  className="form-control"
+                                  placeholder="輸入末三碼"
+                                />
+                              </div>
+                            </div>  
+                          </div>
+                          <div className="modal-footer border-0">
+                            <button type="button" className="btn btn-secondary me-4 me-md-6" onClick={ closeCreditCardModal }>取消</button>
+                            <button type="button" className="btn btn-primary" onClick={ closeCreditCardModal }>確認</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+
                   </div>
                   <div className="form-check py-4 mb-3">
                     <input 
@@ -458,6 +584,23 @@ const CheckoutDetail = () => {
                     <label className="form-check-label" htmlFor="paymentTransfer">
                       轉帳
                     </label>
+
+                    {/* 當選取到轉帳 radio 時，顯示出 div */}
+                    { payment === "paymentTransfer" && (
+                      <div className="row">
+                        <div className="col-md-8">
+                          <div className="card mt-4 align-items-start" style={{ borderRadius: "8px" }}>
+                            <h6>轉帳繳費帳號</h6>
+                            <div className="mb-6">
+                              <p>銀行代碼：822（中國信託）</p>
+                              <p>轉帳帳號：123456789012</p>
+                            </div>
+                            <button className="btn btn-pr">發送到手機</button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    )}
 
                     { errors.payment && <p className="invalid-feedback">{ errors?.payment?.message }</p>}
                     
@@ -595,6 +738,32 @@ const CheckoutDetail = () => {
             </div>
           </section>
 
+          <div className="col-12mb-10 mb-md-12">
+            <section className="checkout-card">
+              <h4 className="mb-6 mb-md-8 pb-4 border-bottom">付款明細</h4>
+              <div>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <p>商品總金額</p>
+                  <p className="text-end">$ {formateNumber(cartData.final_total)}</p>
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <p>運費</p>
+                  <p className="text-end">
+                    {/* 當配送方式選擇一般宅配，運費 500 元。送貨到家 1500 元。門市自取 0 元 */}
+                    $ {formateNumber(shippingFree)}
+                  </p>
+                </div>
+                <div className="d-flex justify-content-between align-items-center border-top border-3 mb-2 py-2">
+                  <p>總付款金額</p>
+                  <p className="text-end">
+                    {/* 商品總金額與運費加總 */}
+                    $ {formateNumber((cartData?.final_total || 0) + shippingFree)}
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
           <div className="text-center">
             <button type="submit" className="btn btn-pr">送出訂單</button>
           </div>
@@ -615,7 +784,7 @@ const CheckoutDetail = () => {
       ref={ orderSubmitModalRef }
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content px-md-8 py-md-10 d-flex justify-contentent-center align-items-center" style={{ borderRadius: 40 }}>
+        <div className="modal-content px-6 py-8 px-md-8 py-md-10 d-flex justify-contentent-center align-items-center" style={{ borderRadius: 40 }}>
           <div className="modal-body text-center">
             { submitModal.type === 'success' ? (<>
               <i className="bi bi-check2-circle text-success fs-2"></i>
@@ -630,11 +799,11 @@ const CheckoutDetail = () => {
           </div>
           <div className="modal-footer border-0">
             <button type="button" className="btn btn-pr" onClick={ handleSubmitCheck }>確認</button>
-            {/* <Link to="/" className="btn btn-pr">確認</Link> */}
           </div>
         </div>
       </div>
     </div>
+    <ScrollToTop />
     
     
   </div>
