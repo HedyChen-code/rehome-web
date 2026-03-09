@@ -331,7 +331,7 @@ function ProductCategorySection() {
               <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={24} // 卡片間距
-                slidesPerView={1.4} // 手機版預設看到 1.3 格
+                slidesPerView={1.3} // 手機版預設看到 1.3 格
                 navigation={{
                   nextEl: '.swiper-button-next',
                   prevEl: '.swiper-button-prev',
@@ -339,8 +339,17 @@ function ProductCategorySection() {
                 pagination={{ type: 'progressbar' }} // 顯示下方分頁點可不可以跳頁的意思
                 className="pb-5"
                 breakpoints={{
+                  576: {
+                    slidesPerView: 2,
+                  },
                   768: {
-                    slidesPerView: 5, // 桌機（平板以上）
+                    slidesPerView: 2.5,
+                  },
+                  1024: {
+                    slidesPerView: 3.5,
+                  },
+                  1200: {
+                    slidesPerView: 5,
                   },
                 }}
               >
