@@ -611,6 +611,7 @@ const TradeGuide = () => {
                       </label>
                       <input
                         type="number"
+                        id="width"
                         className="size-input ps-4 sell-form-col"
                         {...register('width', { required: '請輸入寬度' })}
                         placeholder="ex:100"
@@ -624,6 +625,7 @@ const TradeGuide = () => {
                       </label>
                       <input
                         type="number"
+                        id="depth"
                         className="size-input ps-4 sell-form-col"
                         {...register('depth', { required: '請輸入深度' })}
                         placeholder="ex:100"
@@ -637,6 +639,7 @@ const TradeGuide = () => {
                       </label>
                       <input
                         type="number"
+                        id="height"
                         className="size-input ps-4 sell-form-col"
                         {...register('height', { required: '請輸入高度' })}
                         placeholder="ex:100"

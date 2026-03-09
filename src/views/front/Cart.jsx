@@ -22,7 +22,6 @@ const Cart = () => {
       const res = await axios.get(url);
       setCartData(res.data.data);
       dispatch(setCart(res.data.data));
-      console.log(res.data.data);
     } catch (error) {
       showError(
         `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
@@ -74,6 +73,7 @@ const Cart = () => {
   };
 
   const goToCheckout = () => {
+    navigate("/checkout/detail");
     navigate("/checkout/detail");
   };
 

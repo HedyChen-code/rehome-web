@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // 引入 Swiper React 元件
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 // 引入 Swiper 樣式
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import ScrollToTop from '../../components/ScrollToTop';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import ScrollToTop from "../../components/ScrollToTop";
 
 // 引入需要的模組 (選用：導覽箭頭、分頁點)
-import { Navigation, Pagination } from 'swiper/modules';
-import useMessage from '../../hooks/useMessage';
+import { Navigation, Pagination } from "swiper/modules";
+import useMessage from "../../hooks/useMessage";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 function ProductCategorySection() {
   const [products, setProducts] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('沙發 / 座椅類');
-  const [activeTab, setActiveTab] = useState('新品');
+  const [activeCategory, setActiveCategory] = useState("沙發 / 座椅類");
+  const [activeTab, setActiveTab] = useState("新品");
   const { showError } = useMessage();
 
   const getProducts = async () => {
@@ -29,7 +29,7 @@ function ProductCategorySection() {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
       setProducts(res.data.products);
     } catch (error) {
-      showError('取得資料失敗');
+      showError("取得資料失敗");
     }
   };
 
@@ -40,91 +40,91 @@ function ProductCategorySection() {
   const filteredProducts = products.filter((item) => {
     const isCategoryMatch = item.category === activeCategory;
     let isTabMatch = false;
-    if (activeTab === '新品') {
+    if (activeTab === "新品") {
       isTabMatch = item.is_new === 1 || item.is_new === true;
-    } else if (activeTab === '推薦') {
+    } else if (activeTab === "推薦") {
       isTabMatch = item.is_recommend === 1 || item.is_recommend === true;
     }
     return isCategoryMatch && isTabMatch;
   });
 
   const categoryMenu = [
-    '沙發 / 座椅類',
-    '儲物 / 櫃體類',
-    '床具 / 寢臥類',
-    '桌類 / 檯面類',
-    '擺飾 / 家飾類',
+    "沙發 / 座椅類",
+    "儲物 / 櫃體類",
+    "床具 / 寢臥類",
+    "桌類 / 檯面類",
+    "擺飾 / 家飾類",
   ];
 
   const themes = [
     {
-      img: 'images/theme/theme01.jpg',
-      title: '工業',
-      className: 'corner-tl',
-      alt: 'theme01',
+      img: "images/theme/theme01.jpg",
+      title: "工業",
+      className: "corner-tl",
+      alt: "theme01",
     },
     {
-      img: 'images/theme/theme02.jpg',
-      title: '義大利現代',
-      className: '',
-      alt: 'theme02',
+      img: "images/theme/theme02.jpg",
+      title: "義大利現代",
+      className: "",
+      alt: "theme02",
     },
     {
-      img: 'images/theme/theme03.jpg',
-      title: '現代北歐',
-      className: '',
-      alt: 'theme03',
+      img: "images/theme/theme03.jpg",
+      title: "現代北歐",
+      className: "",
+      alt: "theme03",
     },
     {
-      img: 'images/theme/theme04.jpg',
-      title: '日式無印',
-      className: 'corner-tr',
-      alt: 'theme04',
+      img: "images/theme/theme04.jpg",
+      title: "日式無印",
+      className: "corner-tr",
+      alt: "theme04",
     },
     {
-      img: 'images/theme/theme05.jpg',
-      title: '現代簡約風',
-      className: 'corner-bl',
-      alt: 'theme05',
+      img: "images/theme/theme05.jpg",
+      title: "現代簡約風",
+      className: "corner-bl",
+      alt: "theme05",
     },
     {
-      img: 'images/theme/theme06.jpg',
-      title: '世紀中期',
-      className: '',
-      alt: 'theme06',
+      img: "images/theme/theme06.jpg",
+      title: "世紀中期",
+      className: "",
+      alt: "theme06",
     },
     {
-      img: 'images/theme/theme07.jpg',
-      title: '療癒奶油',
-      className: '',
-      alt: 'theme07',
+      img: "images/theme/theme07.jpg",
+      title: "療癒奶油",
+      className: "",
+      alt: "theme07",
     },
     {
-      img: 'images/theme/theme08.jpg',
-      title: '侘寂',
-      className: 'corner-br',
-      alt: 'theme08',
+      img: "images/theme/theme08.jpg",
+      title: "侘寂",
+      className: "corner-br",
+      alt: "theme08",
     },
   ];
 
   const carouselData = [
     {
-      image: 'images/banner/banner01.png',
-      alt: 'banner01',
-      title: '質感生活，不必高價擁有',
-      text: '物拾嚴選：經專業處理與清潔，讓您放心添購優質二手設計。',
+      image: "images/banner/banner01.png",
+      alt: "banner01",
+      title: "質感生活，不必高價擁有",
+      text: "物拾嚴選：經專業處理與清潔，讓您放心添購優質二手設計。",
     },
     {
-      image: 'images/banner/banner02.png',
-      alt: 'banner02',
-      title: '空間換新，輕鬆啟動',
-      text: '專業團隊上門服務，為您閒置的優質家具高效估價與收購。',
+      image: "images/banner/banner02.png",
+      alt: "banner02",
+      title: "空間換新，輕鬆啟動",
+      text: "專業團隊上門服務，為您閒置的優質家具高效估價與收購。",
     },
     {
-      image: 'images/banner/banner03.png',
-      alt: 'banner03',
-      title: '尋找有故事的獨特設計',
-      text: '曾經的使用痕跡是生活的溫度與意義，讓每次選購、都像收藏一段生活。',
+      image: "images/banner/banner03.png",
+      alt: "banner03",
+      title: "尋找有故事的獨特設計",
+      text: "曾經的使用痕跡是生活的溫度與意義，讓每次選購、都像收藏一段生活。",
     },
   ];
   const navigate = useNavigate();
@@ -132,7 +132,7 @@ function ProductCategorySection() {
     navigate(`/product/${id}`);
   };
   const handleThemeClick = (style) => {
-    navigate('/products', {
+    navigate("/products", {
       state: { selectedTheme: style },
     });
   };
@@ -157,7 +157,7 @@ function ProductCategorySection() {
                   type="button"
                   data-bs-target="#heroCarousel"
                   data-bs-slide-to={index}
-                  className={index === 0 ? 'active' : ''}
+                  className={index === 0 ? "active" : ""}
                   aria-current={index === 0}
                   aria-label={`Slide ${index + 1}`}
                 />
@@ -169,7 +169,7 @@ function ProductCategorySection() {
               {carouselData.map((item, index) => (
                 <div
                   key={index}
-                  className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
                 >
                   <img
                     src={item.image}
@@ -209,7 +209,7 @@ function ProductCategorySection() {
               <img
                 src="images/service-img/service.png"
                 className="img-fluid"
-                style={{ width: '526px' }}
+                style={{ width: "526px" }}
                 alt="延續美好生活"
               />
             </div>
@@ -226,9 +226,9 @@ function ProductCategorySection() {
 
               <Link
                 to="/TradeGuide"
-                className="btn btn-outline-primary-90 rounded-pill px-5"
+                className="btn btn-outline-primary-90 rounded-pill btn-border px-5"
               >
-                我想找收購
+                <span className="h5">我想找收購</span>
               </Link>
             </div>
             {/* 插畫下右 */}
@@ -265,9 +265,9 @@ function ProductCategorySection() {
 
               <Link
                 to="/products"
-                className="btn btn-outline-primary-90 rounded-pill px-5"
+                className="btn btn-primary-90 rounded-pill btn-fill px-5 "
               >
-                我想買家具
+                <span className="h5">我想買家具</span>
               </Link>
             </div>
           </div>
@@ -297,8 +297,8 @@ function ProductCategorySection() {
               {categoryMenu.map((cat) => (
                 <li
                   key={cat}
-                  className={`h6 flex-fill text-center pointer text-nowrap px-3 ${activeCategory === cat ? 'text-primary' : ''}`}
-                  style={{ cursor: 'pointer', transition: '0.3s' }}
+                  className={`h6 flex-fill text-center pointer text-nowrap px-3 ${activeCategory === cat ? "text-primary border-bottom border-1 border-primary" : ""}`}
+                  style={{ transition: "0.3s" }}
                   onClick={() => setActiveCategory(cat)}
                 >
                   <i className="bi bi-arrow-right arrow me-2"></i>
@@ -310,14 +310,11 @@ function ProductCategorySection() {
           {/* 新品 / 推薦切換 */}
           <div className="text-center mb-6">
             <ul className="d-flex justify-content-center list-unstyled gap-4">
-              {['新品', '推薦'].map((t) => (
+              {["新品", "推薦"].map((t) => (
                 <li
                   key={t}
                   className="tab"
-                  data-state={activeTab === t ? 'unselected' : 'selected'}
-                  style={{
-                    cursor: 'pointer',
-                  }}
+                  data-state={activeTab === t ? "selected" : "unselected"}
                   onClick={() => setActiveTab(t)}
                 >
                   {t}
@@ -331,16 +328,25 @@ function ProductCategorySection() {
               <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={24} // 卡片間距
-                slidesPerView={1.4} // 手機版預設看到 1.3 格
+                slidesPerView={1.3} // 手機版預設看到 1.3 格
                 navigation={{
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
                 }} // 顯示左右箭頭
-                pagination={{ type: 'progressbar' }} // 顯示下方分頁點可不可以跳頁的意思
+                pagination={{ type: "progressbar" }} // 顯示下方分頁點可不可以跳頁的意思
                 className="pb-5"
                 breakpoints={{
+                  576: {
+                    slidesPerView: 2,
+                  },
                   768: {
-                    slidesPerView: 5, // 桌機（平板以上）
+                    slidesPerView: 2.5,
+                  },
+                  1024: {
+                    slidesPerView: 3.5,
+                  },
+                  1200: {
+                    slidesPerView: 5,
                   },
                 }}
               >
@@ -349,18 +355,18 @@ function ProductCategorySection() {
                     <div
                       className="product-card h-100 p-0 m-0 "
                       onClick={() => handleView(item.id)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     >
                       <div className="img-container rounded mb-3">
                         <img
                           src={item.imageUrl}
                           className="img-fluid object-fit-cover w-100"
-                          style={{ height: '160px' }}
+                          style={{ height: "160px" }}
                           alt={item.title}
                         />
                       </div>
                       <span className="pill text-gray-70 body-text-t-s mb-3">
-                        {item.condition_level || '基本款'}
+                        {item.condition_level || "基本款"}
                       </span>
                       <h6 className="h6 mb-3 ">{item.title}</h6>
                       <p className=" body-text-t-m ">
@@ -383,9 +389,9 @@ function ProductCategorySection() {
           <div className="text-center mb-12 mb-lg-16 mt-5">
             <Link
               to="/products"
-              className="btn btn-outline-primary-90 rounded-pill px-5"
+              className="btn btn-primary-90 rounded-pill btn-fill px-5 "
             >
-              瀏覽全部商品
+              <span className="h5">瀏覽全部商品</span>
             </Link>
           </div>
         </div>
@@ -407,7 +413,7 @@ function ProductCategorySection() {
                   <div
                     className={`theme-img ${theme.className}`}
                     onClick={() => handleThemeClick(theme.title)}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   >
                     <img src={theme.img} alt={theme.alt} />
                     <div className="overlay"></div>

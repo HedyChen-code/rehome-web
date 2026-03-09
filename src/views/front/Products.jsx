@@ -118,8 +118,7 @@ function Products() {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
       setProducts(res.data.products);
-      console.log(res.data.products);
-    } catch(error) {
+    } catch (error) {
       showError(
         `取得所有商品資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
