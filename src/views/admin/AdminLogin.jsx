@@ -36,7 +36,6 @@ function AdminLogin() {
         navigate('/admin');
       }, 1000);
     } catch (error) {
-      console.log(error);
       showError(error.response?.data?.message);
     }
   };

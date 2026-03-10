@@ -260,6 +260,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                             type="text"
                             className="form-control w-75"
                             value={mat}
+                            name="material"
                             placeholder={`材料 ${index + 1}`}
                             onChange={(e) => {
                               const newMaterial = [...tempData.material];
@@ -359,6 +360,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                       <div className="d-flex gap-2">
                         <input
                           type="number"
+                          name="size-w"
                           placeholder="寬"
                           className="form-control"
                           value={tempData.size?.w || ''}
@@ -372,6 +374,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                         <input
                           type="number"
                           placeholder="深"
+                          name="size-d"
                           className="form-control"
                           value={tempData.size?.d || ''}
                           onChange={(e) =>
@@ -384,6 +387,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                         <input
                           type="number"
                           placeholder="高"
+                          name="size-h"
                           className="form-control"
                           value={tempData.size?.h || ''}
                           onChange={(e) =>
@@ -396,6 +400,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                         <input
                           type="text"
                           placeholder="單位"
+                          name="size-unit"
                           className="form-control"
                           value={tempData.size?.unit || ''}
                           onChange={(e) =>
@@ -448,6 +453,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                     <td>
                       <select
                         className="form-select"
+                        name="is_new"
                         value={tempData.is_new}
                         onChange={(e) =>
                           setTempData((prev) => ({
@@ -465,6 +471,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                     <td>
                       <select
                         className="form-select"
+                        name="is_is_recommend"
                         value={tempData.is_is_recommend}
                         onChange={(e) =>
                           setTempData((prev) => ({
@@ -485,6 +492,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                     <td colSpan="3">
                       <input
                         type="text"
+                        name="story_title"
                         className="form-control"
                         value={tempData.content?.story_title || ''}
                         onChange={(e) =>
@@ -506,6 +514,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                       <textarea
                         className="form-control"
                         rows="3"
+                        name="story_content"
                         value={tempData.content?.story_content || ''}
                         onChange={(e) =>
                           setTempData((prev) => ({
