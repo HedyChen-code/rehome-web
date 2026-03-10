@@ -106,6 +106,7 @@ function SearchContent({ close, onSearch }) {
       <div className="d-flex">
         <input
           typeof="search"
+          name="search"
           className="search-input"
           placeholder="搜尋"
           autoFocus
@@ -316,6 +317,7 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                   {/* 搜尋輸入框 */}
                   <input
                     type="text"
+                    name="search"
                     placeholder="搜尋"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -338,12 +340,12 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                     <i className="bi bi-person nav-icon"></i>
                   </div>
                 </div>
-                <div className="icon-wrapper icon-hover p-5 d-flex align-items-center rounded-pill">
-                  <div
-                    className="bg-transparent border-0 shadow-none p-0 position-relative"
-                    role="button"
-                  >
-                    <NavLink to="/cart">
+                <NavLink to="/cart">
+                  <div className="icon-wrapper icon-hover p-5 d-flex align-items-center rounded-pill">
+                    <div
+                      className="bg-transparent border-0 shadow-none p-0 position-relative"
+                      role="button"
+                    >
                       <i className="bi bi-cart nav-icon"></i>
                       {cartCount > 0 && (
                         <span
@@ -353,9 +355,9 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                           {cartCount}
                         </span>
                       )}
-                    </NavLink>
+                    </div>
                   </div>
-                </div>
+                </NavLink>
               </div>
             </div>
           </div>

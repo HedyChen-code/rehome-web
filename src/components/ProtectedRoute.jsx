@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { RotatingLines, RotatingSquare } from 'react-loader-spinner';
+import useMessage from '../hooks/useMessage';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -10,6 +11,7 @@ function ProtectedRoute({ children }) {
   // 登入狀態管理
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { showError } = useMessage();
 
   // 驗證
   useEffect(() => {
@@ -19,9 +21,12 @@ function ProtectedRoute({ children }) {
       .find((row) => row.startsWith('hexToken='))
       ?.split('=')[1];
 
-    if (token) {
-      axios.defaults.headers.common.Authorization = token;
+    if (!token) {
+      setLoading(false);
+      setIsAuth(false);
+      return;
     }
+    axios.defaults.headers.common.Authorization = token;
 
     // 檢查管理員權限並載入資料
     const checkLoggIn = async () => {
@@ -29,7 +34,7 @@ function ProtectedRoute({ children }) {
         await axios.post(`${API_BASE}/api/user/check`);
         setIsAuth(true);
       } catch (error) {
-        console.log(error.response?.data?.message);
+        showError(error.response?.data?.message);
       } finally {
         setLoading(false);
       }

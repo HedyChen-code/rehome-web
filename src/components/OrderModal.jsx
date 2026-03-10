@@ -213,12 +213,17 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                     style={{ minHeight: 0 }}
                   >
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="name"
+                        className="form-label small text-muted"
+                      >
                         姓名
                       </label>
                       <input
+                        id="name"
                         name="name"
                         type="text"
+                        autoComplete="name"
                         className="form-control"
                         value={tempData.user?.name || ''}
                         onChange={handleEditOrderChange}
@@ -226,12 +231,17 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="email"
+                        className="form-label small text-muted"
+                      >
                         信箱
                       </label>
                       <input
+                        id="email"
                         name="email"
                         type="email"
+                        autoComplete="email"
                         className="form-control"
                         value={tempData.user?.email || ''}
                         onChange={handleEditOrderChange}
@@ -239,12 +249,17 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="tel"
+                        className="form-label small text-muted"
+                      >
                         電話
                       </label>
                       <input
+                        id="tel"
                         name="tel"
                         type="tel"
+                        autoComplete="tel"
                         className="form-control"
                         value={tempData.user?.tel || ''}
                         onChange={handleEditOrderChange}
@@ -252,11 +267,16 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="create_at"
+                        className="form-label small text-muted"
+                      >
                         下單日期
                       </label>
                       <input
                         type="text"
+                        id="create_at"
+                        name="create_at"
                         className="form-control bg-light"
                         value={
                           tempData.create_at
@@ -270,12 +290,17 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="address"
+                        className="form-label small text-muted"
+                      >
                         地址
                       </label>
                       <input
+                        id="address"
                         name="address"
                         type="text"
+                        autoComplete="address"
                         className="form-control"
                         value={tempData.user?.address || ''}
                         onChange={handleEditOrderChange}
@@ -283,10 +308,14 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="message"
+                        className="form-label small text-muted"
+                      >
                         訂單留言
                       </label>
                       <textarea
+                        id="message"
                         name="message"
                         className="form-control"
                         rows="4"
@@ -302,7 +331,10 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                   <div className="mt-auto pt-3 border-top flex-shrink-0">
                     <h6 className="fw-bold mb-3 font-noto">訂單管理</h6>
                     <div className="mb-3">
-                      <label className="form-label small text-muted">
+                      <label
+                        htmlFor="is_paid"
+                        className="form-label small text-muted"
+                      >
                         付款狀態
                       </label>
                       <div className="form-check form-switch">
@@ -380,6 +412,7 @@ function OrderModal({ modalType, templateData, closeModal, getOrders }) {
                                 <div className="input-group input-group-sm">
                                   <input
                                     type="number"
+                                    name="price"
                                     className="form-control text-center"
                                     value={item.qty}
                                     min="1"
