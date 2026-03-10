@@ -570,6 +570,7 @@ function ProductModal({ modalType, templateData, closeModal, getData }) {
                           <input
                             type="text"
                             value={image}
+                            name="image"
                             onChange={(e) =>
                               handleImageChange(index, e.target.value)
                             }
