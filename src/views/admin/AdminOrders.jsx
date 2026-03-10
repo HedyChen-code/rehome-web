@@ -52,7 +52,6 @@ const AdminOrders = () => {
         `${API_BASE}/api/${API_PATH}/admin/orders?page=${page}`,
       );
       setOrders(res.data.orders);
-      console.log(res.data.orders);
       setPagination(res.data.pagination);
     } catch (error) {
       setIsError(true);

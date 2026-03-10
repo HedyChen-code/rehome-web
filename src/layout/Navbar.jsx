@@ -86,7 +86,9 @@ function MenuContent({ close }) {
         </div>
       </div>
       <div className="offcanvas-footer text-center mb-5">
-        <img src="images/logo/logo v2.svg" alt="logo" />
+        <NavLink to="/" onClick={close}>
+          <img src="images/logo/logo v2.svg" alt="logo" />
+        </NavLink>
       </div>
     </>
   );
@@ -204,7 +206,7 @@ const Navbar = ({ setPage, variant = 'default' }) => {
     ${isScrolled ? 'bg-primary-90 bg-opacity-75' : ''}  `}
       >
         <div className="container-fluid align-items-start p-0">
-          <NavLink className="" to="/">
+          <NavLink to="/">
             <img
               src={logoSrc}
               alt="logo"
@@ -282,34 +284,28 @@ const Navbar = ({ setPage, variant = 'default' }) => {
             <div className="d-flex justify-content-between">
               {/* 選項 */}
               <ul className="d-flex mb-2 mb-lg-0">
-                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <NavLink
-                    className="navlink-lg fs-6 lh-sm fw-medium"
-                    to="/products"
-                  >
+                <NavLink className="navlink-lg me-3" to="/products">
+                  <li className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     商品系列
-                  </NavLink>
-                </li>
-                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <span className="navlink-lg fs-6 lh-sm fw-medium">
+                  </li>
+                </NavLink>
+                <li className="navlink-lg me-3">
+                  <span className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     風格嚴選
                   </span>
                 </li>
-                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <NavLink
-                    className="navlink-lg fs-6 lh-sm fw-medium"
-                    to="/TradeGuide"
-                  >
+                <NavLink className="navlink-lg me-3" to="/TradeGuide">
+                  <li className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     關於收購
-                  </NavLink>
-                </li>
-                <li className="p-5 me-3 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <span className="navlink-lg fs-6 lh-sm fw-medium">
+                  </li>
+                </NavLink>
+                <li className="navlink-lg me-3">
+                  <span className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     品牌故事
                   </span>
                 </li>
-                <li className="p-5 btn btn-outline-primary-10 border-0 rounded-pill">
-                  <span className="navlink-lg fs-6 lh-sm fw-medium">
+                <li className="navlink-lg me-3">
+                  <span className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     聯絡我們
                   </span>
                 </li>

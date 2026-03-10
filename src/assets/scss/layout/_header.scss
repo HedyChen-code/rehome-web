@@ -10,6 +10,7 @@
 }
 li:hover .navlink-lg {
   color: $primary-90;
+  background-color: $primary-10;
 }
 .icon-hover {
   i.nav-icon {
@@ -23,13 +24,11 @@ li:hover .navlink-lg {
     }
   }
 }
-li:has(.navlink-lg.active) {
-  background-color: $primary-10;
-  border-radius: 50rem; /* 確保圓角跟著背景走 */
-
-  .navlink-lg.active {
+.navlink-lg.active {
+  li {
+    background-color: $primary-10;
     color: $primary-90;
-    background-color: transparent;
+    border-radius: 50rem; /* 確保圓角跟著背景走 */
   }
 }
 /* 漢堡選單容器 */
