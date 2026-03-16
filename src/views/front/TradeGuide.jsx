@@ -665,7 +665,11 @@ const TradeGuide = () => {
                   >
                     <i className="bi bi-upload mb-2"></i>
                     <span>
-                      <span>{watchImage ? '已選擇照片' : '點擊上傳照片'}</span>
+                      {watchImage ? (
+                        <span className="text-success">已選擇照片</span>
+                      ) : (
+                        <span>點擊上傳照片</span>
+                      )}
                     </span>
                     <input
                       className="form-control"
