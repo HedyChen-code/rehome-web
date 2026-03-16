@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { setCart } from '../../slice/cartSlice';
 import { useLocation } from 'react-router-dom'; //為了從主題風格連過來
 import useMessage from '../../hooks/useMessage';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -130,12 +132,12 @@ function Products() {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
       dispatch(setCart(res.data.data));
-    } catch (error){
+    } catch (error) {
       showError(
         `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
       );
     }
-  }
+  };
 
   // 加入購物車函式
   const handleAddToCart = async (product) => {
@@ -143,12 +145,12 @@ function Products() {
       const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
         data: {
           product_id: product.id,
-          qty: 1
-        }
+          qty: 1,
+        },
       });
       showSuccess(`已將 ${product.title} 加入購物車`);
-      
-      getCartsAndSync(); 
+
+      getCartsAndSync();
     } catch (error) {
       showError('加入購物車失敗');
     }
@@ -458,11 +460,12 @@ function Products() {
                     <div className="col-6 col-md-4 mb-8" key={item.id}>
                       <div className="card h-auto border-0 px-3">
                         <section className="card-container mb-3">
-                          <img
+                          <LazyLoadImage
                             src={item.imageUrl}
                             className="card-img-top object-fit-cover"
                             style={{ height: '200px' }} // 固定高度
                             alt={item.title}
+                            effect="blur"
                           />
                           {/* 加入收藏按鈕 */}
                           <button

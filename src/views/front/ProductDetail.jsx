@@ -5,6 +5,8 @@ import axios from 'axios';
 import { NavLink, useNavigate, useParams } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // Swiper 樣式
 import 'swiper/css';
@@ -142,10 +144,11 @@ function ProductDetail() {
                 <section className="mb-9">
                   {/* 大圖 */}
                   <div className="mb-4">
-                    <img
+                    <LazyLoadImage
                       src={mainImage}
                       className="img-fluid rounded object-fit-cover"
                       alt="主圖"
+                      effect="blur"
                     />
                   </div>
                   {/* 小圖 */}
@@ -162,7 +165,7 @@ function ProductDetail() {
                       {[product.imageUrl, ...product.imagesUrl].map(
                         (url, index) => (
                           <SwiperSlide key={index}>
-                            <img
+                            <LazyLoadImage
                               src={url}
                               className="img-fluid rounded object-fit-cover"
                               style={{
@@ -176,6 +179,7 @@ function ProductDetail() {
                               }}
                               alt={`副圖 ${index}`}
                               onClick={() => setMainImage(url)}
+                              effect="blur"
                             />
                           </SwiperSlide>
                         ),
