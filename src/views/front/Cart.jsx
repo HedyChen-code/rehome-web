@@ -101,12 +101,13 @@ const Cart = () => {
                         <div className="text-end mb-2">
                           <button
                             type="button"
-                            className="btn btn-outline-danger"
+                            className="btn btn-outline-danger disabled-cursor"
                             onMouseEnter={(e) =>
                               (e.target.style.color = "#f8f9fa")
                             }
                             onMouseLeave={(e) => (e.target.style.color = "")}
                             onClick={deleteCartAll}
+                            disabled={ !(cartData.carts.length > 0) }
                           >
                             清空購物車
                           </button>
@@ -252,7 +253,7 @@ const Cart = () => {
               ) : (<>
                 <button
                   type="button"
-                  className="btn btn-pr0 mb-4"
+                  className="btn btn-pr mb-4 disabled-cursor"
                   disabled
                 >
                   去買單
