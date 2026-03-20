@@ -5,8 +5,7 @@ import Products from './views/front/Products';
 import ProductDetail from './views/front/ProductDetail';
 import NotFound from './views/front/NotFound';
 import Cart from './views/front/Cart';
-import CheckoutDetail from './views/front/CheckoutDetail';
-import CheckoutComplete from './views/front/CheckoutComplete';
+import Checkout from './views/front/Checkout';
 import TradeGuide from './views/front/TradeGuide';
 import AdminLayout from './layout/AdminLayout';
 import AdminHome from './views/admin/AdminHome';
@@ -49,16 +48,7 @@ export const router = createHashRouter([
       },
       {
         path: 'checkout', //購物流程
-        children: [
-          {
-            path: 'detail',
-            element: <CheckoutDetail />, //填寫資料
-          },
-          {
-            path: 'complete',
-            element: <CheckoutComplete />, //結帳完成
-          },
-        ],
+        element: <Checkout />
       },
     ],
   },

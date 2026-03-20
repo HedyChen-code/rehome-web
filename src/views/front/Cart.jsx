@@ -36,7 +36,7 @@ const Cart = () => {
         product_id: productId,
         qty,
       };
-      const res = await axios.put(url, { data });
+      await axios.put(url, { data });
       getCart();
       showSuccess("修改商品數量成功");
     } catch (error) {
@@ -49,7 +49,7 @@ const Cart = () => {
   const deleteCart = async (id) => {
     try {
       const url = `${API_BASE}/api/${API_PATH}/cart/${id}`;
-      const res = await axios.delete(url);
+      await axios.delete(url);
       getCart();
       showSuccess("刪除這一筆購物車成功");
     } catch (error) {
@@ -62,7 +62,7 @@ const Cart = () => {
   const deleteCartAll = async () => {
     try {
       const url = `${API_BASE}/api/${API_PATH}/carts`;
-      const res = await axios.delete(url);
+      await axios.delete(url);
       getCart();
       showSuccess("清空購物車成功！");
     } catch (error) {
@@ -73,13 +73,25 @@ const Cart = () => {
   };
 
   const goToCheckout = () => {
-    navigate("/checkout/detail");
-    navigate("/checkout/detail");
+    navigate("/checkout");
   };
 
   useEffect(() => {
+    const getCart = async () => {
+      try {
+        const url = `${API_BASE}/api/${API_PATH}/cart`;
+        const res = await axios.get(url);
+        setCartData(res.data.data);
+        dispatch(setCart(res.data.data));
+      } catch (error) {
+        showError(
+          `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+        );
+      }
+    };
+
     getCart();
-  }, []);
+  }, [dispatch, showError]);
 
   return (
     <>
