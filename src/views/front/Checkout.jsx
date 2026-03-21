@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import * as bootstrap from 'bootstrap';
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router";
 import ScrollToTop from "../../components/ScrollToTop";
 import { formateNumber } from "../../utils/filter";
@@ -12,7 +12,7 @@ import { setCart } from "../../slice/cartSlice";
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-const CheckoutDetail = () => {
+const Checkout = () => {
   const addressModalRef = useRef(null);
   const creditCardModalRef = useRef(null);
   const orderSubmitModalRef = useRef(null);
@@ -43,19 +43,19 @@ const CheckoutDetail = () => {
     }
   ];
   const [cartData, setCartData] = useState({ carts: [] });
-  const { showError, showSuccess } = useMessage();
+  const { showError, } = useMessage();
   const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    control,
   } = useForm(
     { mode: "onChange" }
   );
 
-  const shippingMethod = watch('shippingMethod');
+  const shippingMethod = useWatch({ control, name: 'shippingMethod' });
   const shippingFree = (
     shippingMethod === 'shippingNormal'
     ? 500
@@ -64,12 +64,11 @@ const CheckoutDetail = () => {
     : 0
   );
 
-  const payment = watch('payment');
+  const payment = useWatch({ control, name: 'payment' });
 
-  const invoiceType = watch('invoiceType'); // mobile / company /donate
+  const invoiceType = useWatch({ control, name: 'invoiceType' }); // mobile / company /donate
 
   const onSubmit = async (formData) => {
-    console.log('表單資料：', formData);
     try {
       const url = `${API_BASE}/api/${API_PATH}/order`;
       const data = {
@@ -78,17 +77,22 @@ const CheckoutDetail = () => {
           message: formData.message
         }
       }
-      const res = await axios.post(url, data);
+      await axios.post(url, data);
       setSubmitModal({
         type: 'success', title: '已成功送出！', message: '感謝您的訂購！我們已收到您的資料。'
       })
       openOrderSubmitModal();
-    } catch (error) {
+    } catch {
       setSubmitModal({
         type: 'error', title: '送出失敗', message: '系統暫時無法處理您的請求，請稍後再試。'
       })
       openOrderSubmitModal();
     }
+  }
+
+  const submitOrder = (e) => {
+    e.preventDefault();
+    handleSubmit(onSubmit)(e);
   }
 
   const openAddressModal = (type) => {
@@ -125,27 +129,26 @@ const CheckoutDetail = () => {
     orderSubmitModalRef.current.hide();
   }
 
-  const getCart = async () => {
-    try {
-      const url = `${API_BASE}/api/${API_PATH}/cart`;
-      const res = await axios.get(url);
-      setCartData(res.data.data);
-      dispatch(setCart(res.data.data));
-    } catch (error) {
-      showError(
-        `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
-      );
-    }
-  };
-
   useEffect(() => {
     addressModalRef.current = new bootstrap.Modal('#addressModal');
     creditCardModalRef.current = new bootstrap.Modal('#creditCardModal');
     orderSubmitModalRef.current = new bootstrap.Modal('#orderSubmitModal');
 
+    const getCart = async () => {
+      try {
+        const url = `${API_BASE}/api/${API_PATH}/cart`;
+        const res = await axios.get(url);
+        setCartData(res.data.data);
+        dispatch(setCart(res.data.data));
+      } catch (error) {
+        showError(
+          `取得購物車資料失敗: ${error.response?.data?.message}，請洽工作人員`,
+        );
+      }
+    };
     getCart();
     
-  }, [])
+  }, [dispatch, showError])
 
   const renderAddressCards = (list, radioName) => (
     list.map((item, index) => {
@@ -190,7 +193,7 @@ const CheckoutDetail = () => {
     <div className="container text-gray-95" style={{ marginTop: '136px' }}>
       <div className="row justify-content-center">
         <div className="col-12">
-          <form onSubmit={ handleSubmit(onSubmit) }>
+          <form onSubmit={ submitOrder }>
             <section className="checkout-card mb-8 mb-md-9 pb-5">
               <h3 className="font-fakepearl fw-normal fs-4 fs-md-3">
                 <i className="bi bi-geo-alt-fill me-5"></i>
@@ -810,4 +813,4 @@ const CheckoutDetail = () => {
   </>)
 }
 
-export default CheckoutDetail
+export default Checkout

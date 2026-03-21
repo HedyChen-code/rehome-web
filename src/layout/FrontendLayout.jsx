@@ -7,7 +7,7 @@ import MessageToast from '../components/MessageToast';
 const FrontendLayout = ({ navbarVariant }) => {
   const { pathname } = useLocation();
   const isBgGrayFooterPage =
-    pathname === '/checkout/detail' || pathname === '/cart';
+    pathname === '/checkout' || pathname === '/cart';
 
   return (
     <div className={isBgGrayFooterPage ? 'bg-gray-footer-page' : ' '}>
