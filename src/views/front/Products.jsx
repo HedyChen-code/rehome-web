@@ -116,7 +116,8 @@ function Products() {
   };
 
   // 取得所有商品函式
-  const getProducts = async () => {
+   useEffect(() => {
+    const getProducts = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
       setProducts(res.data.products);
@@ -126,6 +127,10 @@ function Products() {
       );
     }
   };
+
+    getProducts();
+
+  }, [showError]);
 
   // 取得購物車列表
   const getCartsAndSync = async () => {
@@ -142,7 +147,7 @@ function Products() {
   // 加入購物車函式
   const handleAddToCart = async (product) => {
     try {
-      const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
+      await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
         data: {
           product_id: product.id,
           qty: 1,
@@ -151,29 +156,16 @@ function Products() {
       showSuccess(`已將 ${product.title} 加入購物車`);
 
       getCartsAndSync();
-    } catch (error) {
+    } catch {
       showError('加入購物車失敗');
     }
   };
 
-  const location = useLocation(); //為了從主題風格連過來
-  const incomingStyle = location.state?.selectedTheme; //為了從主題風格連過來
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  const handleView = (id) => {
-    navigate(`/product/${id}`);
-  };
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [category, style, condition, minPrice, maxPrice, searchTerm]);
-
+  
   // 手機版備註欄：Modal 開啟/關閉
   const modalRef = useRef(null);
   const notesModal = useRef(null);
-
+  
   useEffect(() => {
     if (modalRef.current) {
       notesModal.current = new Modal(modalRef.current, {
@@ -181,36 +173,45 @@ function Products() {
         keyboard: true,
       });
     }
-
+    
     return () => {
       if (notesModal.current) {
         notesModal.current.dispose();
       }
     };
   }, []);
-
+  
   const openModal = () => notesModal.current.show();
   const closeModal = () => notesModal.current.hide();
-
-  useEffect(() => {
+  
+  const location = useLocation(); //為了從主題風格連過來
+  const incomingStyle = location.state?.selectedTheme; //為了從主題風格連過來
+  const incomingKeyword = location.state?.keyword; // 取得傳過來的關鍵字
+  const handleView = (id) => {
+    navigate(`/product/${id}`);
+  };
+  
+  // 處理主題風格連動
+  const [prevIncomingStyle, setPrevIncomingStyle] = useState(null);
+  if (incomingStyle !== prevIncomingStyle) {
+    setPrevIncomingStyle(incomingStyle); 
     if (incomingStyle) {
       setStyle(incomingStyle);
+      setCurrentPage(1);
     }
-  }, [incomingStyle]);
+  }
 
-  const incomingKeyword = location.state?.keyword; // 取得傳過來的關鍵字
-
-  // 新增：處理從導航列傳來的搜尋關鍵字
-
-  useEffect(() => {
+  // 處理搜尋關鍵字連動
+  const [prevIncomingKeyword, setPrevIncomingKeyword] = useState(null);
+  if (incomingKeyword !== prevIncomingKeyword) {
+    setPrevIncomingKeyword(incomingKeyword);
     if (incomingKeyword) {
       setSearchTerm(incomingKeyword);
-
-      // 建議選做：清除 state 避免重新整理頁面時一直觸發篩選
-
+      setCurrentPage(1);
+      // 清除 URL state
       window.history.replaceState({}, document.title);
     }
-  }, [incomingKeyword]);
+  }
 
   return (
     <>

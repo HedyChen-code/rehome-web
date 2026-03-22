@@ -55,10 +55,7 @@
   display: block !important;
 }
 
-@media (min-width: 1024px) {
-  .custom-container {
-    margin-top: 136px;
-  }
+@include media-breakpoint-up(xl) {
   .custom-select-w {
     width: 25%;
   }
