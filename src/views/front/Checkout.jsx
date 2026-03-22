@@ -77,11 +77,15 @@ const Checkout = () => {
           message: formData.message
         }
       }
-      await axios.post(url, data);
-      setSubmitModal({
+      const res = await axios.post(url, data);
+      if (res.data.success) {
+        dispatch(setCart({ carts: [], total: 0, final_total: 0 }));
+
+        setSubmitModal({
         type: 'success', title: '已成功送出！', message: '感謝您的訂購！我們已收到您的資料。'
-      })
-      openOrderSubmitModal();
+        })
+        openOrderSubmitModal();
+      }
     } catch {
       setSubmitModal({
         type: 'error', title: '送出失敗', message: '系統暫時無法處理您的請求，請稍後再試。'

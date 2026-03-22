@@ -24,18 +24,21 @@ function ProductCategorySection() {
   const [activeTab, setActiveTab] = useState("新品");
   const { showError } = useMessage();
 
-  const getProducts = async () => {
+  
+
+  useEffect(() => {
+    const getProducts = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
       setProducts(res.data.products);
-    } catch (error) {
+    } catch {
       showError("取得資料失敗");
     }
   };
 
-  useEffect(() => {
     getProducts();
-  }, []);
+
+  }, [showError]);
 
   const filteredProducts = products.filter((item) => {
     const isCategoryMatch = item.category === activeCategory;
@@ -401,7 +404,7 @@ function ProductCategorySection() {
         <div className="container py-12 py-lg-15">
           {/* 標題 */}
           <div className="text-center mb-9">
-            <img src="images/icon/graphic 05.svg" alt="" />
+            <img src="images/icon/graphic 05.svg" alt="theme-section-icon" />
             <h2 className="h2">主題風格</h2>
           </div>
 

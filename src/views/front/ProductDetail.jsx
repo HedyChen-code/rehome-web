@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { useDispatch } from 'react-redux';
+import { setCart } from '../../slice/cartSlice';
 
 // Swiper 樣式
 import 'swiper/css';
@@ -28,6 +30,8 @@ function ProductDetail() {
   const [recommendProducts, setRecommendProducts] = useState([]);
   const { showError, showSuccess } = useMessage();
   const [isProcessing, setIsProcessing] = useState(false);
+  // 新增 dispatch
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleView = async (id) => {
@@ -59,7 +63,7 @@ function ProductDetail() {
     };
     handleView(id);
     getRecommendProducts();
-  }, [id]);
+  }, [id, showError]);
 
   const addCart = async (id, qty = 1) => {
     try {
@@ -70,6 +74,11 @@ function ProductDetail() {
       const res = await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
         data,
       });
+
+      const res2 = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
+
+      dispatch(setCart(res2.data.data));
+
       showSuccess(`${res.data.message}`);
     } catch (error) {
       showError(
