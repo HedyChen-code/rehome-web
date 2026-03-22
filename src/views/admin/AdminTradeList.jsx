@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { tradeApi } from '../../api/tradeApi';
 import useMessage from '../../hooks/useMessage';
 import AdminSingleTrade from './AdminSingleTrade';
@@ -22,13 +22,13 @@ function AdminTradeList() {
     }
   }, []);
 
-  const openViewModal = (item) => {
-    setTempTrade(item);
-    viewTradeModalRef.current.show();
-  };
+  // const openViewModal = (item) => {
+  //   setTempTrade(item);
+  //   viewTradeModalRef.current.show();
+  // };
 
   // 1. 取得資料
-  const fetchTradeList = async () => {
+  const fetchTradeList = useCallback(async () => {
     try {
       setIsLoading(true);
       const result = await tradeApi.getTrades(); // 這裡拿到的是 GAS 回傳的完整物件
@@ -42,12 +42,12 @@ function AdminTradeList() {
         setTradeList([]);
         showError(result.message || '資料格式錯誤');
       }
-    } catch (error) {
+    } catch  {
       showError('資料讀取失敗，請檢查網路或 CORS 設定');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [showError, showSuccess]);
 
   // 打開刪除 Modal
   const openDeleteModal = (item) => {
@@ -57,6 +57,10 @@ function AdminTradeList() {
 
   // 關閉刪除 Modal
   const closeDeleteModal = () => {
+    // 讓目前發出點擊事件的按鈕失去焦點
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     deleteTradeModalRef.current.hide();
   };
 
@@ -67,7 +71,7 @@ function AdminTradeList() {
       showSuccess('刪除成功');
       closeDeleteModal(); // 刪除完關閉
       fetchTradeList(); // 刷新列表
-    } catch (error) {
+    } catch {
       showError('刪除失敗');
     }
   };
@@ -80,7 +84,7 @@ function AdminTradeList() {
     }
 
     fetchTradeList();
-  }, []);
+  }, [fetchTradeList]);
 
   return (
     <>
