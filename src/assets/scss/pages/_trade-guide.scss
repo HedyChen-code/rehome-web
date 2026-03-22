@@ -1,4 +1,4 @@
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .guide_bg {
     background: url(../../../../public/images/background/bg06.png);
     background-position: center;
@@ -7,7 +7,7 @@
     padding: 108px 120px;
   }
 }
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .guide_sm_bg {
     background: url(../../../../public/images/background/bg06-sm.png);
     background-position: center;
@@ -17,7 +17,7 @@
   }
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .process-bg {
     background-image: url(../../../../public/images/decorate/line-03.png);
     background-repeat: no-repeat;
@@ -27,7 +27,7 @@
     z-index: -1;
   }
 }
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .process-sm-bg {
     background-image: url(../../../../public/images/decorate/line-04.png);
     background-repeat: no-repeat;
@@ -61,7 +61,7 @@
   font-weight: 500;
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .text-deco-1 {
     font-size: 240px;
     position: absolute;
@@ -83,7 +83,7 @@
   font-weight: 500;
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .text-deco-2 {
     font-size: 240px;
     position: absolute;
@@ -103,12 +103,12 @@
   object-fit: cover;
 }
 
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .guide_img_deco {
     max-width: 351px;
   }
 }
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .guide_img_deco {
     width: 526px;
   }
@@ -125,13 +125,13 @@
   margin-right: auto;
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .QA_deco {
     width: 319px;
   }
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .QA_deco {
     width: 352px;
     max-width: none;
@@ -151,13 +151,13 @@
   transform: translate(-50%, -50%);
 }
 
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .guide-logo {
     max-width: 280px;
   }
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .guide-logo {
     width: 560px;
     height: 80px;
@@ -255,7 +255,7 @@
   border-radius: 8px; /* 圓角 */
   color: var(--bs-gray-50);
 }
-@media (min-width: 375px) {
+@include media-breakpoint-up(xs) {
   .upload-box {
     width: 240px;
   }

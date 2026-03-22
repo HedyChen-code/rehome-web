@@ -35,7 +35,7 @@ const TradeGuide = () => {
       // 這裡呼叫你的 tradeApi.uploadImage，它應該會回傳 base64 字串
       const base64Image = await tradeApi.uploadImage(file);
       setValue('image', base64Image, { shouldValidate: true });
-    } catch (error) {
+    } catch {
       showError('圖片讀取失敗，請重試');
     }
   };
@@ -52,7 +52,7 @@ const TradeGuide = () => {
       await tradeApi.createTrade(finalData);
       showSuccess('家具收購申請送出成功！我們將盡快聯繫您。');
       reset();
-    } catch (error) {
+    } catch  {
       showError('送出失敗，請檢查網路連線或稍後再試');
     } finally {
       setIsSending(false); // 結束狀態
@@ -82,6 +82,7 @@ const TradeGuide = () => {
         <img
           src="./images/logo/graphic-07_light.png"
           className="align-items-center position-absolute guide-logo z-n1"
+          alt="物拾 Re:home logo"
         />
         <p className="fs-lg-2 fs-4 text-center mb-lg-4 mb-0">
           二手家具媒合流程
@@ -108,14 +109,14 @@ const TradeGuide = () => {
             </div>
             <img
               src="./images/decorate/process-01.png"
-              alt=""
+              alt="事前準備"
               className="guide_img_deco"
             />
           </div>
           <div className="d-lg-flex d-block align-items-center justify-content-between mb-9 mb-lg-0">
             <img
               src="./images/decorate/process-02.png"
-              alt=""
+              alt="媒合說明"
               className="guide_img_deco d-lg-block d-none"
             />
             <div className="position-relative  mb-3 mb-lg-0">
@@ -134,7 +135,7 @@ const TradeGuide = () => {
             </div>
             <img
               src="./images/decorate/process-02.png"
-              alt=""
+              alt="媒合說明"
               className="guide_img_deco d-lg-none d-block"
             />
           </div>
@@ -156,14 +157,14 @@ const TradeGuide = () => {
             </div>
             <img
               src="./images/decorate/process-03.png"
-              alt=""
+              alt="價值評估"
               className="guide_img_deco"
             />
           </div>
           <div className="d-lg-flex d-block align-items-center justify-content-between mb-9 mb-lg-0">
             <img
               src="./images/decorate/process-04.png"
-              alt=""
+              alt="交接安排"
               className="guide_img_deco  d-lg-block d-none"
             />
             <div className="position-relative  mb-3 mb-lg-0">
@@ -182,7 +183,7 @@ const TradeGuide = () => {
             </div>
             <img
               src="./images/decorate/process-04.png"
-              alt=""
+              alt="交接安排"
               className="guide_img_deco d-lg-none d-block"
             />
           </div>
@@ -198,6 +199,7 @@ const TradeGuide = () => {
             <img
               src="./images/logo/graphic-07_dark.png"
               className="guide-logo opacity-50"
+              alt="物拾 Re:home logo"
             />
           </div>
           <div className="d-lg-flex d-block  align-items-center justify-content-center justify-content-lg-between">
@@ -337,7 +339,7 @@ const TradeGuide = () => {
             </div>
             <img
               src="./images/decorate/process-05.png"
-              alt=""
+              alt="常見問題"
               className="QA_deco"
             />
           </div>
@@ -489,13 +491,13 @@ const TradeGuide = () => {
       <section className="bg-sell-img">
         <div className="container">
           <div className="row d-lg-flex d-block align-items-center justify-content-between py-lg-16 py-12 px-4 px-lg-0">
-            <div className="col-12 col-lg-7 sell-form-card px-lg-9 px-8 py-lg-10 py-9">
+            <div className="col-lg-7 sell-form-card px-lg-9 px-8 py-lg-10 py-9">
               <p className="fs-lg-3  fs-4 pb-lg-9 pb-8 text-center text-lg-start">
                 售物意向表單
               </p>
               <form className="row" onSubmit={handleSubmit(onSubmit)}>
                 {/* 姓名 */}
-                <div className="col-lg-6 col-12 mb-8">
+                <div className="col-lg-6 mb-8">
                   <label htmlFor="name" className="form-label fs-6 mb-3">
                     姓名 <span className="text-danger">*</span>
                   </label>
@@ -514,7 +516,7 @@ const TradeGuide = () => {
                 </div>
 
                 {/* 聯絡電話 */}
-                <div className="col-lg-6 col-12 mb-8">
+                <div className="col-lg-6 mb-8">
                   <label htmlFor="phone" className="form-label fs-6 mb-3">
                     聯絡電話 <span className="text-danger">*</span>
                   </label>
@@ -556,7 +558,7 @@ const TradeGuide = () => {
                 </div>
 
                 {/* 家具類別 */}
-                <div className="col-lg-6 col-12 mb-8">
+                <div className="col-lg-6 mb-8">
                   <label className="form-label fs-6 mb-3">
                     家具類別 <span className="text-danger">*</span>
                   </label>
@@ -718,7 +720,7 @@ const TradeGuide = () => {
                 </div>
               </form>
             </div>
-            <div className="col-12 col-lg-5 align-items-center my-8">
+            <div className="col-lg-5 align-items-center my-8">
               <div className="ms-4">
                 <p className="fs-lg-4 fs-5 text-gray-90 mb-9">
                   把想告別的家具，交給物拾就好。
