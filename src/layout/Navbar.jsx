@@ -45,9 +45,9 @@ function MenuContent({ close }) {
               商品系列
             </NavLink>
           </li>
-          <li className="nav-item pb-2">
+          {/* <li className="nav-item pb-2">
             <span className="nav-link fs-6 px-5 py-4 ">風格嚴選</span>
-          </li>
+          </li> */}
           <li className="nav-item pb-2">
             <NavLink
               className="nav-link fs-6 px-5 py-4"
@@ -57,12 +57,12 @@ function MenuContent({ close }) {
               關於收購
             </NavLink>
           </li>
-          <li className="nav-item pb-2">
+          {/* <li className="nav-item pb-2">
             <span className="nav-link fs-6 px-5 py-4">品牌故事</span>
-          </li>
-          <li className="nav-item pb-2">
+          </li> */}
+          {/* <li className="nav-item pb-2">
             <span className="nav-link fs-6 px-5 py-4">連絡我們</span>
-          </li>
+          </li> */}
           <li className="nav-item pb-5">
             <NavLink
               to="/cart"
@@ -290,17 +290,17 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                     商品系列
                   </li>
                 </NavLink>
-                <li className="navlink-lg me-3">
+                {/* <li className="navlink-lg me-3">
                   <span className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     風格嚴選
                   </span>
-                </li>
+                </li> */}
                 <NavLink className="navlink-lg me-3" to="/TradeGuide">
                   <li className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     關於收購
                   </li>
                 </NavLink>
-                <li className="navlink-lg me-3">
+                {/* <li className="navlink-lg me-3">
                   <span className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     品牌故事
                   </span>
@@ -309,7 +309,7 @@ const Navbar = ({ setPage, variant = 'default' }) => {
                   <span className="fs-6 lh-sm fw-medium p-5 btn btn-outline-primary-10 border-0 rounded-pill">
                     聯絡我們
                   </span>
-                </li>
+                </li> */}
               </ul>
               {/* 購物車 icon */}
               <div className="d-flex">

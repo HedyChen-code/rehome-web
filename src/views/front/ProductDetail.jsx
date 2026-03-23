@@ -58,7 +58,7 @@ function ProductDetail() {
         );
         setRecommendProducts(filtered);
       } catch (error) {
-        console.error('取得推薦商品失敗', error);
+        showError('取得推薦商品失敗', error);
       }
     };
     handleView(id);

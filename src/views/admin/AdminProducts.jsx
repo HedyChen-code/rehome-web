@@ -115,12 +115,12 @@ function AdminProducts() {
         getData(); // 驗證成功後抓資料
       } catch (err) {
         showError(err.response?.data?.message || '驗證失敗');
-        navigate('/');
+        navigate('/admin');
       }
     };
 
     checkAdmin();
-  }, [navigate, getData]);
+  }, [navigate, getData, showError]);
 
   return (
     <>

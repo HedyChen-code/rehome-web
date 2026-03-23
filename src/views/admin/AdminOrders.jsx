@@ -44,22 +44,25 @@ const AdminOrders = () => {
   const [isError, setIsError] = useState(false);
 
   // 取得所有訂單資料
-  const getOrders = useCallback(async (page = 1) => {
-    setIsLoading(true);
-    setIsError(false);
-    try {
-      const res = await axios.get(
-        `${API_BASE}/api/${API_PATH}/admin/orders?page=${page}`,
-      );
-      setOrders(res.data.orders);
-      setPagination(res.data.pagination);
-    } catch (error) {
-      setIsError(true);
-      showError(error.response?.data?.message || '取得資料失敗');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const getOrders = useCallback(
+    async (page = 1) => {
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const res = await axios.get(
+          `${API_BASE}/api/${API_PATH}/admin/orders?page=${page}`,
+        );
+        setOrders(res.data.orders);
+        setPagination(res.data.pagination);
+      } catch (error) {
+        setIsError(true);
+        showError(error.response?.data?.message || '取得資料失敗');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [showError],
+  );
 
   useEffect(() => {
     const token = document.cookie.replace(
@@ -86,12 +89,12 @@ const AdminOrders = () => {
         getOrders(); // 驗證成功後抓資料
       } catch (err) {
         showError(err.response?.data?.message || '驗證失敗');
-        navigate('/');
+        navigate('/admin');
       }
     };
 
     checkAdmin();
-  }, [navigate, getOrders]);
+  }, [navigate, getOrders, showError]);
 
   // 使用 ref 控制 Modal
   const openModal = (product, type) => {
