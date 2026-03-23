@@ -6,7 +6,6 @@ import useMessage from '../../hooks/useMessage';
 import MessageToast from '../../components/MessageToast';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
-const API_PATH = import.meta.env.VITE_API_PATH;
 
 function AdminLogin() {
   const navigate = useNavigate();

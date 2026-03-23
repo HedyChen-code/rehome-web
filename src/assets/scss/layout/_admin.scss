@@ -31,7 +31,7 @@
 }
 
 /* 電腦版 (螢幕寬度 >= 992px) 時變化數值 */
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .back-to-top {
     bottom: 120px;
     right: 120px;
