@@ -71,7 +71,7 @@
 
   .carousel-indicators .active {
     background-color: $primary-10;
-    border:8px solid $primary-70 ;
+    border: 8px solid $primary-70;
   }
 }
 
@@ -279,6 +279,14 @@
   display: none; /* 隱藏滾動條（手機更乾淨） */
 }
 
+.product-carousel-container,
+.swiper {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.product-carousel-container {
+  padding: 0 12px; /* 對齊 container */
+}
 .product-card {
   flex: 0 0 auto; /* 防止卡片縮放 */
   width: 240px; /* 卡片固定寬度，可依需求調整 */
@@ -302,4 +310,12 @@
   background: $secondary-10;
   display: inline-block;
   padding: 4px 12px;
+}
+.categories-menu {
+  -ms-overflow-style: none; /* IE / Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.categories-menu::-webkit-scrollbar {
+  display: none; /* Chrome / Safari */
 }
