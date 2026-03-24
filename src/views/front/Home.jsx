@@ -24,20 +24,17 @@ function ProductCategorySection() {
   const [activeTab, setActiveTab] = useState("新品");
   const { showError } = useMessage();
 
-  
-
   useEffect(() => {
     const getProducts = async () => {
-    try {
-      const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
-      setProducts(res.data.products);
-    } catch {
-      showError("取得資料失敗");
-    }
-  };
+      try {
+        const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
+        setProducts(res.data.products);
+      } catch {
+        showError("取得資料失敗");
+      }
+    };
 
     getProducts();
-
   }, [showError]);
 
   const filteredProducts = products.filter((item) => {
@@ -208,7 +205,7 @@ function ProductCategorySection() {
           />
           <div className="row align-items-center">
             {/* 插畫(上左) */}
-            <div className="col-12 col-md-6 text-center mb-4 mb-md-0">
+            <div className=" col-md-6 text-center mb-4 mb-md-0">
               <img
                 src="images/service-img/service.png"
                 className="img-fluid"
@@ -217,7 +214,7 @@ function ProductCategorySection() {
               />
             </div>
             {/* 文字(上右) */}
-            <div className="col-12 col-md-6 mb-10 text-md-start">
+            <div className=" col-md-6 mb-10 text-md-start">
               <h3 className="h3 mb-3">
                 延續美好生活：<span className="text-primary">收購的價值</span>
               </h3>
@@ -235,7 +232,7 @@ function ProductCategorySection() {
               </Link>
             </div>
             {/* 插畫下右 */}
-            <div className="col-12 col-md-6 text-center mb-4 mb-md-0 order-md-2">
+            <div className=" col-md-6 text-center mb-4 mb-md-0 order-md-2">
               {/* 裝飾小圖 */}
               <img
                 src="images/icon/graphic 02.svg"
@@ -250,14 +247,14 @@ function ProductCategorySection() {
             </div>
 
             {/* 文字(下左)) */}
-            <div className="col-12 col-md-6 text-center text-md-start order-md-1 position-relative">
+            <div className="col-md-6 text-center text-md-start order-md-1 position-relative">
               {/* 裝飾小圖 */}
               <img
                 src="images/icon/graphic 03.svg"
                 className="deco deco-chair"
                 alt="deco-chair"
               />
-              <h3 className="fw-bold mb-3">
+              <h3 className="h3 mb-3">
                 嚴選品質承諾：
                 <span className="text-primary">購買的安心值</span>
               </h3>
@@ -349,6 +346,9 @@ function ProductCategorySection() {
                     slidesPerView: 3.5,
                   },
                   1200: {
+                    slidesPerView: 4,
+                  },
+                  1400: {
                     slidesPerView: 5,
                   },
                 }}
@@ -438,7 +438,7 @@ function ProductCategorySection() {
             </div>
 
             <div className="row g-4 g-lg-8">
-              <div className="col-12 col-lg-6">
+              <div className=" col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
                     <img src="images/icon/furniture.svg" alt="furniture" />
@@ -451,7 +451,7 @@ function ProductCategorySection() {
                 </div>
               </div>
 
-              <div className="col-12 col-lg-6">
+              <div className=" col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
                     <img src="images/icon/scanning.svg" alt="scanning" />
@@ -464,7 +464,7 @@ function ProductCategorySection() {
                 </div>
               </div>
 
-              <div className="col-12 col-lg-6">
+              <div className="col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
                     <img
@@ -481,7 +481,7 @@ function ProductCategorySection() {
                 </div>
               </div>
 
-              <div className="col-12 col-lg-6">
+              <div className=" col-lg-6">
                 <div className="card h-100 py-8 px-4">
                   <div className="text-center mb-5">
                     <img src="images/icon/delivery.svg" alt="delivery" />
@@ -521,7 +521,7 @@ function ProductCategorySection() {
 
           {/* 靠左 */}
           <div className="row">
-            <div className="col-12 col-md-3 d-flex justify-content-start mb-12">
+            <div className="col-md-3 d-flex justify-content-start mb-12">
               <div className="renewal position-relative mb-12">
                 <p className="Body T-L step-label">Step 1</p>
                 <img src="images/item-img/item01.png" alt="item01" />
@@ -529,7 +529,7 @@ function ProductCategorySection() {
               </div>
             </div>
 
-            <div className="col-12 col-md-3 d-flex justify-content-start mb-12">
+            <div className="col-md-3 d-flex justify-content-start mb-12">
               <div className="renewal position-relative mb-12">
                 <p className="Body T-L step-label">Step 2</p>
                 <img src="images/item-img/item02.png" alt="item02" />
@@ -545,7 +545,7 @@ function ProductCategorySection() {
             {/* 空白占位，讓 Step 3,4 靠右 */}
             <div className="col-md-6 d-none d-md-block"></div>
 
-            <div className="col-12 col-md-3 d-flex justify-content-end mb-12">
+            <div className="col-md-3 d-flex justify-content-end mb-12">
               <div className="renewal position-relative mb-4">
                 <p className="Body T-L step-label">Step 3</p>
                 <img src="images/item-img/item03.png" alt="item03" />
@@ -553,7 +553,7 @@ function ProductCategorySection() {
               </div>
             </div>
 
-            <div className="col-12 col-md-3 d-flex justify-content-end">
+            <div className="col-md-3 d-flex justify-content-end">
               <div className="renewal position-relative mb-4">
                 <p className="Body T-L step-label">Step 4</p>
                 <img src="images/item-img/item04.png" alt="item04" />
