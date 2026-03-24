@@ -19,7 +19,7 @@
     display: flex;
     margin-top: 200px;
     padding: 0 12px;
-    @media (min-width: 992px) {
+    @include media-breakpoint-up(lg) {
       align-items: center; // lg 以上置中
       margin-top: 0px;
     }
@@ -99,7 +99,7 @@
 }
 
 /* 桌機：變化 */
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .about-content {
     width: 40%;
     margin-left: auto; /* 靠右 */
@@ -203,7 +203,7 @@
 }
 
 /* 桌機：變成方形 */
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .theme-section {
     background-size: cover;
     background-repeat: no-repeat;
@@ -251,7 +251,7 @@
   background-size: contain;
   background-position: center;
   background-size: cover;
-  @media (min-width: 992px) {
+  @include media-breakpoint-up(lg) {
     background: url(/public/images/decorate/Vector2.svg);
     background-repeat: no-repeat;
     background-position: center;
