@@ -11,7 +11,7 @@
   z-index: 2;
 }
 .footer-box-dark::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0; /* 從右邊延伸 */
@@ -33,14 +33,14 @@
   position: relative;
   z-index: 10;
 }
-@media (min-width: 992px) {
+@media (min-width: 1400px) {
   .overlap-col {
     margin-left: -8.333333%; /* 桌機往左疊 */
   }
 }
 
 .footer-box-light::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0; /* 從左邊延伸 */
@@ -52,7 +52,7 @@
 }
 .footer-logo {
   max-width: 156px;
-} /*這邊還要加上縮小...*/
+}
 
 .newsletter-form {
   display: flex;
@@ -97,18 +97,24 @@
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
+  row-gap: 20px;
 }
 
 .footer-link {
   color: $white;
   text-decoration: none;
-  font-size: 14px;
-  width: 50%; /* 小尺寸：一行兩個 */
+  font-size: 16px;
 }
 
-@media (min-width: 768px) {
-  .footer-link {
-    width: 20%; /* md 以上：一行五個 */
+.footer-link {
+  width: 50%; // 2
+
+  @include media-breakpoint-up(md) {
+    width: 25%; // 4
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 20%; // 5
   }
 }
 
