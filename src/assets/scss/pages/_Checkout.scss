@@ -4,7 +4,7 @@
   padding: 48px 48px;
 }
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .checkout-card {
     border-radius: 16px;
     padding: 32px 16px;
@@ -20,7 +20,7 @@
   transition: background-color 0.2s ease;
 }
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .label-btn {
     border-radius: 8px;
     padding: 12px 12px;
@@ -81,7 +81,7 @@
   padding-bottom: 24px;
 }
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .order-data-block {
     background-image: none;
     margin-top: 24px;

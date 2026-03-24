@@ -105,7 +105,7 @@ const Cart = () => {
               style={{ marginTop: "144px" }}
             >
               <div className="row justify-content-center mb-10 mb-md-12 fs-md-6">
-                <div className="col-12 mb-6 mb-md-8">
+                <div className="mb-6 mb-md-8">
                   <form action="">
                     <section className="checkout-card">
                       <div className="container">
@@ -242,7 +242,7 @@ const Cart = () => {
                     </section>
                   </form>
                 </div>
-                <div className="col-12">
+                <div>
                   <section className="checkout-card">
                     <h4 className="mb-6 mb-md-8 pb-4 border-bottom">結帳明細</h4>
                     <div className="d-flex justify-content-between align-items-center">

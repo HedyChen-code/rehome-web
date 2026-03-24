@@ -51,6 +51,7 @@ const Checkout = () => {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm({ mode: 'onChange' });
 
   const shippingMethod = useWatch({ control, name: 'shippingMethod' });
@@ -60,6 +61,16 @@ const Checkout = () => {
       : shippingMethod === 'shippingHome'
         ? 1500
         : 0;
+
+  const deliveryBlockedCategories = [
+    '沙發 / 座椅類',
+    '儲物 / 櫃體類',
+    '床具 / 寢臥類',
+  ];
+
+  const hasDeliveryRestrictedItem = cartData.carts?.some((cartItem) => 
+    deliveryBlockedCategories.includes(cartItem.product?.category),
+  );
 
   const payment = useWatch({ control, name: 'payment' });
 
@@ -154,6 +165,12 @@ const Checkout = () => {
     getCart();
   }, [dispatch, showError]);
 
+  useEffect(() => {
+    if (hasDeliveryRestrictedItem && shippingMethod === 'shippingNormal') {
+      setValue('shippingMethod', 'shippingHome');
+    }
+  }, [hasDeliveryRestrictedItem, shippingMethod, setValue])
+
   const renderAddressCards = (list, radioName) =>
     list.map((item, index) => {
       const radioId = `${radioName}-${item.id || index}`;
@@ -237,6 +254,7 @@ const Checkout = () => {
                             name="shippingMethod"
                             id="shippingNormal"
                             value="shippingNormal"
+                            disabled={hasDeliveryRestrictedItem}
                             {...register('shippingMethod', {
                               required: '請選擇配送方式',
                             })}
@@ -247,6 +265,13 @@ const Checkout = () => {
                           >
                             一般宅配
                           </label>
+
+                          {hasDeliveryRestrictedItem && (
+                            <p className="fs-9 fs-md-7 text-danger mb-4">
+                              購物車內含大型家具，無法使用一般宅配，請改選送貨到家或門市自取。
+                            </p>
+                          )}
+
                           <p className="fs-9 fs-md-7 text-info font-noto mb-4">
                             預計配送時間：3–5 日
                           </p>
@@ -468,7 +493,7 @@ const Checkout = () => {
                       src="images/icon/user.svg"
                       className="me-4"
                       style={{ width: 32, height: 32 }}
-                      alt=""
+                      alt="person-icon"
                     />
                     訂購人資訊
                   </h3>
