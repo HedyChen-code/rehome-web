@@ -110,7 +110,7 @@ function Footer() {
 
           {/* 右側淺色訂閱區 (4份) */}
           <div className="pe-0 ps-lg-0 col-lg-5 footer-right-box">
-            <div className="rounded-top-start bg-primary-10 py-12 px-12 px-xl-16">
+            <div className="rounded-top-start bg-primary-10 py-12 ps-12 ps-xl-16">
               <h5 className="h6 mb-4">物拾 Re:home 電子報</h5>
               <div className="newsletter-form d-flex flex-column flex-xl-row">
                 <input
