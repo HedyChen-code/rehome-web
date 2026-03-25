@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
+import useMessage from '../hooks/useMessage';
 
 function TradeModal({ templateData, closeModal, handleDelete }) {
   const [tempData, setTempData] = useState(templateData);
   // 新增：處理中狀態
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const { showError } = useMessage();
+
   useEffect(() => {
     setTempData(templateData);
     // 當傳入資料改變時（通常是打開新的一筆），重置讀取狀態
     setIsDeleting(false);
-  }, [templateData]);
+  }, [templateData, showError]);
 
   // 包裝原本的 handleDelete
   const onConfirm = async (id) => {
@@ -17,7 +20,7 @@ function TradeModal({ templateData, closeModal, handleDelete }) {
     try {
       await handleDelete(id); // 呼叫父元件傳進來的非同步刪除函式
     } catch (error) {
-      console.error('刪除失敗', error);
+      showError('刪除失敗', error);
     } finally {
       setIsDeleting(false); // 結束轉圈
     }
