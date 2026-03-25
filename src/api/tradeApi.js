@@ -15,8 +15,7 @@ export const tradeApi = {
       // 根據我們剛才改的 GAS，資料在 result.data 裡
       return result;
     } catch (error) {
-      console.error('getTrades Error:', error);
-      throw error;
+      throw new Error(error.message || '讀取清單時發生意外錯誤');
     }
   },
 
@@ -33,13 +32,15 @@ export const tradeApi = {
         method: 'POST',
         mode: 'cors',
         // 💡 技巧：使用 text/plain 可以避開某些複雜的 CORS 預檢
-        header: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
       });
-      return await response.json(); // 修正：一定要 await json()
+      const result = await response.json();
+      if (result.status !== 'success')
+        throw new Error(result.message || '新增失敗');
+      return result;
     } catch (error) {
-      console.error('createTrade Error:', error);
-      throw error;
+      throw new Error(error.message || '提交申請時發生錯誤，請稍後再試');
     }
   },
 
@@ -52,13 +53,14 @@ export const tradeApi = {
         header: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'delete',
-          id: String(id),
+          id: String(id).trim(),
         }),
       });
-      return await response.json();
+      const result = await response.json();
+      if (result.status !== 'deleted') throw new Error('刪除指令執行失敗');
+      return result;
     } catch (error) {
-      console.error('deleteTrade Error:', error);
-      throw error;
+      throw new Error(error.message || '刪除資料時發生錯誤');
     }
   },
 
