@@ -12,16 +12,16 @@
 .card-shape img.card-img {
   width: 100%;
   height: auto;
-  border-radius: 0; /* 方形 */
+  border-radius: 50; /* 圓形 */
   object-fit: cover; /* 保持比例裁切 */
   transition: border-radius 0.3s;
   display: block;
 }
 
 /* 手機圖片圓形 */
-@media (max-width: 991px) {
+@include media-breakpoint-up(lg) {
   .card-shape img.card-img {
-    border-radius: 50%; /* 圓形 */
+    border-radius: 0%; /* 方形 */
   }
 }
 /* 20% 暗度遮罩 */
