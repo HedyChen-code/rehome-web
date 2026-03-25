@@ -51,6 +51,7 @@ const Checkout = () => {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm({ mode: 'onChange' });
 
   const shippingMethod = useWatch({ control, name: 'shippingMethod' });
@@ -60,6 +61,16 @@ const Checkout = () => {
       : shippingMethod === 'shippingHome'
         ? 1500
         : 0;
+
+  const deliveryBlockedCategories = [
+    '沙發 / 座椅類',
+    '儲物 / 櫃體類',
+    '床具 / 寢臥類',
+  ];
+
+  const hasDeliveryRestrictedItem = cartData.carts?.some((cartItem) => 
+    deliveryBlockedCategories.includes(cartItem.product?.category),
+  );
 
   const payment = useWatch({ control, name: 'payment' });
 
@@ -154,6 +165,12 @@ const Checkout = () => {
     getCart();
   }, [dispatch, showError]);
 
+  useEffect(() => {
+    if (hasDeliveryRestrictedItem && shippingMethod === 'shippingNormal') {
+      setValue('shippingMethod', 'shippingHome');
+    }
+  }, [hasDeliveryRestrictedItem, shippingMethod, setValue])
+
   const renderAddressCards = (list, radioName) =>
     list.map((item, index) => {
       const radioId = `${radioName}-${item.id || index}`;
@@ -162,7 +179,7 @@ const Checkout = () => {
           className="row d-flex justify-content-between align-items-center"
           key={item.id || radioId}
         >
-          <div className="col-10 col-md-11">
+          <div className="col-10 col-lg-11">
             <input
               type="radio"
               className="btn-check"
@@ -175,13 +192,13 @@ const Checkout = () => {
               <div className="text-start">
                 <p className="text-gray-95 mb-2">
                   {item.name}
-                  <span className="fs-8 fs-md-7 text-gray-50">{item.tel}</span>
+                  <span className="fs-8 fs-lg-7 text-gray-50">{item.tel}</span>
                 </p>
-                <p className="fs-9 fs-md-8 text-gray-50">{item.address}</p>
+                <p className="fs-9 fs-lg-8 text-gray-50">{item.address}</p>
               </div>
             </label>
           </div>
-          <div className="col-2 col-md-1 d-flex justify-content-center align-items-center px-0">
+          <div className="col-2 col-lg-1 d-flex justify-content-center align-items-center px-0">
             <button
               type="button"
               className="edit-btn"
@@ -217,17 +234,17 @@ const Checkout = () => {
 
   return (
     <>
-      <div className="bg-light-gray py-8 py-md-12">
+      <div className="bg-light-gray py-8 py-lg-12">
         <div className="container text-gray-95" style={{ marginTop: '136px' }}>
           <div className="row justify-content-center">
             <div className="col-12">
               <form onSubmit={submitOrder}>
-                <section className="checkout-card mb-8 mb-md-9 pb-5">
-                  <h3 className="font-fakepearl fw-normal fs-4 fs-md-3">
+                <section className="checkout-card mb-8 mb-lg-9 pb-5">
+                  <h3 className="font-fakepearl fw-normal fs-4 fs-lg-3">
                     <i className="bi bi-geo-alt-fill me-5"></i>
                     選擇配送方式
                   </h3>
-                  <div className="my-8 my-md-10">
+                  <div className="my-8 my-lg-10">
                     <div className="form-check mb-8">
                       <div className="d-flex justify-content-between">
                         <div>
@@ -237,17 +254,25 @@ const Checkout = () => {
                             name="shippingMethod"
                             id="shippingNormal"
                             value="shippingNormal"
+                            disabled={hasDeliveryRestrictedItem}
                             {...register('shippingMethod', {
                               required: '請選擇配送方式',
                             })}
                           />
                           <label
-                            className="form-check-label fs-6 fs-md-5 mb-2"
+                            className="form-check-label fs-6 fs-lg-5 mb-2"
                             htmlFor="shippingNormal"
                           >
                             一般宅配
                           </label>
-                          <p className="fs-9 fs-md-7 text-info font-noto mb-4">
+
+                          {hasDeliveryRestrictedItem && (
+                            <p className="fs-9 fs-lg-7 text-danger mb-4">
+                              購物車內含大型家具，無法使用一般宅配，請改選送貨到家或門市自取。
+                            </p>
+                          )}
+
+                          <p className="fs-9 fs-lg-7 text-info font-noto mb-4">
                             預計配送時間：3–5 日
                           </p>
 
@@ -258,7 +283,7 @@ const Checkout = () => {
                           )}
                         </div>
                         <div className="div">
-                          <h4 className="fs-5 fs-md-4">TWD $500</h4>
+                          <h4 className="fs-5 fs-lg-4">TWD $500</h4>
                         </div>
                       </div>
                       <div className="vstack gap-3 font-noto">
@@ -287,12 +312,12 @@ const Checkout = () => {
                             })}
                           />
                           <label
-                            className="form-check-label fs-6 fs-md-5 mb-2"
+                            className="form-check-label fs-6 fs-lg-5 mb-2"
                             htmlFor="shippingHome"
                           >
                             送貨到家
                           </label>
-                          <p className="fs-9 fs-md-7 text-info mb-4">
+                          <p className="fs-9 fs-lg-7 text-info mb-4">
                             預計配送時間：3–5 日
                           </p>
 
@@ -303,7 +328,7 @@ const Checkout = () => {
                           )}
                         </div>
                         <div className="div">
-                          <h4 className="fs-5 fs-md-4">TWD $1,500</h4>
+                          <h4 className="fs-5 fs-lg-4">TWD $1,500</h4>
                         </div>
                       </div>
                       <div className="vstack gap-3 font-noto">
@@ -332,12 +357,12 @@ const Checkout = () => {
                             })}
                           />
                           <label
-                            className="form-check-label fs-6 fs-md-5 mb-2"
+                            className="form-check-label fs-6 fs-lg-5 mb-2"
                             htmlFor="shippingStore"
                           >
                             門市自取
                           </label>
-                          <p className="fs-9 fs-md-7 text-info font-noto mb-4">
+                          <p className="fs-9 fs-lg-7 text-info font-noto mb-4">
                             下單後可於門市上班時間取貨
                           </p>
 
@@ -348,12 +373,12 @@ const Checkout = () => {
                           )}
                         </div>
                         <div className="div">
-                          <h4 className="fs-5 fs-md-4">免運費</h4>
+                          <h4 className="fs-5 fs-lg-4">免運費</h4>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <footer className="text-center font-noto fs-9 fs-md-8 text-gray-50 border-top pt-5">
+                  <footer className="text-center font-noto fs-9 fs-lg-8 text-gray-50 border-top pt-5">
                     物拾 Re:home 承諾：安心購買保障｜專業清潔整新｜永續環保選擇
                   </footer>
                 </section>
@@ -369,12 +394,12 @@ const Checkout = () => {
                 >
                   <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div
-                      className="modal-content px-6 py-8 px-md-8 py-md-10"
+                      className="modal-content px-6 py-8 px-lg-8 py-lg-10"
                       style={{ borderRadius: 40 }}
                     >
                       <div className="modal-header border-0 bg-gray-20">
                         <h1
-                          className="modal-title fs-5 fs-md-4"
+                          className="modal-title fs-5 fs-lg-4"
                           id="addressModalLabel"
                         >
                           {addressModalType === 'edit'
@@ -388,8 +413,8 @@ const Checkout = () => {
                         ></button>
                       </div>
                       <div className="modal-body">
-                        <div className="row mb-4 mb-md-5">
-                          <div className="col-md-4">
+                        <div className="row mb-4 mb-lg-5">
+                          <div className="col-lg-4">
                             <label
                               htmlFor="recipientName"
                               className="form-label"
@@ -407,7 +432,7 @@ const Checkout = () => {
                               })}
                             />
                           </div>
-                          <div className="col-md-8">
+                          <div className="col-lg-8">
                             <label
                               htmlFor="recipientTel"
                               className="form-label"
@@ -427,7 +452,7 @@ const Checkout = () => {
                           </div>
                         </div>
 
-                        <div className="mb-4 mb-md-5">
+                        <div className="mb-4 mb-lg-5">
                           <label
                             htmlFor="recipientAddress"
                             className="form-label"
@@ -449,7 +474,7 @@ const Checkout = () => {
                       <div className="modal-footer border-0 d-flex mx-auto">
                         <button
                           type="button"
-                          className="btn btn-secondary me-4 me-md-6"
+                          className="btn btn-secondary me-4 me-lg-6"
                           onClick={closeAddressModal}
                         >
                           取消
@@ -462,18 +487,18 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <section className="checkout-card mb-8 mb-md-9">
-                  <h3 className="d-flex align-items-center fs-4 fs-md-3">
+                <section className="checkout-card mb-8 mb-lg-9">
+                  <h3 className="d-flex align-items-center fs-4 fs-lg-3">
                     <img
                       src="images/icon/user.svg"
                       className="me-4"
                       style={{ width: 32, height: 32 }}
-                      alt=""
+                      alt="person-icon"
                     />
                     訂購人資訊
                   </h3>
                   <div className="row order-data-block">
-                    <div className="col-md-6">
+                    <div className="col-lg-6">
                       <label htmlFor="name" className="form-label h6">
                         訂購人姓名
                         <span className="ms-2 text-danger">*</span>
@@ -507,7 +532,7 @@ const Checkout = () => {
                         </p>
                       )}
                     </div>
-                    <div className="col-md-6 mt-8 mt-md-0">
+                    <div className="col-lg-6 mt-8 mt-lg-0">
                       <label htmlFor="tel" className="form-label h6">
                         聯絡電話
                         <span className="ms-2 text-danger">*</span>
@@ -595,7 +620,7 @@ const Checkout = () => {
                         付款方式
                         <span className="ms-2 text-danger">*</span>
                       </h6>
-                      <div className="pt-3 pb-0 py-md-8 font-noto">
+                      <div className="pt-3 pb-0 py-lg-8 font-noto">
                         <div className="form-check py-4 mb-3">
                           <input
                             className={`form-check-input ${errors.payment && 'is-invalid'}`}
@@ -624,7 +649,7 @@ const Checkout = () => {
                             <>
                               <div className="vstack gap-3">
                                 {/* 信用卡/金融卡 1 */}
-                                <div className="col-md-8">
+                                <div className="col-lg-8">
                                   <input
                                     type="radio"
                                     className="btn-check"
@@ -674,10 +699,10 @@ const Checkout = () => {
                           >
                             <div className="modal-dialog modal-dialog-centered">
                               <div
-                                className="modal-content px-6 py-8 px-md-8 py-md-10 d-flex justify-contentent-center align-items-center"
+                                className="modal-content px-6 py-8 px-lg-8 py-lg-10 d-flex justify-contentent-center align-items-center"
                                 style={{ borderRadius: 40 }}
                               >
-                                <div className="modal-header w-100 bg-gray-20 mb-4 mb-md-6">
+                                <div className="modal-header w-100 bg-gray-20 mb-4 mb-lg-6">
                                   <h1
                                     className="modal-title fs-5"
                                     id="exampleModalLabel"
@@ -692,7 +717,7 @@ const Checkout = () => {
                                   ></button>
                                 </div>
                                 <div className="modal-body text-center">
-                                  <div className="row mb-4 mb-md-5">
+                                  <div className="row mb-4 mb-lg-5">
                                     <div className="col">
                                       <input
                                         type="text"
@@ -703,8 +728,8 @@ const Checkout = () => {
                                       />
                                     </div>
                                   </div>
-                                  <div className="row mb-4 mb-md-5">
-                                    <div className="col-md-4">
+                                  <div className="row mb-4 mb-lg-5">
+                                    <div className="col-lg-4">
                                       <input
                                         type="text"
                                         id="creditNo"
@@ -713,7 +738,7 @@ const Checkout = () => {
                                         placeholder="有效月"
                                       />
                                     </div>
-                                    <div className="col-md-4">
+                                    <div className="col-lg-4">
                                       <input
                                         type="text"
                                         id="creditNo"
@@ -722,7 +747,7 @@ const Checkout = () => {
                                         placeholder="有效年"
                                       />
                                     </div>
-                                    <div className="col-md-4">
+                                    <div className="col-lg-4">
                                       <input
                                         type="text"
                                         id="creditNo"
@@ -736,7 +761,7 @@ const Checkout = () => {
                                 <div className="modal-footer border-0">
                                   <button
                                     type="button"
-                                    className="btn btn-secondary me-4 me-md-6"
+                                    className="btn btn-secondary me-4 me-lg-6"
                                     onClick={closeCreditCardModal}
                                   >
                                     取消
@@ -774,7 +799,7 @@ const Checkout = () => {
                           {/* 當選取到轉帳 radio 時，顯示出 div */}
                           {payment === 'paymentTransfer' && (
                             <div className="row">
-                              <div className="col-md-8">
+                              <div className="col-lg-8">
                                 <div
                                   className="card mt-4 align-items-start"
                                   style={{ borderRadius: '8px' }}
@@ -831,7 +856,7 @@ const Checkout = () => {
                         發票資訊
                         <span className="ms-2 text-danger">*</span>
                       </h6>
-                      <div className="pt-3 pb-0 py-md-8 font-noto">
+                      <div className="pt-3 pb-0 py-lg-8 font-noto">
                         <div className="form-check py-4 mb-3">
                           <input
                             className={`form-check-input ${errors.invoiceType && 'is-invalid'}`}
@@ -958,9 +983,9 @@ const Checkout = () => {
                   </div>
                 </section>
 
-                <div className="col-12 mb-10 mb-md-12">
+                <div className="col-12 mb-10 mb-lg-12">
                   <section className="checkout-card">
-                    <h4 className="mb-6 mb-md-8 pb-4 border-bottom">
+                    <h4 className="mb-6 mb-lg-8 pb-4 border-bottom">
                       付款明細
                     </h4>
                     <div>
@@ -1011,7 +1036,7 @@ const Checkout = () => {
         >
           <div className="modal-dialog modal-dialog-centered">
             <div
-              className="modal-content px-6 py-8 px-md-8 py-md-10 d-flex justify-contentent-center align-items-center"
+              className="modal-content px-6 py-8 px-lg-8 py-lg-10 d-flex justify-contentent-center align-items-center"
               style={{ borderRadius: 40 }}
             >
               <div className="modal-body text-center">
