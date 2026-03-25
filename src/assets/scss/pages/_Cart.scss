@@ -1,39 +1,45 @@
 .input-group  .qty-input {
-  flex: 0 0 70px;
+  flex: 0 0 35px;
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-up(lg) {
   .input-group  .qty-input {
-    flex: 0 0 35px;
+    flex: 0 0 70px;
   }
 }
 
 .input-group  button {
-  padding: 6px 12px;
+  font-size: 12px;
+  padding: 2px 4px;
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-up(lg) {
   .input-group  button {
-    font-size: 12px;
-    padding: 2px 4px;
+    font-size: inherit;
+    padding: 6px 12px;
   }
 }
 
-.col-del   { width: 15%; }
+.col-del   { width: 10%; }
 .col-title { width: 40%; }
-.col-qty   { width: 30%; }
+.col-qty   { width: 35%; }
 .col-total { width: 15%; }
 
-@include media-breakpoint-down(md) {
-  .col-del   { width: 10%; }
+/* 小計欄位 td 內縮小 padding，讓欄位實際寬度更窄 */
+td.col-total-cell {
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+
+@include media-breakpoint-up(lg) {
+  .col-del   { width: 15%; }
   .col-title { width: 40%; }
-  .col-qty   { width: 35%; }
+  .col-qty   { width: 30%; }
   .col-total { width: 15%; }
 
-  /* 小計欄位 td 內縮小 padding，讓欄位實際寬度更窄 */
   td.col-total-cell {
-    padding-left: 2px !important;
-    padding-right: 2px !important;
+    padding-left: inherit !important;
+    padding-right: inherit !important;
   }
 }
 

@@ -99,17 +99,17 @@ const Cart = () => {
         <div className="text-center mt-5">載入中...</div>
       ) : (
         <>
-          <div className="bg-light-gray py-8 py-md-12">
+          <div className="bg-light-gray py-8 py-lg-12">
             <div
               className="container text-gray-95"
               style={{ marginTop: "144px" }}
             >
-              <div className="row justify-content-center mb-10 mb-md-12 fs-md-6">
-                <div className="mb-6 mb-md-8">
+              <div className="row justify-content-center mb-10 mb-lg-12 fs-lg-6">
+                <div className="mb-6 mb-lg-8">
                   <form action="">
                     <section className="checkout-card">
                       <div className="container">
-                        <h2 className="mb-6 fs-3 fs-md-2 pb-4 border-bottom">購物車清單</h2>
+                        <h2 className="mb-6 fs-3 fs-lg-2 pb-4 border-bottom">購物車清單</h2>
                         <div className="text-end mb-2">
                           <button
                             type="button"
@@ -124,8 +124,8 @@ const Cart = () => {
                             清空購物車
                           </button>
                         </div>
-                        <table className="table table-hover fs-7 fs-md-6">
-                          <thead className="text-center text-md-start">
+                        <table className="table table-hover fs-7 fs-lg-6">
+                          <thead className="text-center text-lg-start">
                             <tr>
                               <th scope="col" className="col-del"></th>
                               <th scope="col" className="col-title">
@@ -160,8 +160,8 @@ const Cart = () => {
                                   </td>
                                   <td>{cartItem.product.title}</td>
                                   <td>
-                                    <div className="d-flex align-items-center flex-wrap flex-md-nowrap fs-8 fs-md-6">
-                                      <div className="input-group me-md-3 w-auto flex-nowrap">
+                                    <div className="d-flex align-items-center flex-wrap flex-lg-nowrap fs-8 fs-lg-6">
+                                      <div className="input-group me-lg-3 w-auto flex-nowrap">
                                         <button
                                           className="btn btn-outline-danger"
                                           disabled={cartItem.qty <= 1}
@@ -216,7 +216,7 @@ const Cart = () => {
                                       </span>
                                     </div>
                                   </td>
-                                  <td className="text-end text-nowrap fs-8 fs-md-6 col-total-cell">
+                                  <td className="text-end text-nowrap fs-8 fs-lg-6 col-total-cell">
                                     $ {formateNumber(cartItem.final_total)}
                                   </td>
                                 </tr>
@@ -244,7 +244,7 @@ const Cart = () => {
                 </div>
                 <div>
                   <section className="checkout-card">
-                    <h4 className="mb-6 mb-md-8 pb-4 border-bottom">結帳明細</h4>
+                    <h4 className="mb-6 mb-lg-8 pb-4 border-bottom">結帳明細</h4>
                     <div className="d-flex justify-content-between align-items-center">
                       <p>商品總金額</p>
                       <p className="text-end">$ {formateNumber(cartData.final_total)}</p>
