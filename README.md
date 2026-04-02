@@ -9,9 +9,10 @@
 - 前台作品：https://hedychen-code.github.io/rehome-web/
 - 後台登入：https://hedychen-code.github.io/rehome-web/#/admin/login
 
-## 後台功能展示
+## 後台介面展示
 
-影片待補
+<img width="640" height="340" alt="後台-產品列表" src="https://github.com/user-attachments/assets/23a77429-a87a-4932-a012-88fc7c0499f2" />
+
 
 ## 核心功能
 
