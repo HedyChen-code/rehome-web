@@ -1,24 +1,18 @@
 # 物拾Re:home
 
-## 專案簡介
-
-`物拾Re:home` 是一個使用 React + Vite 開發的二手家居電商平台示範專案。它整合前台購物體驗與後台管理功能，包含商品瀏覽、購物車、結帳流程、收購說明，以及後台商品、訂單與收購單管理。
+>`物拾Re:home` 是一個使用 React + Vite 開發的二手家居電商平台示範專案。
+>
+>它整合前台購物體驗與後台管理功能，包含商品瀏覽、購物車、結帳流程、收購說明，以及後台商品、訂單與收購單管理。
 
 ## 線上作品連結
 
 - 前台作品：https://hedychen-code.github.io/rehome-web/
 - 後台登入：https://hedychen-code.github.io/rehome-web/#/admin/login
 
-## 功能展示
+## 後台介面展示
 
-- 首頁輪播展示品牌訊息與特色主題
-- 商品列表瀏覽、分類、篩選與搜尋
-- 商品詳細頁面查看商品資訊與加入購物車
-- 購物車管理、更新商品數量與移除商品
-- 結帳頁面提交訂單並完成交易流程
-- 收購說明頁面展示收購流程與表單
-- 後台登入驗證與管理介面
-- 管理商品、訂單與收購清單
+<img width="640" height="340" alt="後台-產品列表" src="https://github.com/user-attachments/assets/23a77429-a87a-4932-a012-88fc7c0499f2" />
+
 
 ## 核心功能
 
@@ -46,7 +40,6 @@
 - Redux Toolkit
 - Axios
 - React Hook Form
-- React Hot Toast
 - Swiper
 - Bootstrap 5
 - Sass
@@ -107,21 +100,25 @@ src/
 
 ### 重點資料夾說明
 
-- `src/api/`：與 API 互動的函式封裝
-- `src/layout/`：前台與後台共用版面框架
-- `src/components/`：可重用的 UI 元件與共用元件
-- `src/views/front/`：前台頁面，例如 Home、Products、Cart、Checkout
-- `src/views/admin/`：後台頁面，例如 AdminHome、AdminProducts、AdminOrders
-- `src/slice/`：Redux 狀態管理邏輯
-- `src/assets/scss/`：Sass 樣式與變數設定
+| 資料夾路徑 | 說明 |
+|  ----  | ----  |
+| `src/api/` | 與 API 互動的函式封裝 |
+| `src/layout/` | 前台與後台共用版面框架 |
+| `src/components/` | 可重用的 UI 元件與共用元件 |
+| `src/views/front/` | 前台頁面，例如 Home、Products、Cart、Checkout |
+| `src/views/admin/` | 後台頁面，例如 AdminHome、AdminProducts、AdminOrders |
+| `src/slice/` | Redux 狀態管理邏輯 |
+| `src/assets/scss/`| Sass 樣式與變數設定 |
 
 ## 團隊分工
 
-- JiaMori：提案發想者、購物車串接、GitHub 協作規範
-- Celia：自製收購API、售物意向表單、專業產圖户
-- JanJan：首頁、簡報製作
-- kashiwatei：商品搜尋頁、大量篩選條件
-- 畢卡索：商品詳情頁、細節優化調整、後台建立
+| 成員 | 負責項目 |
+|  ----  | ----  |
+| [JiaMori](https://github.com/HedyChen-code) | 提案發想者、購物車串接、GitHub 協作規範 |
+| [Celia](https://github.com/a35cindycindy) | 自製收購API、售物意向表單、專業產圖户 |
+| [JanJan](https://github.com/ycchou91) | 首頁、簡報製作 |
+| [kashiwatei](https://github.com/kashiwatei) | 商品搜尋頁、大量篩選條件 |
+| [畢卡索](https://github.com/Leelu3333) | 商品詳情頁、細節優化調整、後台建立 |
 
 ## 未來規劃
 
