@@ -1,24 +1,17 @@
 # 物拾Re:home
 
-## 專案簡介
-
-`物拾Re:home` 是一個使用 React + Vite 開發的二手家居電商平台示範專案。它整合前台購物體驗與後台管理功能，包含商品瀏覽、購物車、結帳流程、收購說明，以及後台商品、訂單與收購單管理。
+>`物拾Re:home` 是一個使用 React + Vite 開發的二手家居電商平台示範專案。
+>
+>它整合前台購物體驗與後台管理功能，包含商品瀏覽、購物車、結帳流程、收購說明，以及後台商品、訂單與收購單管理。
 
 ## 線上作品連結
 
 - 前台作品：https://hedychen-code.github.io/rehome-web/
 - 後台登入：https://hedychen-code.github.io/rehome-web/#/admin/login
 
-## 功能展示
+## 後台功能展示
 
-- 首頁輪播展示品牌訊息與特色主題
-- 商品列表瀏覽、分類、篩選與搜尋
-- 商品詳細頁面查看商品資訊與加入購物車
-- 購物車管理、更新商品數量與移除商品
-- 結帳頁面提交訂單並完成交易流程
-- 收購說明頁面展示收購流程與表單
-- 後台登入驗證與管理介面
-- 管理商品、訂單與收購清單
+影片待補
 
 ## 核心功能
 
@@ -46,7 +39,6 @@
 - Redux Toolkit
 - Axios
 - React Hook Form
-- React Hot Toast
 - Swiper
 - Bootstrap 5
 - Sass
@@ -117,11 +109,11 @@ src/
 
 ## 團隊分工
 
-- JiaMori：提案發想者、購物車串接、GitHub 協作規範
-- Celia：自製收購API、售物意向表單、專業產圖户
-- JanJan：首頁、簡報製作
-- kashiwatei：商品搜尋頁、大量篩選條件
-- 畢卡索：商品詳情頁、細節優化調整、後台建立
+- [JiaMori](https://github.com/HedyChen-code)：提案發想者、購物車串接、GitHub 協作規範
+- [Celia](https://github.com/a35cindycindy)：自製收購API、售物意向表單、專業產圖户
+- [JanJan](https://github.com/ycchou91)：首頁、簡報製作
+- [kashiwatei](https://github.com/kashiwatei)：商品搜尋頁、大量篩選條件
+- [畢卡索](https://github.com/Leelu3333)：商品詳情頁、細節優化調整、後台建立
 
 ## 未來規劃
 
